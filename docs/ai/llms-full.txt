@@ -1,0 +1,81 @@
+# Stackline AI Full AI Assistant Context
+
+Stackline AI is a provider-neutral TypeScript foundation for AI applications.
+
+Repository:
+
+https://github.com/alexandroit/ai
+
+Public demo:
+
+The repository includes `examples/local-demo`, a safe Vite demo that uses a
+local in-memory provider and local in-memory RAG documents. It has no Ollama API
+key, no PostgreSQL, no SQLite memory, no private database, and no secret
+environment variables.
+
+Package map:
+
+- `@stackline/ai`: provider-neutral contracts, `createStacklineAIServer`, RAG
+  flow, memory capture, direct RAG answers, fallback RAG answers, model listing.
+- `@stackline/ai-server`: `createStacklineAIHttpHandler` with health,
+  manifest, model listing, chat, CORS, request size limit, allowed model policy.
+- `@stackline/ai-ui`: `<stackline-ai-studio>` web component with model picker,
+  language picker, safe Markdown/HTML rendering, localStorage history, clear
+  button, RAG evidence display, and customizable CSS parts/variables.
+- `@stackline/ai-ollama`: Ollama provider adapter for local Ollama, Ollama
+  Cloud, or an Ollama-compatible backend. Keep API keys on the backend.
+- `@stackline/ai-memory-sqlite`: SQLite/sql.js memory store for development and
+  small private demos.
+- `@stackline/ai-rag-postgres`: read-only PostgreSQL RAG retriever using
+  parameterized SQL and row mapping.
+
+Frontend minimal usage:
+
+```ts
+import "@stackline/ai-ui";
+```
+
+```html
+<stackline-ai-studio></stackline-ai-studio>
+```
+
+Backend minimal usage:
+
+```ts
+import { createStacklineAIServer } from "@stackline/ai/server";
+import { createStacklineAIHttpHandler } from "@stackline/ai-server";
+import { ollamaProvider } from "@stackline/ai-ollama";
+
+const ai = createStacklineAIServer({
+  provider: ollamaProvider({
+    target: process.env.OLLAMA_TARGET || "http://127.0.0.1:11434",
+    apiKey: process.env.OLLAMA_API_KEY,
+    model: process.env.OLLAMA_MODEL || "auto",
+  }),
+  rag: false,
+  memory: false,
+});
+
+export const handleAI = createStacklineAIHttpHandler({
+  server: ai,
+  basePath: "/api/ai",
+});
+```
+
+RAG design:
+
+RAG belongs to `@stackline/ai` server configuration, not to provider adapters.
+Every provider receives a normalized chat request. If RAG is enabled, the
+server retrieves contexts and prepends a provider-neutral system message.
+
+Memory design:
+
+Memory stores implement `StacklineMemoryStore`. RAG evidence is display-time
+metadata and is not persisted by default. Explicit audit opt-in is required to
+store retrieved contexts or RAG evidence metadata.
+
+Security:
+
+Never expose provider credentials, database credentials, RAG SQL, memory paths,
+or tenant filters in browser code. The UI should call only the application
+backend route.

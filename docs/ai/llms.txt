@@ -1,0 +1,34 @@
+# Stackline AI
+
+Stackline AI is a provider-neutral AI app foundation by Stackline.
+
+Canonical repository:
+
+https://github.com/alexandroit/ai
+
+Core packages:
+
+- @stackline/ai: TypeScript contracts and server core.
+- @stackline/ai-server: Fetch-compatible backend HTTP handler.
+- @stackline/ai-ui: Framework-neutral Studio web component.
+- @stackline/ai-ollama: Ollama provider adapter.
+- @stackline/ai-memory-sqlite: SQLite memory store.
+- @stackline/ai-rag-postgres: PostgreSQL read-only RAG retriever.
+
+Recommended frontend:
+
+```html
+<stackline-ai-studio></stackline-ai-studio>
+```
+
+Recommended backend:
+
+```ts
+import { createStacklineAIServer } from "@stackline/ai/server";
+import { createStacklineAIHttpHandler } from "@stackline/ai-server";
+```
+
+Security rule:
+
+Do not put provider API keys or database credentials in frontend code. Use a
+backend route powered by @stackline/ai-server.

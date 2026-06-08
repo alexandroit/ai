@@ -1,0 +1,19 @@
+{
+  "name": "stackline-ai-local-demo",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite --host 0.0.0.0 --port 4622",
+    "build": "vite build",
+    "smoke": "node smoke.mjs"
+  },
+  "dependencies": {
+    "@stackline/ai": "workspace:*",
+    "@stackline/ai-server": "workspace:*",
+    "@stackline/ai-ui": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "^7.2.7"
+  }
+}

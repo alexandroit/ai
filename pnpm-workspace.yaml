@@ -1,0 +1,10 @@
+packages:
+  - "packages/*"
+  - "examples/*"
+onlyBuiltDependencies:
+  - esbuild
+allowBuilds:
+  esbuild: true
+minimumReleaseAgeExclude:
+  - '@stackline/multiselect@1.1.1'
+  - '@stackline/multiselect@1.1.2'

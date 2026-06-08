@@ -1,0 +1,60 @@
+{
+  "name": "@stackline/ai",
+  "version": "0.0.1",
+  "description": "Provider-neutral Stackline AI contracts, server core, RAG, memory, and adapter interfaces.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --sourcemap --clean && tsc -p tsconfig.build.json --emitDeclarationOnly",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --config vitest.config.ts",
+    "pack:dry-run": "pnpm pack --dry-run"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "stackline",
+    "stackline-ai",
+    "ai",
+    "artificial-intelligence",
+    "generative-ai",
+    "rag",
+    "retrieval-augmented-generation",
+    "memory",
+    "conversation-memory",
+    "llm",
+    "llm-sdk",
+    "ai-sdk",
+    "chat",
+    "chatbot",
+    "backend",
+    "server",
+    "gateway",
+    "secure-gateway",
+    "provider",
+    "provider-adapter",
+    "multi-provider",
+    "context-retrieval",
+    "ollama",
+    "typescript",
+    "javascript"
+  ]
+}

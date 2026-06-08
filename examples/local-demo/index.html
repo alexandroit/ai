@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Stackline AI local demo with a provider-neutral backend, local RAG data, and the Stackline AI Studio web component."
+    />
+    <title>Stackline AI Local Demo</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <stackline-ai-studio
+        theme="material"
+        model="demo-rag"
+        storage-key="stackline-ai-public-local-demo"
+        history-limit="40"
+        storage-max-bytes="524288"
+      ></stackline-ai-studio>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

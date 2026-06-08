@@ -1,0 +1,72 @@
+{
+  "name": "@stackline/ai-ui",
+  "version": "0.0.1",
+  "description": "Framework-neutral Stackline AI Studio web component.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": true,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --sourcemap --clean && tsc -p tsconfig.build.json --emitDeclarationOnly",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --config vitest.config.ts",
+    "pack:dry-run": "pnpm pack --dry-run"
+  },
+  "dependencies": {
+    "@stackline/multiselect": "1.1.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "stackline",
+    "stackline-ai",
+    "ai",
+    "artificial-intelligence",
+    "generative-ai",
+    "ui",
+    "ai-ui",
+    "chat-ui",
+    "ai-chat",
+    "ai-studio",
+    "llm-ui",
+    "web-component",
+    "custom-element",
+    "framework-agnostic",
+    "vanilla-js",
+    "frontend",
+    "chat",
+    "studio",
+    "ollama",
+    "rag",
+    "rag-evidence",
+    "retrieval-augmented-generation",
+    "markdown",
+    "safe-markdown",
+    "localstorage",
+    "model-picker",
+    "multiselect",
+    "typescript",
+    "javascript",
+    "angular",
+    "react",
+    "vue",
+    "i18n",
+    "internationalization",
+    "localization",
+    "multilingual",
+    "language-picker",
+    "translations"
+  ]
+}

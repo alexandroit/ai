@@ -1,0 +1,60 @@
+{
+  "name": "@stackline/ai-server",
+  "version": "0.0.1",
+  "description": "Fetch-compatible HTTP backend handler for Stackline AI.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --sourcemap --clean --external @stackline/ai && tsc -p tsconfig.build.json --emitDeclarationOnly",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --config vitest.config.ts",
+    "pack:dry-run": "pnpm pack --dry-run"
+  },
+  "dependencies": {
+    "@stackline/ai": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "stackline",
+    "stackline-ai",
+    "ai",
+    "artificial-intelligence",
+    "generative-ai",
+    "backend",
+    "server",
+    "http",
+    "fetch",
+    "api",
+    "gateway",
+    "ai-gateway",
+    "llm-gateway",
+    "secure-api",
+    "chat-api",
+    "model-listing",
+    "allowed-models",
+    "cors",
+    "rag",
+    "retrieval-augmented-generation",
+    "memory",
+    "provider",
+    "ollama",
+    "llm",
+    "typescript",
+    "javascript"
+  ]
+}

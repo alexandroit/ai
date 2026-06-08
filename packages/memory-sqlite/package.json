@@ -1,0 +1,61 @@
+{
+  "name": "@stackline/ai-memory-sqlite",
+  "version": "0.0.1",
+  "description": "SQLite conversation memory store for Stackline AI development and tests.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --sourcemap --clean --external @stackline/ai && tsc -p tsconfig.build.json --emitDeclarationOnly",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --config vitest.config.ts",
+    "pack:dry-run": "pnpm pack --dry-run"
+  },
+  "dependencies": {
+    "@stackline/ai": "workspace:*",
+    "sql.js": "^1.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "stackline",
+    "stackline-ai",
+    "ai",
+    "artificial-intelligence",
+    "generative-ai",
+    "memory",
+    "ai-memory",
+    "llm-memory",
+    "conversation-memory",
+    "chat-memory",
+    "persistence",
+    "sqlite",
+    "sqljs",
+    "sql.js",
+    "local-memory",
+    "local-database",
+    "rag",
+    "rag-safe",
+    "retrieval-augmented-generation",
+    "backend",
+    "llm",
+    "conversation",
+    "development",
+    "testing",
+    "typescript",
+    "javascript"
+  ]
+}
