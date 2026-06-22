@@ -1,10 +1,23 @@
 {
   "name": "@stackline/ai-ui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Framework-neutral Stackline AI Studio web component.",
   "license": "MIT",
+  "author": "Stackline",
   "type": "module",
   "sideEffects": true,
+  "homepage": "https://alexandro.net/docs/ai/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandroit/ai.git",
+    "directory": "packages/ui"
+  },
+  "bugs": {
+    "url": "https://github.com/alexandroit/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  },
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {

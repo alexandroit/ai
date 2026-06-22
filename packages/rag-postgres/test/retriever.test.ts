@@ -38,4 +38,35 @@ describe("createPostgresRagRetriever", () => {
       metadata: { id: 7 },
     });
   });
+
+  it("returns no context when the query is shorter than minQueryLength", async () => {
+    const client: StacklinePostgresQueryable = {
+      async query() {
+        throw new Error("query should not run");
+      },
+    };
+    const retriever = createPostgresRagRetriever<TestRow>({
+      client,
+      sql: "select * from rag_view where content ilike $1 limit $2",
+      minQueryLength: 3,
+    });
+
+    await expect(
+      retriever.retrieve({ messages: [{ role: "user", content: "hi" }] }),
+    ).resolves.toEqual([]);
+  });
+
+  it("fails clearly when neither sql nor query builder is configured", async () => {
+    const retriever = createPostgresRagRetriever<TestRow>({
+      client: {
+        async query() {
+          return { rows: [] };
+        },
+      },
+    });
+
+    await expect(
+      retriever.retrieve({ messages: [{ role: "user", content: "hello" }] }),
+    ).rejects.toThrow("PostgreSQL RAG retriever requires either sql or query.");
+  });
 });

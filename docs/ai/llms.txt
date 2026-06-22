@@ -15,17 +15,30 @@ Core packages:
 - @stackline/ai-memory-sqlite: SQLite memory store.
 - @stackline/ai-rag-postgres: PostgreSQL read-only RAG retriever.
 
-Recommended frontend:
+Install by scenario:
 
-```html
-<stackline-ai-studio></stackline-ai-studio>
-```
+- Core only: `npm install @stackline/ai`
+- Ollama provider only: `npm install @stackline/ai @stackline/ai-ollama`
+- Backend API with Ollama: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama`
+- Full UI with Ollama: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui && npm install -D vite`
+- Complete stack: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite @stackline/ai-rag-postgres && npm install -D vite`
 
-Recommended backend:
+Recommended runtime path:
+
+Browser -> <stackline-ai-studio> -> GET /api/ai/models -> POST /api/ai/chat
+-> @stackline/ai-server -> @stackline/ai -> provider adapter.
+
+Recommended backend first:
 
 ```ts
 import { createStacklineAIServer } from "@stackline/ai/server";
 import { createStacklineAIHttpHandler } from "@stackline/ai-server";
+```
+
+After those routes work, render:
+
+```html
+<stackline-ai-studio endpoint="/api/ai/chat" models-endpoint="/api/ai/models"></stackline-ai-studio>
 ```
 
 Security rule:

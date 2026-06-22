@@ -1,0 +1,19 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #eef3f8;
+  color: #17202a;
+  font-family: Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+stackline-ai-studio {
+  display: block;
+  height: 100dvh;
+  min-height: 0;
+  --sai-accent: #0f8f7e;
+  --sai-accent-strong: #0a6d60;
+}

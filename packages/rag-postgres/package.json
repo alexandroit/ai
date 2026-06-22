@@ -1,10 +1,23 @@
 {
   "name": "@stackline/ai-rag-postgres",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "PostgreSQL read-only RAG retriever for Stackline AI.",
   "license": "MIT",
+  "author": "Stackline",
   "type": "module",
   "sideEffects": false,
+  "homepage": "https://alexandro.net/docs/ai/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandroit/ai.git",
+    "directory": "packages/rag-postgres"
+  },
+  "bugs": {
+    "url": "https://github.com/alexandroit/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  },
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {

@@ -1,0 +1,17 @@
+{
+  "name": "stackline-ai-example-complete-stack",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "smoke": "node smoke.mjs"
+  },
+  "dependencies": {
+    "@stackline/ai": "workspace:*",
+    "@stackline/ai-memory-sqlite": "workspace:*",
+    "@stackline/ai-ollama": "workspace:*",
+    "@stackline/ai-rag-postgres": "workspace:*",
+    "@stackline/ai-server": "workspace:*"
+  }
+}

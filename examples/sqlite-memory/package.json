@@ -1,0 +1,14 @@
+{
+  "name": "stackline-ai-example-sqlite-memory",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "smoke": "node index.js"
+  },
+  "dependencies": {
+    "@stackline/ai": "workspace:*",
+    "@stackline/ai-memory-sqlite": "workspace:*"
+  }
+}

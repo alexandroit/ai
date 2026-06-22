@@ -60,6 +60,12 @@ describe("createSqliteMemoryStore", () => {
       const retrievals = database.exec("select count(*) as total from ai_retrievals");
       expect(retrievals[0]?.values[0]?.[0]).toBe(0);
       database.close();
+
+      store.close();
+      const reopened = createSqliteMemoryStore({ path });
+      const reopenedResults = await reopened.search?.("Test Artist", { limit: 1 });
+      expect(reopenedResults?.[0]?.content).toBe("The song is by Test Artist.");
+      reopened.close();
     } finally {
       store.close();
       rmSync(dir, { recursive: true, force: true });

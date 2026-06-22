@@ -80,4 +80,20 @@ describe("ollamaProvider", () => {
       model: "gpt-oss:20b-cloud",
     });
   });
+
+  it("throws a clear error when auto model cannot resolve any installed model", async () => {
+    const provider = ollamaProvider({
+      model: "auto",
+      fetch: async (input) => {
+        if (String(input).endsWith("/api/tags")) {
+          return Response.json({ models: [] });
+        }
+        return Response.json({});
+      },
+    });
+
+    await expect(provider.chat({ messages: [{ role: "user", content: "hi" }] })).rejects.toThrow(
+      'Ollama chat requires a model. Use a model name or model: "auto".',
+    );
+  });
 });

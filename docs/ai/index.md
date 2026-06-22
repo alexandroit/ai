@@ -10,16 +10,22 @@ It separates:
 - RAG retrievers;
 - memory stores.
 
-The simplest frontend usage is:
+The Studio web component is the browser UI. It works only after the backend
+routes exist.
 
-```html
-<stackline-ai-studio></stackline-ai-studio>
+Required path:
+
+```text
+Browser
+  -> <stackline-ai-studio>
+  -> GET /api/ai/models
+  -> POST /api/ai/chat
+  -> @stackline/ai-server
+  -> @stackline/ai
+  -> provider adapter
 ```
 
-The default Studio calls:
-
-- `GET /api/ai/models`
-- `POST /api/ai/chat`
+The default Studio calls `GET /api/ai/models` and `POST /api/ai/chat`.
 
 ## Public Local Demo
 
@@ -46,29 +52,51 @@ Open:
 http://localhost:4622/
 ```
 
-## Secure Production Shape
+## Install By Scenario
 
-Frontend:
+Core only:
 
-```html
-<stackline-ai-studio
-  endpoint="/api/ai/chat"
-  models-endpoint="/api/ai/models"
-></stackline-ai-studio>
+```bash
+npm install @stackline/ai
 ```
 
-Backend:
+Backend API with Ollama:
+
+```bash
+npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama
+```
+
+Full UI with Ollama:
+
+```bash
+npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui
+npm install -D vite
+```
+
+Complete stack:
+
+```bash
+npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite @stackline/ai-rag-postgres
+npm install -D vite
+```
+
+## Secure Production Shape
+
+Backend first:
 
 ```ts
 import { createStacklineAIServer } from "@stackline/ai/server";
 import { createStacklineAIHttpHandler } from "@stackline/ai-server";
 import { ollamaProvider } from "@stackline/ai-ollama";
 
+const model = process.env.OLLAMA_MODEL || "auto";
+if (!model.trim()) throw new Error("OLLAMA_MODEL is empty.");
+
 const ai = createStacklineAIServer({
   provider: ollamaProvider({
     target: process.env.OLLAMA_TARGET,
     apiKey: process.env.OLLAMA_API_KEY,
-    model: process.env.OLLAMA_MODEL || "auto",
+    model,
   }),
   rag: false,
   memory: false,
@@ -78,6 +106,16 @@ export const handleAI = createStacklineAIHttpHandler({
   server: ai,
   basePath: "/api/ai",
 });
+```
+
+Frontend:
+
+```html
+<stackline-ai-studio
+  endpoint="/api/ai/chat"
+  models-endpoint="/api/ai/models"
+  model="llama3.1"
+></stackline-ai-studio>
 ```
 
 Provider keys and database credentials stay on the backend.

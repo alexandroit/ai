@@ -1,0 +1,27 @@
+{
+  "name": "stackline-ai-starter",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node index.js",
+    "dev:server": "node index.js",
+    "dev:web": "vite --host 0.0.0.0 --port 4623",
+    "build": "vite build",
+    "start": "node index.js",
+    "check": "node smoke.mjs",
+    "test": "node smoke.mjs",
+    "smoke": "node smoke.mjs"
+  },
+  "dependencies": {
+    "@stackline/ai": "workspace:*",
+    "@stackline/ai-memory-sqlite": "workspace:*",
+    "@stackline/ai-ollama": "workspace:*",
+    "@stackline/ai-rag-postgres": "workspace:*",
+    "@stackline/ai-server": "workspace:*",
+    "@stackline/ai-ui": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "^7.2.7"
+  }
+}

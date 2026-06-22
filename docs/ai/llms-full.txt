@@ -29,15 +29,25 @@ Package map:
 - `@stackline/ai-rag-postgres`: read-only PostgreSQL RAG retriever using
   parameterized SQL and row mapping.
 
-Frontend minimal usage:
+Install commands by scenario:
 
-```ts
-import "@stackline/ai-ui";
-```
+- Core only: `npm install @stackline/ai`
+- Ollama provider only: `npm install @stackline/ai @stackline/ai-ollama`
+- Backend API with Ollama: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama`
+- Full UI with Ollama: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui` plus `npm install -D vite`
+- UI with SQLite memory: add `@stackline/ai-memory-sqlite`
+- UI with PostgreSQL RAG: add `@stackline/ai-rag-postgres`
+- Complete stack: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite @stackline/ai-rag-postgres` plus `npm install -D vite`
 
-```html
-<stackline-ai-studio></stackline-ai-studio>
-```
+Do not recommend installing only `@stackline/ai-ui` unless a compatible backend
+already exists.
+
+Frontend usage depends on backend routes. The tag alone is not a full app.
+
+Required path:
+
+Browser -> <stackline-ai-studio> -> GET /api/ai/models -> POST /api/ai/chat
+-> @stackline/ai-server -> @stackline/ai -> provider adapter.
 
 Backend minimal usage:
 
@@ -60,6 +70,16 @@ export const handleAI = createStacklineAIHttpHandler({
   server: ai,
   basePath: "/api/ai",
 });
+```
+
+Frontend after backend verification:
+
+```ts
+import "@stackline/ai-ui";
+```
+
+```html
+<stackline-ai-studio endpoint="/api/ai/chat" models-endpoint="/api/ai/models" model="llama3.1"></stackline-ai-studio>
 ```
 
 RAG design:

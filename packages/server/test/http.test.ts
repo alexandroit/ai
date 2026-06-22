@@ -68,4 +68,56 @@ describe("createStacklineAIHttpHandler", () => {
 
     expect(response.status).toBe(200);
   });
+
+  it("returns CORS preflight headers", async () => {
+    const handle = createStacklineAIHttpHandler({
+      server: server(),
+      cors: {
+        origins: ["https://app.example.com"],
+        credentials: true,
+      },
+    });
+    const response = await handle(
+      new Request("http://localhost/api/ai/chat", {
+        method: "OPTIONS",
+        headers: { origin: "https://app.example.com" },
+      }),
+    );
+
+    expect(response.status).toBe(204);
+    expect(response.headers.get("access-control-allow-origin")).toBe("https://app.example.com");
+    expect(response.headers.get("access-control-allow-credentials")).toBe("true");
+  });
+
+  it("rejects invalid chat payloads", async () => {
+    const handle = createStacklineAIHttpHandler({ server: server() });
+    const response = await handle(
+      new Request("http://localhost/api/ai/chat", {
+        method: "POST",
+        body: JSON.stringify({ messages: "hello" }),
+      }),
+    );
+
+    expect(response.status).toBe(400);
+    await expect(response.json()).resolves.toMatchObject({
+      error: { message: "messages must be an array." },
+    });
+  });
+
+  it("rejects request bodies over the configured limit", async () => {
+    const handle = createStacklineAIHttpHandler({ server: server(), maxBodyBytes: 10 });
+    const response = await handle(
+      new Request("http://localhost/api/ai/chat", {
+        method: "POST",
+        body: JSON.stringify({
+          messages: [{ role: "user", content: "this body is too large" }],
+        }),
+      }),
+    );
+
+    expect(response.status).toBe(400);
+    await expect(response.json()).resolves.toMatchObject({
+      error: { message: "Request body is larger than 10 bytes." },
+    });
+  });
 });

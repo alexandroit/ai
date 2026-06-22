@@ -196,7 +196,7 @@
     <main class="shell">
       <section class="hero">
         <div>
-          <p class="eyebrow">Stackline AI 0.0.1</p>
+          <p class="eyebrow">Stackline AI 0.0.2</p>
           <h1>Provider-neutral AI apps, without leaking keys to the browser.</h1>
           <p class="lede">
             Stackline AI gives you backend contracts, a safe HTTP handler,
@@ -221,23 +221,30 @@
       </section>
 
       <section class="section">
-        <h2>Install</h2>
-        <pre><code>npm install @stackline/ai @stackline/ai-server @stackline/ai-ui</code></pre>
+        <h2>Install By Scenario</h2>
+        <p>Core only:</p>
+        <pre><code>npm install @stackline/ai</code></pre>
+        <p>Backend API with Ollama:</p>
+        <pre><code>npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama</code></pre>
+        <p>Full UI with Ollama:</p>
+        <pre><code>npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui
+npm install -D vite</code></pre>
+        <p>Complete stack:</p>
+        <pre><code>npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite @stackline/ai-rag-postgres
+npm install -D vite</code></pre>
         <p>
-          Add a provider adapter on the backend, for example
-          <code>@stackline/ai-ollama</code>. Do not put API keys or database
-          credentials in frontend code.
+          Do not install only <code>@stackline/ai-ui</code> unless your backend
+          already exposes compatible models and chat routes.
         </p>
       </section>
 
       <section class="section">
-        <h2>Basic Frontend</h2>
-        <pre><code>import "@stackline/ai-ui";</code></pre>
-        <pre><code>&lt;stackline-ai-studio&gt;&lt;/stackline-ai-studio&gt;</code></pre>
-      </section>
-
-      <section class="section">
-        <h2>Backend Gateway</h2>
+        <h2>Backend First</h2>
+        <p>
+          The Studio component calls <code>GET /api/ai/models</code> and
+          <code>POST /api/ai/chat</code>. Create and test those routes before
+          rendering the web component.
+        </p>
         <pre><code>import { createStacklineAIServer } from "@stackline/ai/server";
 import { createStacklineAIHttpHandler } from "@stackline/ai-server";
 import { ollamaProvider } from "@stackline/ai-ollama";
@@ -256,6 +263,16 @@ export const handleAI = createStacklineAIHttpHandler({
   server: ai,
   basePath: "/api/ai",
 });</code></pre>
+      </section>
+
+      <section class="section">
+        <h2>Then Render The Studio</h2>
+        <pre><code>import "@stackline/ai-ui";</code></pre>
+        <pre><code>&lt;stackline-ai-studio
+  endpoint="/api/ai/chat"
+  models-endpoint="/api/ai/models"
+  model="llama3.1"
+&gt;&lt;/stackline-ai-studio&gt;</code></pre>
       </section>
 
       <section class="section">
