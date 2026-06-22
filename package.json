@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "pnpm -r --if-present build",
-    "check": "pnpm run lint && pnpm run docs:build && pnpm run typecheck && pnpm run test && pnpm run build && pnpm run examples:smoke && pnpm run pack:dry-run",
+    "check": "pnpm run build && pnpm run lint && pnpm run docs:build && pnpm run typecheck && pnpm run test && pnpm run examples:smoke && pnpm run pack:dry-run",
     "docs:build": "node scripts/validate-docs.mjs",
     "docs:dev": "node -e \"console.log('Docs are Markdown-first in this repository. Open docs/index.md or docs/ai/site/index.html.')\"",
     "docs:preview": "node -e \"console.log('Preview docs by serving docs/ with any static server.')\"",
