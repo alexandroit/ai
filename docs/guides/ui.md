@@ -73,6 +73,52 @@ import "@stackline/ai-ui";
 ></stackline-ai-studio>
 ```
 
+## Languages
+
+The Studio ships with `en`, `pt`, `fr`, and `es`, but the picker is not limited
+to those languages.
+
+HTML-only setup:
+
+```html
+<stackline-ai-studio
+  language="de"
+  languages='[
+    { "id": "en", "label": "EN", "nativeName": "English" },
+    { "id": "pt", "label": "PT", "nativeName": "Português" },
+    { "id": "de", "label": "DE", "nativeName": "Deutsch" }
+  ]'
+  translation-packs='{
+    "de": {
+      "placeholder": "Schreiben Sie Ihre Nachricht...",
+      "send": "Senden"
+    }
+  }'
+></stackline-ai-studio>
+```
+
+JavaScript setup:
+
+```js
+const studio = document.querySelector("stackline-ai-studio");
+
+studio.setLanguages([
+  { id: "en", label: "EN", nativeName: "English" },
+  { id: "pt", label: "PT", nativeName: "Português" },
+  { id: "ja", label: "JA", nativeName: "日本語" }
+]);
+
+studio.loadTranslations = async (language) => {
+  const response = await fetch(`/i18n/${language}.json`);
+  return response.ok ? response.json() : null;
+};
+
+studio.setLanguage("ja");
+```
+
+Use `setTranslations({ send: "Ask" })` for a one-off active-language override,
+or `setTranslationPacks({ de: { send: "Senden" } })` for many languages.
+
 ## Events
 
 ```js

@@ -10,7 +10,8 @@ Core packages:
 
 - @stackline/ai: TypeScript contracts and server core.
 - @stackline/ai-server: Fetch-compatible backend HTTP handler.
-- @stackline/ai-ui: Framework-neutral Studio web component.
+- @stackline/ai-ui: Framework-neutral Studio web component with extensible
+  language picker.
 - @stackline/ai-ollama: Ollama provider adapter.
 - @stackline/ai-memory-sqlite: SQLite memory store.
 - @stackline/ai-rag-postgres: PostgreSQL read-only RAG retriever.

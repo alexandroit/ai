@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-ui",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Framework-neutral Stackline AI Studio web component.",
   "license": "MIT",
   "author": "Stackline",
@@ -28,6 +28,7 @@
   "files": [
     "dist",
     "README.md",
+    "LICENSE",
     "package.json"
   ],
   "scripts": {

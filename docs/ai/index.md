@@ -118,6 +118,27 @@ Frontend:
 ></stackline-ai-studio>
 ```
 
+Language picker customization:
+
+```js
+const studio = document.querySelector("stackline-ai-studio");
+
+studio.setLanguages([
+  { id: "en", label: "EN", nativeName: "English" },
+  { id: "pt", label: "PT", nativeName: "Português" },
+  { id: "de", label: "DE", nativeName: "Deutsch" }
+]);
+
+studio.setTranslationPacks({
+  de: {
+    placeholder: "Schreiben Sie Ihre Nachricht...",
+    send: "Senden"
+  }
+});
+
+studio.setLanguage("de");
+```
+
 Provider keys and database credentials stay on the backend.
 
 ## Packages

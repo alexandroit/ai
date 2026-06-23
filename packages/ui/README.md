@@ -11,7 +11,7 @@
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai-ui)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package release:** `0.0.2`
+**Latest tested package release:** `0.0.4`
 
 ---
 
@@ -32,7 +32,7 @@ The component is intentionally backend-first: it never stores provider keys, dat
 | Drop-in `<stackline-ai-studio>` custom element | ✅ |
 | Framework-neutral usage | ✅ |
 | Model picker powered by `@stackline/multiselect` | ✅ |
-| Language picker with `en`, `pt`, `fr`, `es` | ✅ |
+| Language picker with built-in `en`, `pt`, `fr`, `es` plus custom languages | ✅ |
 | Safe Markdown and limited safe HTML rendering | ✅ |
 | LocalStorage history with quota protection | ✅ |
 | RAG evidence display without persisting evidence metadata | ✅ |
@@ -423,7 +423,13 @@ Default endpoints:
 - `StacklineAIStudioElement`
 - `StacklineAIStudioMessage`
 - `StacklineAIStudioModel`
+- `StacklineAIStudioBuiltInLanguage`
 - `StacklineAIStudioLanguage`
+- `StacklineAIStudioLanguageOption`
+- `StacklineAIStudioTranslationPack`
+- `StacklineAIStudioTranslationPacks`
+- `StacklineAIStudioTranslationInput`
+- `StacklineAIStudioTranslationLoader`
 - `StacklineAIStudioTranslations`
 - `StacklineAIStudioStoredState`
 
@@ -438,8 +444,10 @@ Default endpoints:
 - `placeholder`
 - `language`
 - `lang`
+- `languages`
 - `labels`
 - `translations`
+- `translation-packs`
 - `show-language-picker`
 - `persist`
 - `storage-key`
@@ -454,7 +462,20 @@ const studio = document.querySelector("stackline-ai-studio");
 await studio.send("Summarize this ticket.");
 studio.setModel("llama3.1");
 studio.setLanguage("pt");
-studio.setTranslations({ send: "Ask" });
+studio.setTranslations({ send: "Ask" }); // current language override
+studio.setLanguages([
+  { id: "en", label: "EN", nativeName: "English" },
+  { id: "pt", label: "PT", nativeName: "Português" },
+  { id: "de", label: "DE", nativeName: "Deutsch" }
+]);
+studio.setTranslationPacks({
+  de: {
+    placeholder: "Schreiben Sie Ihre Nachricht...",
+    send: "Senden",
+    clear: "Leeren"
+  }
+});
+studio.registerLanguage("it", { send: "Invia" });
 studio.clear();
 studio.focusComposer();
 ```
@@ -540,7 +561,97 @@ Built-in language codes:
 - `fr`
 - `es`
 
-Use `labels` or `translations` with a JSON object to override text.
+The built-ins are only the default. Applications can add their own languages
+without changing the package.
+
+### HTML configuration
+
+Use `languages` for the picker options and `translation-packs` for per-language
+text:
+
+```html
+<stackline-ai-studio
+  language="de"
+  languages='[
+    { "id": "en", "label": "EN", "nativeName": "English" },
+    { "id": "pt", "label": "PT", "nativeName": "Português" },
+    { "id": "de", "label": "DE", "nativeName": "Deutsch" }
+  ]'
+  translation-packs='{
+    "de": {
+      "placeholder": "Schreiben Sie Ihre Nachricht...",
+      "send": "Senden",
+      "clear": "Leeren"
+    }
+  }'
+></stackline-ai-studio>
+```
+
+`labels` and root-level `translations` still override the active language:
+
+```html
+<stackline-ai-studio labels='{ "send": "Ask" }'></stackline-ai-studio>
+```
+
+### JavaScript configuration
+
+```js
+const studio = document.querySelector("stackline-ai-studio");
+
+studio.setLanguages([
+  { id: "en", label: "EN", nativeName: "English" },
+  { id: "pt", label: "PT", nativeName: "Português" },
+  { id: "fr", label: "FR", nativeName: "Français" },
+  { id: "es", label: "ES", nativeName: "Español" },
+  { id: "de", label: "DE", nativeName: "Deutsch" }
+]);
+
+studio.setTranslationPacks({
+  de: {
+    title: "Stackline AI Studio",
+    subtitle: "Sichere KI-Unterhaltung.",
+    placeholder: "Schreiben Sie Ihre Nachricht...",
+    send: "Senden",
+    sending: "Wird gesendet",
+    clear: "Leeren"
+  }
+});
+
+studio.setLanguage("de");
+```
+
+If you only need to add one language, use `registerLanguage`:
+
+```js
+studio.registerLanguage(
+  { id: "it", label: "IT", nativeName: "Italiano" },
+  { placeholder: "Scrivi un messaggio...", send: "Invia" }
+);
+```
+
+For many languages, lazy-load translation files:
+
+```js
+studio.setLanguages([
+  { id: "en", label: "EN", nativeName: "English" },
+  { id: "ja", label: "JA", nativeName: "日本語" }
+]);
+
+studio.loadTranslations = async (language) => {
+  const response = await fetch(`/i18n/${language}.json`);
+  return response.ok ? response.json() : null;
+};
+
+studio.setLanguage("ja");
+```
+
+Fallback order:
+
+1. active-language custom pack;
+2. built-in language or short-code match, such as `pt-BR` -> `pt`;
+3. English built-in text;
+4. active-language one-off overrides from `labels`, root `translations`, or
+   `setTranslations({ send: "Ask" })`.
 
 ## Styling
 

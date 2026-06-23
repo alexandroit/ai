@@ -136,7 +136,7 @@ stackline-ai-starter/
     "@stackline/ai-ollama": "^0.0.2",
     "@stackline/ai-rag-postgres": "^0.0.2",
     "@stackline/ai-server": "^0.0.2",
-    "@stackline/ai-ui": "^0.0.2"
+    "@stackline/ai-ui": "^0.0.4"
   },
   "devDependencies": {
     "vite": "^7.2.7"

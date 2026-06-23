@@ -18,7 +18,8 @@ interface StacklineAIStudioModelOption {
   provider?: string;
 }
 
-export type StacklineAIStudioLanguage = "en" | "pt" | "fr" | "es";
+export type StacklineAIStudioBuiltInLanguage = "en" | "pt" | "fr" | "es";
+export type StacklineAIStudioLanguage = StacklineAIStudioBuiltInLanguage | (string & {});
 
 export interface StacklineAIStudioTranslations {
   title: string;
@@ -58,11 +59,32 @@ export interface StacklineAIStudioTranslations {
   scoreLabel: string;
 }
 
-interface StacklineAIStudioLanguageOption {
+export interface StacklineAIStudioLanguageOption {
+  id: string;
+  itemName?: string;
+  label?: string;
+  nativeName?: string;
+}
+
+interface NormalizedStacklineAIStudioLanguageOption {
   id: StacklineAIStudioLanguage;
   itemName: string;
   nativeName: string;
 }
+
+export type StacklineAIStudioTranslationPack = Partial<StacklineAIStudioTranslations>;
+export type StacklineAIStudioTranslationPacks = Record<string, StacklineAIStudioTranslationPack>;
+export type StacklineAIStudioTranslationInput =
+  | StacklineAIStudioTranslationPack
+  | StacklineAIStudioTranslationPacks
+  | null;
+export type StacklineAIStudioTranslationLoader = (
+  language: string,
+) =>
+  | StacklineAIStudioTranslationPack
+  | null
+  | undefined
+  | Promise<StacklineAIStudioTranslationPack | null | undefined>;
 
 interface StacklineRagSource {
   source?: string;
@@ -81,9 +103,20 @@ export interface StacklineAIStudioElement extends HTMLElement {
   send(message?: string): Promise<void>;
   setModel(modelId: string): void;
   setLanguage(language: string): void;
-  setTranslations(translations: Partial<StacklineAIStudioTranslations> | null): void;
+  setLanguages(languages: StacklineAIStudioLanguageOption[]): void;
+  registerLanguage(
+    language: string | StacklineAIStudioLanguageOption,
+    translations?: StacklineAIStudioTranslationPack,
+  ): void;
+  setTranslations(translations: StacklineAIStudioTranslationInput): void;
+  setTranslationPacks(translations: StacklineAIStudioTranslationPacks | null): void;
   clear(): void;
   focusComposer(): void;
+  language: StacklineAIStudioLanguage;
+  languages: StacklineAIStudioLanguageOption[];
+  translations: StacklineAIStudioTranslationInput;
+  translationPacks: StacklineAIStudioTranslationPacks;
+  loadTranslations?: StacklineAIStudioTranslationLoader;
 }
 
 export const stacklineAIStudioTagName = "stackline-ai-studio";
@@ -100,14 +133,14 @@ export interface StacklineAIStudioStoredState {
 }
 
 const DEFAULT_LANGUAGE: StacklineAIStudioLanguage = "en";
-const LANGUAGE_OPTIONS: StacklineAIStudioLanguageOption[] = [
+const BUILT_IN_LANGUAGE_OPTIONS: NormalizedStacklineAIStudioLanguageOption[] = [
   { id: "en", itemName: "EN", nativeName: "English" },
   { id: "pt", itemName: "PT", nativeName: "Português" },
   { id: "fr", itemName: "FR", nativeName: "Français" },
   { id: "es", itemName: "ES", nativeName: "Español" },
 ];
 
-const DEFAULT_TRANSLATIONS: Record<StacklineAIStudioLanguage, StacklineAIStudioTranslations> = {
+const DEFAULT_TRANSLATIONS: Record<StacklineAIStudioBuiltInLanguage, StacklineAIStudioTranslations> = {
   en: {
     title: "Stackline AI Studio",
     subtitle: "Provider-safe chat, ready for RAG and memory.",
@@ -258,11 +291,71 @@ const DEFAULT_TRANSLATIONS: Record<StacklineAIStudioLanguage, StacklineAIStudioT
   },
 };
 
-function normalizeLanguage(value: string | null | undefined): StacklineAIStudioLanguage {
-  const normalized = (value || DEFAULT_LANGUAGE).trim().toLowerCase();
-  const shortCode = normalized.slice(0, 2);
-  if (shortCode === "pt" || shortCode === "fr" || shortCode === "es") return shortCode;
-  return DEFAULT_LANGUAGE;
+const TRANSLATION_KEYS = new Set(Object.keys(DEFAULT_TRANSLATIONS.en) as (keyof StacklineAIStudioTranslations)[]);
+
+function uniqueStrings(values: string[]): string[] {
+  return [...new Set(values.filter(Boolean))];
+}
+
+function detectedLanguage(): string {
+  const navigatorLanguage =
+    typeof navigator !== "undefined" && typeof navigator.language === "string" ? navigator.language : "";
+  return navigatorLanguage || DEFAULT_LANGUAGE;
+}
+
+function normalizeLanguageId(value: string | null | undefined): StacklineAIStudioLanguage {
+  const raw = (value || DEFAULT_LANGUAGE).trim();
+  const candidate = raw.toLowerCase() === "auto" ? detectedLanguage() : raw;
+  const normalized = candidate.trim().replace(/_/g, "-").toLowerCase();
+  return (normalized || DEFAULT_LANGUAGE) as StacklineAIStudioLanguage;
+}
+
+function languageFallbacks(language: string | null | undefined): string[] {
+  const normalized = normalizeLanguageId(language);
+  const shortCode = normalized.split("-")[0] || normalized.slice(0, 2);
+  return uniqueStrings([normalized, shortCode, DEFAULT_LANGUAGE]);
+}
+
+function normalizeLanguage(
+  value: string | null | undefined,
+  availableLanguages: readonly string[] = Object.keys(DEFAULT_TRANSLATIONS),
+): StacklineAIStudioLanguage {
+  const available = new Set(availableLanguages.map(normalizeLanguageId));
+  const normalized = normalizeLanguageId(value);
+
+  for (const candidate of languageFallbacks(normalized)) {
+    if (available.has(candidate)) return candidate as StacklineAIStudioLanguage;
+  }
+
+  return normalized;
+}
+
+function normalizeLanguageOption(
+  option: StacklineAIStudioLanguageOption,
+): NormalizedStacklineAIStudioLanguageOption | null {
+  const id = normalizeLanguageId(option.id);
+  if (!id) return null;
+  const itemName = (option.itemName || option.label || id.toUpperCase()).trim();
+  const nativeName = (option.nativeName || itemName).trim();
+  if (!itemName || !nativeName) return null;
+  return { id, itemName, nativeName };
+}
+
+function normalizeLanguageOptions(
+  languages: readonly StacklineAIStudioLanguageOption[] | null | undefined,
+): NormalizedStacklineAIStudioLanguageOption[] {
+  const source = languages?.length ? languages : BUILT_IN_LANGUAGE_OPTIONS;
+  const options: NormalizedStacklineAIStudioLanguageOption[] = [];
+  const seen = new Set<string>();
+
+  for (const item of source) {
+    const normalized = normalizeLanguageOption(item);
+    if (!normalized || seen.has(normalized.id)) continue;
+    seen.add(normalized.id);
+    options.push(normalized);
+  }
+
+  return options.length ? options : [...BUILT_IN_LANGUAGE_OPTIONS];
 }
 
 function interpolateLabel(template: string, values: Record<string, string | number>): string {
@@ -279,26 +372,88 @@ function pluralLabel(
   return interpolateLabel(String(template), { count });
 }
 
-function parseTranslationOverrides(value: string | null): Partial<StacklineAIStudioTranslations> {
-  if (!value) return {};
+function normalizeTranslationPack(value: unknown): StacklineAIStudioTranslationPack {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  return Object.fromEntries(
+    Object.entries(value).filter(
+      ([key, item]) => TRANSLATION_KEYS.has(key as keyof StacklineAIStudioTranslations) && typeof item === "string",
+    ),
+  ) as StacklineAIStudioTranslationPack;
+}
+
+function translationInputLooksLikePack(value: unknown): boolean {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  return Object.entries(value).some(
+    ([key, item]) => TRANSLATION_KEYS.has(key as keyof StacklineAIStudioTranslations) && typeof item === "string",
+  );
+}
+
+function normalizeTranslationPacks(value: unknown): StacklineAIStudioTranslationPacks {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  if (translationInputLooksLikePack(value)) return {};
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .map(([language, pack]) => [normalizeLanguageId(language), normalizeTranslationPack(pack)] as const)
+      .filter(([, pack]) => Object.keys(pack).length),
+  );
+}
+
+function parseJsonAttribute(value: string | null): unknown {
+  if (!value) return null;
   try {
-    const parsed = JSON.parse(value) as unknown;
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
-    return Object.fromEntries(
-      Object.entries(parsed).filter(([, item]) => typeof item === "string"),
-    ) as Partial<StacklineAIStudioTranslations>;
+    return JSON.parse(value) as unknown;
   } catch {
-    return {};
+    return null;
   }
+}
+
+function parseTranslationPatchAttribute(value: string | null): StacklineAIStudioTranslationPack {
+  return normalizeTranslationPack(parseJsonAttribute(value));
+}
+
+function parseTranslationPacksAttribute(value: string | null): StacklineAIStudioTranslationPacks {
+  return normalizeTranslationPacks(parseJsonAttribute(value));
+}
+
+function parseLanguageOptionsAttribute(value: string | null): NormalizedStacklineAIStudioLanguageOption[] | null {
+  const parsed = parseJsonAttribute(value);
+  if (!Array.isArray(parsed)) return null;
+  const languages = parsed.filter((item): item is StacklineAIStudioLanguageOption => {
+    return Boolean(item) && typeof item === "object" && typeof (item as { id?: unknown }).id === "string";
+  });
+  return normalizeLanguageOptions(languages);
+}
+
+function translationPackForLanguage(
+  language: string,
+  packs: StacklineAIStudioTranslationPacks,
+): StacklineAIStudioTranslationPack {
+  return languageFallbacks(language).reduce<StacklineAIStudioTranslationPack>(
+    (merged, candidate) => ({ ...merged, ...(packs[candidate] || {}) }),
+    {},
+  );
+}
+
+function builtInTranslationsFor(language: string): StacklineAIStudioTranslations {
+  const builtInLanguage = languageFallbacks(language).find((candidate) => candidate in DEFAULT_TRANSLATIONS);
+  return DEFAULT_TRANSLATIONS[(builtInLanguage || DEFAULT_LANGUAGE) as StacklineAIStudioBuiltInLanguage];
 }
 
 export function resolveStacklineAIStudioTranslations(
   language: string | null | undefined = DEFAULT_LANGUAGE,
-  overrides: Partial<StacklineAIStudioTranslations> = {},
+  overrides: StacklineAIStudioTranslationPack = {},
+  translationPacks: StacklineAIStudioTranslationPacks = {},
 ): StacklineAIStudioTranslations {
+  const normalizedLanguage = normalizeLanguage(language, [
+    ...Object.keys(DEFAULT_TRANSLATIONS),
+    ...Object.keys(translationPacks),
+  ]);
   return {
-    ...DEFAULT_TRANSLATIONS[normalizeLanguage(language)],
-    ...overrides,
+    ...DEFAULT_TRANSLATIONS.en,
+    ...builtInTranslationsFor(normalizedLanguage),
+    ...translationPackForLanguage(normalizedLanguage, translationPacks),
+    ...normalizeTranslationPack(overrides),
   };
 }
 
@@ -1488,10 +1643,14 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
     private messages: StacklineAIStudioMessage[] = [];
     private models: StacklineAIStudioModel[] = [];
     private modelSelect: StacklineMultiSelect<StacklineAIStudioModelOption> | null = null;
-    private languageSelect: StacklineMultiSelect<StacklineAIStudioLanguageOption> | null = null;
+    private languageSelect: StacklineMultiSelect<NormalizedStacklineAIStudioLanguageOption> | null = null;
+    private languageOptions = [...BUILT_IN_LANGUAGE_OPTIONS];
     private selectedModelId = "";
     private selectedLanguage: StacklineAIStudioLanguage = DEFAULT_LANGUAGE;
-    private customTranslations: Partial<StacklineAIStudioTranslations> = {};
+    private customTranslations: StacklineAIStudioTranslationPack = {};
+    private customTranslationPacks: StacklineAIStudioTranslationPacks = {};
+    private loadedTranslationLanguages = new Set<string>();
+    loadTranslations?: StacklineAIStudioTranslationLoader;
     private busy = false;
     private error = "";
     private restoredStorage = false;
@@ -1507,8 +1666,10 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
         "placeholder",
         "language",
         "lang",
+        "languages",
         "labels",
         "translations",
+        "translation-packs",
         "show-language-picker",
         "persist",
         "storage-key",
@@ -1520,18 +1681,32 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
     connectedCallback(): void {
       this.adoptBareHeaderSlot();
       if (!this.shadowRoot) this.attachShadow({ mode: "open" });
-      this.selectedLanguage = normalizeLanguage(this.getAttribute("language") || this.getAttribute("lang"));
+      this.languageOptions = this.resolveLanguageOptions();
+      this.selectedLanguage = normalizeLanguage(
+        this.getAttribute("language") || this.getAttribute("lang"),
+        this.languageOptionIds,
+      );
       this.restoreState();
       this.render();
       this.scrollMessagesToBottom();
       void this.loadModels();
+      void this.loadLanguageTranslations(this.currentLanguage);
     }
 
     attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
       if (oldValue === newValue) return;
-      if (name === "language" || name === "lang") {
-        this.selectedLanguage = normalizeLanguage(newValue);
+      if (name === "languages") {
+        this.languageOptions = this.resolveLanguageOptions();
+        this.selectedLanguage = normalizeLanguage(this.selectedLanguage, this.languageOptionIds);
         this.persistState();
+      }
+      if (name === "language" || name === "lang") {
+        this.selectedLanguage = normalizeLanguage(newValue, this.languageOptionIds);
+        this.persistState();
+        void this.loadLanguageTranslations(this.selectedLanguage);
+      }
+      if (name === "translations" || name === "translation-packs") {
+        this.ensureLanguageOptions(Object.keys(parseTranslationPacksAttribute(newValue)));
       }
       if (this.shadowRoot) this.render();
     }
@@ -1629,7 +1804,7 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
     }
 
     setLanguage(language: string): void {
-      const nextLanguage = normalizeLanguage(language);
+      const nextLanguage = normalizeLanguage(language, this.languageOptionIds);
       this.selectedLanguage = nextLanguage;
       if (this.getAttribute("language") !== nextLanguage) {
         this.setAttribute("language", nextLanguage);
@@ -1638,6 +1813,7 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
         this.render();
       }
       this.syncLanguageSelect();
+      void this.loadLanguageTranslations(nextLanguage);
       this.dispatchEvent(
         new CustomEvent("stackline-language-change", {
           detail: { language: nextLanguage },
@@ -1647,8 +1823,58 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
       );
     }
 
-    setTranslations(translations: Partial<StacklineAIStudioTranslations> | null): void {
-      this.customTranslations = translations ? { ...translations } : {};
+    setLanguages(languages: StacklineAIStudioLanguageOption[]): void {
+      this.languageOptions = normalizeLanguageOptions(languages);
+      const current = normalizeLanguage(this.currentLanguage, this.languageOptionIds);
+      this.selectedLanguage = this.languageOptions.some((language) => language.id === current)
+        ? current
+        : this.languageOptions[0]?.id || DEFAULT_LANGUAGE;
+      this.persistState();
+      this.render();
+      this.syncLanguageSelect();
+      void this.loadLanguageTranslations(this.currentLanguage);
+    }
+
+    registerLanguage(
+      language: string | StacklineAIStudioLanguageOption,
+      translations?: StacklineAIStudioTranslationPack,
+    ): void {
+      const option = normalizeLanguageOption(typeof language === "string" ? { id: language } : language);
+      if (!option) return;
+
+      const nextOptions = this.languageOptions.filter((item) => item.id !== option.id);
+      this.languageOptions = [...nextOptions, option];
+
+      if (translations) {
+        this.customTranslationPacks = {
+          ...this.customTranslationPacks,
+          [option.id]: {
+            ...(this.customTranslationPacks[option.id] || {}),
+            ...normalizeTranslationPack(translations),
+          },
+        };
+      }
+
+      this.render();
+      this.syncLanguageSelect();
+    }
+
+    setTranslations(translations: StacklineAIStudioTranslationInput): void {
+      if (!translations) {
+        this.customTranslations = {};
+        this.customTranslationPacks = {};
+      } else if (translationInputLooksLikePack(translations)) {
+        this.customTranslations = normalizeTranslationPack(translations);
+      } else {
+        this.customTranslationPacks = normalizeTranslationPacks(translations);
+        this.ensureLanguageOptions(Object.keys(this.customTranslationPacks));
+      }
+      this.render();
+    }
+
+    setTranslationPacks(translations: StacklineAIStudioTranslationPacks | null): void {
+      this.customTranslationPacks = translations ? normalizeTranslationPacks(translations) : {};
+      this.ensureLanguageOptions(Object.keys(this.customTranslationPacks));
       this.render();
     }
 
@@ -1660,12 +1886,32 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
       this.setLanguage(language);
     }
 
-    get translations(): Partial<StacklineAIStudioTranslations> {
-      return { ...this.customTranslations };
+    get languages(): StacklineAIStudioLanguageOption[] {
+      return this.languageOptions.map((language) => ({ ...language }));
     }
 
-    set translations(translations: Partial<StacklineAIStudioTranslations> | null) {
+    set languages(languages: StacklineAIStudioLanguageOption[]) {
+      this.setLanguages(languages);
+    }
+
+    get translations(): StacklineAIStudioTranslationInput {
+      return Object.keys(this.customTranslationPacks).length
+        ? { ...this.customTranslationPacks }
+        : { ...this.customTranslations };
+    }
+
+    set translations(translations: StacklineAIStudioTranslationInput) {
       this.setTranslations(translations);
+    }
+
+    get translationPacks(): StacklineAIStudioTranslationPacks {
+      return Object.fromEntries(
+        Object.entries(this.customTranslationPacks).map(([language, pack]) => [language, { ...pack }]),
+      );
+    }
+
+    set translationPacks(translations: StacklineAIStudioTranslationPacks | null) {
+      this.setTranslationPacks(translations);
     }
 
     focusComposer(): void {
@@ -1716,14 +1962,23 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
     }
 
     private get currentLanguage(): StacklineAIStudioLanguage {
-      return normalizeLanguage(this.getAttribute("language") || this.getAttribute("lang") || this.selectedLanguage);
+      return normalizeLanguage(
+        this.getAttribute("language") || this.getAttribute("lang") || this.selectedLanguage,
+        this.languageOptionIds,
+      );
     }
 
     private get labels(): StacklineAIStudioTranslations {
+      const translationAttribute = this.getAttribute("translations");
+      const translationPacksAttribute = this.getAttribute("translation-packs");
       return resolveStacklineAIStudioTranslations(this.currentLanguage, {
-        ...parseTranslationOverrides(this.getAttribute("translations")),
-        ...parseTranslationOverrides(this.getAttribute("labels")),
+        ...parseTranslationPatchAttribute(translationAttribute),
+        ...parseTranslationPatchAttribute(this.getAttribute("labels")),
         ...this.customTranslations,
+      }, {
+        ...parseTranslationPacksAttribute(translationAttribute),
+        ...parseTranslationPacksAttribute(translationPacksAttribute),
+        ...this.customTranslationPacks,
       });
     }
 
@@ -1752,9 +2007,30 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
       return `stackline-ai-studio:${path}:${this.endpoint}`;
     }
 
+    private get languageOptionIds(): string[] {
+      return this.languageOptions.map((language) => language.id);
+    }
+
     private adoptBareHeaderSlot(): void {
       const header = this.querySelector("header:not([slot])");
       if (header) header.setAttribute("slot", "header");
+    }
+
+    private resolveLanguageOptions(): NormalizedStacklineAIStudioLanguageOption[] {
+      return parseLanguageOptionsAttribute(this.getAttribute("languages")) || [...this.languageOptions];
+    }
+
+    private ensureLanguageOptions(languageIds: readonly string[]): void {
+      const existing = new Set(this.languageOptions.map((language) => language.id));
+      const additions = languageIds
+        .map((language) => normalizeLanguageOption({ id: language }))
+        .filter((language): language is NormalizedStacklineAIStudioLanguageOption => {
+          if (!language) return false;
+          return !existing.has(language.id);
+        });
+
+      if (!additions.length) return;
+      this.languageOptions = [...this.languageOptions, ...additions];
     }
 
     private restoreState(): void {
@@ -1768,7 +2044,7 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
         if (!state) return;
         this.messages = state.messages;
         this.selectedModelId = state.selectedModelId || this.selectedModelId;
-        this.selectedLanguage = state.selectedLanguage || this.selectedLanguage;
+        this.selectedLanguage = normalizeLanguage(state.selectedLanguage || this.selectedLanguage, this.languageOptionIds);
         this.writePersistedState(state);
       } catch {
         // Broken or blocked storage should not prevent the component from loading.
@@ -1832,6 +2108,35 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
         this.render();
       } catch {
         this.models = [];
+      }
+    }
+
+    private async loadLanguageTranslations(language: string): Promise<void> {
+      const loader = this.loadTranslations;
+      const normalizedLanguage = normalizeLanguage(language, this.languageOptionIds);
+      if (!loader || this.loadedTranslationLanguages.has(normalizedLanguage)) return;
+
+      this.loadedTranslationLanguages.add(normalizedLanguage);
+
+      try {
+        const translations = await loader(normalizedLanguage);
+        const pack = normalizeTranslationPack(translations);
+        if (!Object.keys(pack).length) return;
+
+        this.customTranslationPacks = {
+          ...this.customTranslationPacks,
+          [normalizedLanguage]: {
+            ...(this.customTranslationPacks[normalizedLanguage] || {}),
+            ...pack,
+          },
+        };
+
+        if (this.currentLanguage === normalizedLanguage) {
+          this.render();
+          this.syncLanguageSelect();
+        }
+      } catch {
+        this.loadedTranslationLanguages.delete(normalizedLanguage);
       }
     }
 
@@ -1912,17 +2217,17 @@ export function defineStacklineAIStudio(win?: Window & typeof globalThis): void 
       });
     }
 
-    private selectedLanguageOption(): StacklineAIStudioLanguageOption[] {
-      const selected = LANGUAGE_OPTIONS.find((language) => language.id === this.currentLanguage);
-      return selected ? [selected] : [LANGUAGE_OPTIONS[0]!];
+    private selectedLanguageOption(): NormalizedStacklineAIStudioLanguageOption[] {
+      const selected = this.languageOptions.find((language) => language.id === this.currentLanguage);
+      return selected ? [selected] : [this.languageOptions[0] || BUILT_IN_LANGUAGE_OPTIONS[0]!];
     }
 
     private mountLanguageSelect(): void {
       const target = this.shadowRoot?.querySelector<HTMLElement>("[data-language-picker]");
       if (!target || !this.languagePickerEnabled) return;
 
-      this.languageSelect = new StacklineMultiSelect<StacklineAIStudioLanguageOption>(target, {
-        data: LANGUAGE_OPTIONS,
+      this.languageSelect = new StacklineMultiSelect<NormalizedStacklineAIStudioLanguageOption>(target, {
+        data: this.languageOptions,
         selected: this.selectedLanguageOption(),
         settings: {
           text: this.labels.languageSelectText,

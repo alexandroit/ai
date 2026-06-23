@@ -155,8 +155,10 @@ Attributes:
 - `placeholder`
 - `language`
 - `lang`
+- `languages`
 - `labels`
 - `translations`
+- `translation-packs`
 - `show-language-picker`
 - `persist`
 - `storage-key`
@@ -169,3 +171,24 @@ Events:
 - `stackline-error`
 - `stackline-model-change`
 - `stackline-language-change`
+
+Language picker customization:
+
+```js
+const studio = document.querySelector("stackline-ai-studio");
+
+studio.setLanguages([
+  { id: "en", label: "EN", nativeName: "English" },
+  { id: "pt", label: "PT", nativeName: "Português" },
+  { id: "de", label: "DE", nativeName: "Deutsch" }
+]);
+
+studio.setTranslationPacks({
+  de: {
+    placeholder: "Schreiben Sie Ihre Nachricht...",
+    send: "Senden"
+  }
+});
+
+studio.setLanguage("de");
+```

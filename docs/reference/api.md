@@ -120,9 +120,20 @@ export interface StacklineAIStudioElement extends HTMLElement {
   send(message?: string): Promise<void>;
   setModel(modelId: string): void;
   setLanguage(language: string): void;
-  setTranslations(translations: Partial<StacklineAIStudioTranslations> | null): void;
+  setLanguages(languages: StacklineAIStudioLanguageOption[]): void;
+  registerLanguage(
+    language: string | StacklineAIStudioLanguageOption,
+    translations?: StacklineAIStudioTranslationPack,
+  ): void;
+  setTranslations(translations: StacklineAIStudioTranslationInput): void;
+  setTranslationPacks(translations: StacklineAIStudioTranslationPacks | null): void;
   clear(): void;
   focusComposer(): void;
+  language: StacklineAIStudioLanguage;
+  languages: StacklineAIStudioLanguageOption[];
+  translations: StacklineAIStudioTranslationInput;
+  translationPacks: StacklineAIStudioTranslationPacks;
+  loadTranslations?: StacklineAIStudioTranslationLoader;
 }
 
 export const stacklineAIStudioTagName = "stackline-ai-studio";

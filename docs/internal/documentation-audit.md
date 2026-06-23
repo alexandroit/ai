@@ -139,6 +139,9 @@ Confirmed exports:
 - `StacklineAIStudioMessage`
 - `StacklineAIStudioModel`
 - `StacklineAIStudioLanguage`
+- `StacklineAIStudioLanguageOption`
+- `StacklineAIStudioTranslationPack`
+- `StacklineAIStudioTranslationPacks`
 - `StacklineAIStudioTranslations`
 - `StacklineAIStudioStoredState`
 - markdown/storage helper functions used by tests
@@ -278,6 +281,8 @@ Real attributes:
 - `lang`
 - `labels`
 - `translations`
+- `languages`
+- `translation-packs`
 - `show-language-picker`
 - `persist`
 - `storage-key`
@@ -289,7 +294,10 @@ Real methods:
 - `send(message?: string): Promise<void>`
 - `setModel(modelId: string): void`
 - `setLanguage(language: string): void`
+- `setLanguages(languages): void`
+- `registerLanguage(language, translations?): void`
 - `setTranslations(translations): void`
+- `setTranslationPacks(translations): void`
 - `clear(): void`
 - `focusComposer(): void`
 
@@ -378,4 +386,3 @@ pnpm run build
 pnpm run pack:dry-run
 pnpm run examples:smoke
 ```
-

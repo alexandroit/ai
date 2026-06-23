@@ -91,11 +91,21 @@ describe("Stackline AI UI", () => {
   it("resolves built-in and custom Studio translations", () => {
     const portuguese = resolveStacklineAIStudioTranslations("pt-BR");
     const custom = resolveStacklineAIStudioTranslations("fr", { send: "Go" });
+    const german = resolveStacklineAIStudioTranslations("de", {}, { de: { send: "Senden" } });
+    const brazilianPortuguese = resolveStacklineAIStudioTranslations(
+      "pt-BR",
+      {},
+      { "pt-br": { placeholder: "Digite sua pergunta..." } },
+    );
 
     expect(portuguese.send).toBe("Enviar");
     expect(portuguese.modelSelectText).toBe("Selecionar modelo");
     expect(custom.send).toBe("Go");
     expect(custom.clear).toBe("Effacer");
+    expect(german.send).toBe("Senden");
+    expect(german.clear).toBe("Clear");
+    expect(brazilianPortuguese.send).toBe("Enviar");
+    expect(brazilianPortuguese.placeholder).toBe("Digite sua pergunta...");
   });
 
   it("renders fallback markdown for persisted empty assistant messages with RAG sources", () => {

@@ -196,7 +196,7 @@
     <main class="shell">
       <section class="hero">
         <div>
-          <p class="eyebrow">Stackline AI 0.0.2</p>
+          <p class="eyebrow">Stackline AI 0.0.2 · AI UI 0.0.4</p>
           <h1>Provider-neutral AI apps, without leaking keys to the browser.</h1>
           <p class="lede">
             Stackline AI gives you backend contracts, a safe HTTP handler,
@@ -273,6 +273,31 @@ export const handleAI = createStacklineAIHttpHandler({
   models-endpoint="/api/ai/models"
   model="llama3.1"
 &gt;&lt;/stackline-ai-studio&gt;</code></pre>
+      </section>
+
+      <section class="section">
+        <h2>Extensible Language Picker</h2>
+        <p>
+          The Studio ships with <code>en</code>, <code>pt</code>,
+          <code>fr</code>, and <code>es</code>, and applications can register
+          any additional language.
+        </p>
+        <pre><code>const studio = document.querySelector("stackline-ai-studio");
+
+studio.setLanguages([
+  { id: "en", label: "EN", nativeName: "English" },
+  { id: "pt", label: "PT", nativeName: "Português" },
+  { id: "de", label: "DE", nativeName: "Deutsch" }
+]);
+
+studio.setTranslationPacks({
+  de: {
+    placeholder: "Schreiben Sie Ihre Nachricht...",
+    send: "Senden"
+  }
+});
+
+studio.setLanguage("de");</code></pre>
       </section>
 
       <section class="section">

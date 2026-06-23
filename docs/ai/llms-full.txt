@@ -20,8 +20,9 @@ Package map:
 - `@stackline/ai-server`: `createStacklineAIHttpHandler` with health,
   manifest, model listing, chat, CORS, request size limit, allowed model policy.
 - `@stackline/ai-ui`: `<stackline-ai-studio>` web component with model picker,
-  language picker, safe Markdown/HTML rendering, localStorage history, clear
-  button, RAG evidence display, and customizable CSS parts/variables.
+  extensible language picker, safe Markdown/HTML rendering, localStorage
+  history, clear button, RAG evidence display, and customizable CSS
+  parts/variables.
 - `@stackline/ai-ollama`: Ollama provider adapter for local Ollama, Ollama
   Cloud, or an Ollama-compatible backend. Keep API keys on the backend.
 - `@stackline/ai-memory-sqlite`: SQLite/sql.js memory store for development and
@@ -80,6 +81,22 @@ import "@stackline/ai-ui";
 
 ```html
 <stackline-ai-studio endpoint="/api/ai/chat" models-endpoint="/api/ai/models" model="llama3.1"></stackline-ai-studio>
+```
+
+Language picker customization:
+
+```ts
+const studio = document.querySelector("stackline-ai-studio");
+
+studio?.setLanguages([
+  { id: "en", label: "EN", nativeName: "English" },
+  { id: "pt", label: "PT", nativeName: "Português" },
+  { id: "de", label: "DE", nativeName: "Deutsch" }
+]);
+
+studio?.setTranslationPacks({
+  de: { placeholder: "Schreiben Sie Ihre Nachricht...", send: "Senden" }
+});
 ```
 
 RAG design:
