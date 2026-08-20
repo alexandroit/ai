@@ -4,14 +4,14 @@
 
 [![npm version](https://img.shields.io/npm/v/@stackline/ai-ui.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/ai-ui)
 [![npm monthly](https://img.shields.io/npm/dm/@stackline/ai-ui.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/ai-ui)
-[![license](https://img.shields.io/npm/l/@stackline/ai-ui.svg?style=flat-square)](https://github.com/alexandroit/ai/blob/master/LICENSE)
+[![license](https://img.shields.io/npm/l/@stackline/ai-ui.svg?style=flat-square)](https://github.com/alexandroit/ai/blob/main/LICENSE)
 [![Web Component](https://img.shields.io/badge/Web%20Component-framework--neutral-0f8f7e?style=flat-square)](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Reddit community](https://img.shields.io/badge/community-r%2FStackline-ff4500?style=flat-square&logo=reddit&logoColor=white)](https://www.reddit.com/r/Stackline/)
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai-ui)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package release:** `0.0.4`
+**Latest tested package release:** `0.0.5`
 
 ---
 
@@ -21,7 +21,7 @@
 
 ## Why this package?
 
-`@stackline/ai-ui` is the browser-facing Studio component for Stackline AI apps. It gives simple users a drop-in interface, while advanced teams can control endpoints, model selection, translations, persistence, CSS variables, CSS parts, and custom headers.
+`@stackline/ai-ui` is the browser-facing Studio component for Stackline AI apps. It gives simple users a drop-in interface, while advanced teams can control endpoints, model selection, translations, persistence, CSS variables, and CSS parts.
 
 The component is intentionally backend-first: it never stores provider keys, database URLs, SQL, RAG filters, or memory paths. It calls your backend through `/models` and `/chat`.
 

@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Provider-neutral Stackline AI contracts, server core, RAG, memory, and adapter interfaces.",
   "license": "MIT",
   "author": "Stackline",
@@ -31,7 +31,10 @@
   },
   "files": [
     "dist",
+    "CHANGELOG.md",
+    "LICENSE",
     "README.md",
+    "SECURITY.md",
     "package.json"
   ],
   "scripts": {

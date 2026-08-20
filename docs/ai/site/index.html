@@ -196,7 +196,7 @@
     <main class="shell">
       <section class="hero">
         <div>
-          <p class="eyebrow">Stackline AI 0.0.2 · AI UI 0.0.4</p>
+          <p class="eyebrow">Stackline AI 0.0.3 · AI UI 0.0.5</p>
           <h1>Provider-neutral AI apps, without leaking keys to the browser.</h1>
           <p class="lede">
             Stackline AI gives you backend contracts, a safe HTTP handler,
@@ -262,7 +262,13 @@ const ai = createStacklineAIServer({
 export const handleAI = createStacklineAIHttpHandler({
   server: ai,
   basePath: "/api/ai",
+  allowedModels: [process.env.OLLAMA_MODEL || "auto"],
 });</code></pre>
+        <p>
+          The handler limits the request stream before allocating the complete
+          body, returns <code>413</code> for oversized requests, and requires an
+          explicit model whenever <code>allowedModels</code> is configured.
+        </p>
       </section>
 
       <section class="section">

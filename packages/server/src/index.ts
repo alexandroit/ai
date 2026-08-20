@@ -34,9 +34,21 @@ const DEFAULT_METHODS = ["GET", "POST", "OPTIONS"];
 const DEFAULT_HEADERS = ["content-type"];
 const ROLES = new Set(["system", "user", "assistant", "tool"]);
 
+class StacklineAIHttpError extends Error {
+  constructor(
+    readonly status: number,
+    message: string,
+  ) {
+    super(message);
+    this.name = "StacklineAIHttpError";
+  }
+}
+
 function json(data: unknown, init: ResponseInit = {}, corsHeaders?: Headers): Response {
   const headers = new Headers(init.headers);
   headers.set("content-type", "application/json; charset=utf-8");
+  headers.set("cache-control", "no-store");
+  headers.set("x-content-type-options", "nosniff");
   corsHeaders?.forEach((value, key) => headers.set(key, value));
   return new Response(JSON.stringify(data), { ...init, headers });
 }
@@ -73,15 +85,57 @@ function corsFor(request: Request, cors: StacklineAICorsOptions | undefined): He
 
   headers.set("access-control-allow-methods", (cors.methods ?? DEFAULT_METHODS).join(", "));
   headers.set("access-control-allow-headers", (cors.headers ?? DEFAULT_HEADERS).join(", "));
-  if (cors.credentials) headers.set("access-control-allow-credentials", "true");
+  if (cors.credentials && headers.has("access-control-allow-origin")) {
+    headers.set("access-control-allow-credentials", "true");
+  }
   return headers;
 }
 
-async function readJson(request: Request, maxBodyBytes: number): Promise<ChatPayload> {
-  const text = await request.text();
-  if (new TextEncoder().encode(text).byteLength > maxBodyBytes) {
-    throw new Error(`Request body is larger than ${maxBodyBytes} bytes.`);
+function bodyTooLarge(maxBodyBytes: number): StacklineAIHttpError {
+  return new StacklineAIHttpError(413, `Request body is larger than ${maxBodyBytes} bytes.`);
+}
+
+async function readBodyText(request: Request, maxBodyBytes: number): Promise<string> {
+  const contentLength = request.headers.get("content-length");
+  if (contentLength && /^\d+$/.test(contentLength) && Number(contentLength) > maxBodyBytes) {
+    throw bodyTooLarge(maxBodyBytes);
   }
+
+  if (!request.body) return "";
+
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value?.byteLength) continue;
+
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBodyBytes) {
+        await reader.cancel();
+        throw bodyTooLarge(maxBodyBytes);
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+
+  const body = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    body.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+
+  return new TextDecoder().decode(body);
+}
+
+async function readJson(request: Request, maxBodyBytes: number): Promise<ChatPayload> {
+  const text = await readBodyText(request, maxBodyBytes);
   if (!text.trim()) return {};
   return JSON.parse(text) as ChatPayload;
 }
@@ -124,8 +178,13 @@ function normalizeChatRequest(payload: ChatPayload): StacklineChatRequest {
 }
 
 function assertAllowedModel(model: string | undefined, allowedModels: string[] | undefined): void {
-  if (!model || !allowedModels?.length) return;
-  if (!allowedModels.includes(model)) throw new Error(`Model "${model}" is not allowed.`);
+  if (!allowedModels?.length) return;
+  if (!model) {
+    throw new StacklineAIHttpError(400, "model is required when allowedModels is configured.");
+  }
+  if (!allowedModels.includes(model)) {
+    throw new StacklineAIHttpError(403, `Model "${model}" is not allowed.`);
+  }
 }
 
 export function createStacklineAIHttpHandler(
@@ -133,13 +192,18 @@ export function createStacklineAIHttpHandler(
 ): StacklineAIHttpHandler {
   const basePath = normalizeBasePath(options.basePath);
   const maxBodyBytes = options.maxBodyBytes ?? DEFAULT_MAX_BODY_BYTES;
+  if (!Number.isSafeInteger(maxBodyBytes) || maxBodyBytes < 0) {
+    throw new TypeError("maxBodyBytes must be a non-negative safe integer.");
+  }
+  if (options.cors?.origins === "*" && options.cors.credentials) {
+    throw new TypeError('cors.credentials cannot be used with cors.origins set to "*".');
+  }
 
   return async function handleStacklineAIRequest(request) {
     const corsHeaders = corsFor(request, options.cors);
-    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders });
-
     const route = routeFor(request, basePath);
     if (!route) return error(404, "Stackline AI route not found.", corsHeaders);
+    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders });
 
     try {
       if (request.method === "GET" && route === "/health") {
@@ -173,7 +237,7 @@ export function createStacklineAIHttpHandler(
       return error(404, "Stackline AI route not found.", corsHeaders);
     } catch (cause) {
       const message = cause instanceof Error ? cause.message : "Unexpected Stackline AI server error.";
-      const status = message.includes("not allowed") ? 403 : 400;
+      const status = cause instanceof StacklineAIHttpError ? cause.status : 400;
       return error(status, message, corsHeaders);
     }
   };

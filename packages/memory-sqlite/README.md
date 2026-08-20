@@ -4,14 +4,14 @@
 
 [![npm version](https://img.shields.io/npm/v/@stackline/ai-memory-sqlite.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/ai-memory-sqlite)
 [![npm monthly](https://img.shields.io/npm/dm/@stackline/ai-memory-sqlite.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/ai-memory-sqlite)
-[![license](https://img.shields.io/npm/l/@stackline/ai-memory-sqlite.svg?style=flat-square)](https://github.com/alexandroit/ai/blob/master/LICENSE)
+[![license](https://img.shields.io/npm/l/@stackline/ai-memory-sqlite.svg?style=flat-square)](https://github.com/alexandroit/ai/blob/main/LICENSE)
 [![SQLite](https://img.shields.io/badge/SQLite-memory-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Reddit community](https://img.shields.io/badge/community-r%2FStackline-ff4500?style=flat-square&logo=reddit&logoColor=white)](https://www.reddit.com/r/Stackline/)
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai-memory-sqlite)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package release:** `0.0.2`
+**Latest tested package release:** `0.0.3`
 
 ---
 

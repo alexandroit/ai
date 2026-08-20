@@ -78,7 +78,8 @@ Allowed roles:
 
 ## Body Limit
 
-`maxBodyBytes` defaults to `262144` bytes. Oversized bodies return `400`.
+`maxBodyBytes` defaults to `262144` bytes. Oversized bodies are stopped while
+the request stream is being consumed and return `413`.
 
 ## CORS
 
@@ -96,3 +97,5 @@ createStacklineAIHttpHandler({
 
 Use restrictive origins in production.
 
+Do not combine `origins: "*"` with `credentials: true`; the handler rejects
+that invalid browser CORS configuration.

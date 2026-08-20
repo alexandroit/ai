@@ -19,6 +19,7 @@ const requiredPackageFields = [
   "bugs",
   "publishConfig",
 ];
+const requiredPackageFiles = ["dist", "README.md", "LICENSE", "CHANGELOG.md", "SECURITY.md"];
 const secretPatterns = [
   /npm_[A-Za-z0-9]{20,}/,
   /sk-[A-Za-z0-9]{20,}/,
@@ -52,12 +53,13 @@ for (const name of readdirSync(packagesDir)) {
     fail(`${manifest.name} must publish ESM.`);
   }
 
-  if (!manifest.files?.includes("dist") || !manifest.files?.includes("README.md")) {
-    fail(`${manifest.name} package files must include dist and README.md.`);
-  }
-
-  if (!existsSync(join(packagesDir, name, "README.md"))) {
-    fail(`${manifest.name} is missing README.md.`);
+  for (const file of requiredPackageFiles) {
+    if (!manifest.files?.includes(file)) {
+      fail(`${manifest.name} package files must include ${file}.`);
+    }
+    if (file !== "dist" && !existsSync(join(packagesDir, name, file))) {
+      fail(`${manifest.name} is missing ${file}.`);
+    }
   }
 
   if (!existsSync(join(packagesDir, name, "dist", "index.js"))) {

@@ -4,14 +4,14 @@
 
 [![npm version](https://img.shields.io/npm/v/@stackline/ai-server.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/ai-server)
 [![npm monthly](https://img.shields.io/npm/dm/@stackline/ai-server.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/ai-server)
-[![license](https://img.shields.io/npm/l/@stackline/ai-server.svg?style=flat-square)](https://github.com/alexandroit/ai/blob/master/LICENSE)
+[![license](https://img.shields.io/npm/l/@stackline/ai-server.svg?style=flat-square)](https://github.com/alexandroit/ai/blob/main/LICENSE)
 [![Node](https://img.shields.io/badge/Node-%3E%3D18.17.0-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Reddit community](https://img.shields.io/badge/community-r%2FStackline-ff4500?style=flat-square&logo=reddit&logoColor=white)](https://www.reddit.com/r/Stackline/)
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai-server)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package release:** `0.0.2`
+**Latest tested package release:** `0.0.3`
 
 ---
 
@@ -325,8 +325,9 @@ Errors are JSON:
 { "error": { "message": "messages must be an array.", "status": 400 } }
 ```
 
-Model allow-list failures return `403`. Other validation/provider failures
-return `400`.
+Oversized bodies return `413`, model allow-list failures return `403`, and
+other validation/provider failures return `400`. When `allowedModels` is set,
+the client must send an explicit `model` value.
 
 The common Ollama model error:
 
@@ -350,8 +351,9 @@ and model allow-lists in production.
 
 ## Limitations
 
-The current handler is non-streaming. It reads JSON bodies through
-`request.text()`.
+The current chat response is non-streaming. Request bodies are consumed as a
+bounded stream, so `maxBodyBytes` stops oversized input before the complete
+payload is buffered.
 
 ## Versioning
 

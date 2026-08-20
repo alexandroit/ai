@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-ui",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Framework-neutral Stackline AI Studio web component.",
   "license": "MIT",
   "author": "Stackline",
@@ -27,8 +27,10 @@
   },
   "files": [
     "dist",
+    "CHANGELOG.md",
     "README.md",
     "LICENSE",
+    "SECURITY.md",
     "package.json"
   ],
   "scripts": {
@@ -38,7 +40,7 @@
     "pack:dry-run": "pnpm pack --dry-run"
   },
   "dependencies": {
-    "@stackline/multiselect": "1.1.2"
+    "@stackline/multiselect": "1.1.3"
   },
   "publishConfig": {
     "access": "public"

@@ -5,6 +5,9 @@ onlyBuiltDependencies:
   - esbuild
 allowBuilds:
   esbuild: true
+overrides:
+  esbuild: 0.28.2
+  nanoid@3: 3.3.18
+  postcss: 8.5.26
 minimumReleaseAgeExclude:
-  - '@stackline/multiselect@1.1.1'
-  - '@stackline/multiselect@1.1.2'
+  - '@stackline/multiselect@1.1.3'

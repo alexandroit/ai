@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-server",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Fetch-compatible HTTP backend handler for Stackline AI.",
   "license": "MIT",
   "author": "Stackline",
@@ -27,7 +27,10 @@
   },
   "files": [
     "dist",
+    "CHANGELOG.md",
+    "LICENSE",
     "README.md",
+    "SECURITY.md",
     "package.json"
   ],
   "scripts": {

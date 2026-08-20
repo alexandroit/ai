@@ -9,7 +9,7 @@ The project name is `stackline-ai-starter`.
 ## Prerequisites
 
 Repository development uses Node `>=22.13.0` because the workspace uses
-`pnpm@11.5.2`. A consuming Vite app should use Node `^20.19.0 || >=22.12.0`.
+`pnpm@11.22.0`. A consuming Vite app should use Node `^20.19.0 || >=22.12.0`.
 
 Check your tools:
 
@@ -131,15 +131,15 @@ stackline-ai-starter/
     "test": "node smoke.mjs"
   },
   "dependencies": {
-    "@stackline/ai": "^0.0.2",
-    "@stackline/ai-memory-sqlite": "^0.0.2",
-    "@stackline/ai-ollama": "^0.0.2",
-    "@stackline/ai-rag-postgres": "^0.0.2",
-    "@stackline/ai-server": "^0.0.2",
-    "@stackline/ai-ui": "^0.0.4"
+    "@stackline/ai": "^0.0.3",
+    "@stackline/ai-memory-sqlite": "^0.0.3",
+    "@stackline/ai-ollama": "^0.0.3",
+    "@stackline/ai-rag-postgres": "^0.0.3",
+    "@stackline/ai-server": "^0.0.3",
+    "@stackline/ai-ui": "^0.0.5"
   },
   "devDependencies": {
-    "vite": "^7.2.7"
+    "vite": "^8.2.1"
   }
 }
 ```

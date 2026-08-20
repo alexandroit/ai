@@ -1,6 +1,6 @@
 # Stackline AI Documentation Audit
 
-Date: 2026-06-21
+Date: 2026-08-20
 
 This audit was created from the real repository files, package manifests,
 source code, generated declaration files, tests, examples, build output, and
@@ -42,13 +42,13 @@ packages:
 
 ## Tooling And Runtime
 
-- Repository package manager: `pnpm@11.5.2`.
+- Repository package manager: `pnpm@11.22.0`.
 - Repository development Node.js: `>=22.13.0`. This is required by pnpm 11 in
   this repository; Node 20.20.2 failed because pnpm required `node:sqlite`.
 - Consumer package runtime: `>=18.17.0` is declared for the published packages
   because the server/provider contracts depend on modern ESM and Fetch API
   primitives (`Request`, `Response`, `fetch`).
-- Vite examples require Node `^20.19.0 || >=22.12.0` through Vite 7.3.5.
+- Vite examples require Node `^20.19.0 || >=22.12.0` through Vite 8.2.1.
 - All packages are ESM (`"type": "module"`).
 
 ## Package Matrix
@@ -167,9 +167,10 @@ Real routes:
 - `POST /api/ai/chat`
 - `OPTIONS /api/ai/*`
 
-The handler reads the body through `request.text()`. Express or other Node
-framework integrations must adapt `req`/`res` to Web `Request`/`Response` and
-must not consume the body before the handler.
+The handler reads the request stream incrementally and stops when the configured
+byte limit is exceeded. Express or other Node framework integrations must adapt
+`req`/`res` to Web `Request`/`Response` and must not consume the body before the
+handler.
 
 ## Real Data Flow
 
@@ -319,7 +320,7 @@ browser persistence.
 
 ## Inconsistencies Found And Fixed
 
-- The repository declared `pnpm@11.5.2` but did not document the real Node
+- The repository declares `pnpm@11.22.0` and documents the real Node
   requirement for development. Node 20.20.2 fails with pnpm 11 because
   `node:sqlite` is unavailable. Root `engines.node` now declares `>=22.13.0`.
 - Package manifests were missing `engines`, `author`, `homepage`,

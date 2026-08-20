@@ -2,6 +2,8 @@
 
 Stackline AI is a provider-neutral TypeScript foundation for AI applications.
 
+Current releases: core family `0.0.3`; UI `0.0.5`.
+
 Repository:
 
 https://github.com/alexandroit/ai
@@ -70,6 +72,7 @@ const ai = createStacklineAIServer({
 export const handleAI = createStacklineAIHttpHandler({
   server: ai,
   basePath: "/api/ai",
+  allowedModels: [process.env.OLLAMA_MODEL || "auto"],
 });
 ```
 
@@ -116,3 +119,7 @@ Security:
 Never expose provider credentials, database credentials, RAG SQL, memory paths,
 or tenant filters in browser code. The UI should call only the application
 backend route.
+
+The HTTP handler consumes request bodies incrementally up to `maxBodyBytes`,
+returns HTTP `413` when that limit is exceeded, rejects wildcard CORS with
+credentials, and requires an explicit request model under `allowedModels`.

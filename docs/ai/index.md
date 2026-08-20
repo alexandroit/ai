@@ -2,6 +2,8 @@
 
 Stackline AI is a provider-neutral AI application foundation.
 
+Current releases: core family `0.0.3`, UI `0.0.5`.
+
 It separates:
 
 - frontend UI;
@@ -105,8 +107,13 @@ const ai = createStacklineAIServer({
 export const handleAI = createStacklineAIHttpHandler({
   server: ai,
   basePath: "/api/ai",
+  allowedModels: [model],
 });
 ```
+
+The HTTP handler enforces its byte limit while reading the request stream,
+returns `413` for oversized payloads, and requires an explicit model when an
+allow-list is configured.
 
 Frontend:
 

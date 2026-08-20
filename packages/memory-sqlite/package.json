@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-memory-sqlite",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "SQLite conversation memory store for Stackline AI development and tests.",
   "license": "MIT",
   "author": "Stackline",
@@ -27,7 +27,10 @@
   },
   "files": [
     "dist",
+    "CHANGELOG.md",
+    "LICENSE",
     "README.md",
+    "SECURITY.md",
     "package.json"
   ],
   "scripts": {
@@ -38,7 +41,7 @@
   },
   "dependencies": {
     "@stackline/ai": "workspace:*",
-    "sql.js": "^1.13.0"
+    "sql.js": "^1.14.2"
   },
   "publishConfig": {
     "access": "public"

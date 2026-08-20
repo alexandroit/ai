@@ -10,7 +10,7 @@ import type {
   StacklineRagConfig,
   StacklineRagContext,
   StacklineRagOption,
-} from "./contracts";
+} from "./contracts.js";
 
 function normalizeEnabled(option: boolean | { enabled?: boolean } | undefined): boolean {
   if (option === undefined) return false;

@@ -2,6 +2,8 @@
 
 Stackline AI is a provider-neutral AI app foundation by Stackline.
 
+Current releases: core family 0.0.3; UI 0.0.5.
+
 Canonical repository:
 
 https://github.com/alexandroit/ai
@@ -46,3 +48,6 @@ Security rule:
 
 Do not put provider API keys or database credentials in frontend code. Use a
 backend route powered by @stackline/ai-server.
+
+The 0.0.3 HTTP handler bounds request streams, returns HTTP 413 for oversized
+payloads, and requires an explicit model when allowedModels is configured.

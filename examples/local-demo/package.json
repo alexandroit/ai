@@ -14,6 +14,6 @@
     "@stackline/ai-ui": "workspace:*"
   },
   "devDependencies": {
-    "vite": "^7.2.7"
+    "vite": "^8.2.1"
   }
 }

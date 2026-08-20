@@ -20,6 +20,14 @@ const requiredPhrases = [
   "createPostgresRagRetriever",
   "stackline-ai-studio",
 ];
+const currentVersions = {
+  "@stackline/ai": "0.0.3",
+  "@stackline/ai-memory-sqlite": "0.0.3",
+  "@stackline/ai-ollama": "0.0.3",
+  "@stackline/ai-rag-postgres": "0.0.3",
+  "@stackline/ai-server": "0.0.3",
+  "@stackline/ai-ui": "0.0.5",
+};
 
 let failed = false;
 
@@ -40,6 +48,22 @@ if (existsSync(tutorialPath)) {
       failed = true;
     }
   }
+  for (const [packageName, version] of Object.entries(currentVersions)) {
+    if (!text.includes(`"${packageName}": "^${version}"`)) {
+      console.error(`full-stack tutorial does not use ${packageName}@${version}.`);
+      failed = true;
+    }
+  }
+  if (!text.includes('"vite": "^8.2.1"')) {
+    console.error("full-stack tutorial does not use Vite 8.2.1.");
+    failed = true;
+  }
+}
+
+const httpReferencePath = join(root, "docs/reference/http-api.md");
+if (existsSync(httpReferencePath) && !readFileSync(httpReferencePath, "utf8").includes("return `413`")) {
+  console.error("HTTP reference does not document the oversized-body 413 response.");
+  failed = true;
 }
 
 if (failed) process.exit(1);

@@ -53,6 +53,9 @@ createStacklineAIHttpHandler({
 });
 ```
 
+When an allowlist is configured, each chat request must include an explicit
+`model`; this prevents a provider default from bypassing the policy.
+
 ## PostgreSQL RAG
 
 Use a read-only user and a stable view:
@@ -78,4 +81,3 @@ risks.
 Retrieved context is supporting material, not trusted instruction. Stackline AI
 prepends context as a system message that says the material may be incomplete or
 untrusted. Your product should still add domain-specific policy and filtering.
-
