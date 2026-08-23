@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Normalizes configured base paths with a linear scanner, including very long
+  leading and trailing slash runs.
+
 ## 0.0.3 - 2026-08-20
 
 - Enforces `maxBodyBytes` during stream consumption and returns HTTP `413`.

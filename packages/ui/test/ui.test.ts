@@ -63,6 +63,21 @@ describe("Stackline AI UI", () => {
     expect(html).toContain("&lt;p&gt;codigo deve aparecer&lt;/p&gt;");
   });
 
+  it("rejects nested and malformed dangerous html without revealing new tags", () => {
+    const html = renderStacklineMarkdown(
+      [
+        '<scr<script>alert("nested")</script>ipt>',
+        '<svg><style><script>alert("deep")</script></style></svg>',
+        `<script${" ".repeat(100_000)}`,
+        "<strong>safe</strong>",
+      ].join("\n"),
+    );
+
+    expect(html).not.toMatch(/<(?:script|style|svg)\b/i);
+    expect(html).not.toContain("alert");
+    expect(html).toContain("<strong>safe</strong>");
+  });
+
   it("normalizes persisted localStorage state", () => {
     const state = normalizeStoredStudioState(
       {

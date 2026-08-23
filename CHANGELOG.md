@@ -2,6 +2,14 @@
 
 All notable changes to the Stackline AI package family are documented here.
 
+## Unreleased
+
+- Replaces path-normalization regular expressions with linear scanners in the
+  HTTP server and Ollama provider.
+- Reworks safe HTML rendering as a single-pass allowlist parser that suppresses
+  dangerous nested blocks and escapes malformed markup.
+- Adds regression coverage for long slash runs and malformed nested HTML.
+
 ## 2026-08-20
 
 ### @stackline/ai 0.0.3

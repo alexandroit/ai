@@ -84,6 +84,17 @@ describe("createStacklineAIHttpHandler", () => {
     expect(response.status).toBe(200);
   });
 
+  it("normalizes very long base paths in linear time", async () => {
+    const slashes = "/".repeat(100_000);
+    const handle = createStacklineAIHttpHandler({
+      server: server(),
+      basePath: `${slashes}api/ai${slashes}`,
+    });
+    const response = await handle(new Request("http://localhost/api/ai/health"));
+
+    expect(response.status).toBe(200);
+  });
+
   it("returns CORS preflight headers", async () => {
     const handle = createStacklineAIHttpHandler({
       server: server(),

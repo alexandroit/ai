@@ -41,9 +41,15 @@ const NON_CHAT_MODEL_PATTERNS = [
   /rerank/i,
 ];
 
+function trimTrailingSlashes(value: string): string {
+  let end = value.length;
+  while (end > 0 && value.charCodeAt(end - 1) === 47) end -= 1;
+  return value.slice(0, end);
+}
+
 function targetUrl(target: string, path: string): URL {
-  const url = new URL(target.replace(/\/+$/, ""));
-  url.pathname = `${url.pathname.replace(/\/+$/, "")}${path}`;
+  const url = new URL(target);
+  url.pathname = `${trimTrailingSlashes(url.pathname)}${path}`;
   return url;
 }
 

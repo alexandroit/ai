@@ -57,11 +57,20 @@ function error(status: number, message: string, corsHeaders?: Headers): Response
   return json({ error: { message, status } }, { status }, corsHeaders);
 }
 
+function trimSlashes(value: string): string {
+  let start = 0;
+  let end = value.length;
+  while (start < end && value.charCodeAt(start) === 47) start += 1;
+  while (end > start && value.charCodeAt(end - 1) === 47) end -= 1;
+  return value.slice(start, end);
+}
+
 function normalizeBasePath(basePath: string | undefined): string {
   if (basePath === undefined) return DEFAULT_BASE_PATH;
   const value = basePath.trim();
   if (!value || value === "/") return "";
-  return `/${value.replace(/^\/+|\/+$/g, "")}`;
+  const normalized = trimSlashes(value);
+  return normalized ? `/${normalized}` : "";
 }
 
 function routeFor(request: Request, basePath: string): string | null {

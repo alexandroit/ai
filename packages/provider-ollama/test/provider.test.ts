@@ -46,6 +46,21 @@ describe("ollamaProvider", () => {
     });
   });
 
+  it("normalizes targets with very long trailing slash runs", async () => {
+    const calls: string[] = [];
+    const provider = ollamaProvider({
+      model: "llama3.1",
+      target: `http://127.0.0.1:11434${"/".repeat(100_000)}`,
+      fetch: async (input) => {
+        calls.push(String(input));
+        return Response.json({ message: { role: "assistant", content: "ok" } });
+      },
+    });
+
+    await provider.chat({ messages: [{ role: "user", content: "hi" }] });
+    expect(calls).toEqual(["http://127.0.0.1:11434/api/chat"]);
+  });
+
   it("resolves auto model from the local Ollama model list", async () => {
     const calls: Array<{ url: string; init: RequestInit }> = [];
     const provider = ollamaProvider({

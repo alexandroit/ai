@@ -1180,8 +1180,7 @@ const SAFE_HTML_TAGS = new Set([
 ]);
 
 const SAFE_HTML_VOID_TAGS = new Set(["br", "hr"]);
-const DANGEROUS_HTML_BLOCKS = /<(script|style|iframe|object|embed|svg|math)\b[\s\S]*?(?:<\/\1\s*>|$)/gi;
-const DANGEROUS_HTML_TAGS = /<\/?(script|style|iframe|object|embed|svg|math)\b[^>]*>/gi;
+const DANGEROUS_HTML_TAGS = new Set(["script", "style", "iframe", "object", "embed", "svg", "math"]);
 const BLOCK_HTML_TAGS = /<\/?(blockquote|div|h[1-6]|li|ol|p|pre|table|tbody|td|th|thead|tr|ul)\b/i;
 
 function attrValue(attributes: string, name: string): string {
@@ -1207,25 +1206,103 @@ function safeHtmlTag(tagName: string, rawAttributes: string, closing: boolean, s
   return selfClosing ? `<${tag}></${tag}>` : `<${tag}>`;
 }
 
-function sanitizeSafeHtml(value: string): string {
-  const withoutDangerousBlocks = value
-    .replace(DANGEROUS_HTML_BLOCKS, "")
-    .replace(DANGEROUS_HTML_TAGS, "");
-  const tagPattern = /<\/?\s*([a-zA-Z][\w:-]*)([^<>]*)>/g;
-  let output = "";
-  let lastIndex = 0;
+interface ParsedHtmlTag {
+  closing: boolean;
+  end: number;
+  name: string;
+  rawAttributes: string;
+  selfClosing: boolean;
+}
 
-  for (const match of withoutDangerousBlocks.matchAll(tagPattern)) {
-    const raw = match[0] ?? "";
-    const index = match.index ?? 0;
-    output += escapeHtmlPreservingEntities(withoutDangerousBlocks.slice(lastIndex, index));
-    const closing = /^<\s*\//.test(raw);
-    const selfClosing = /\/\s*>$/.test(raw);
-    output += safeHtmlTag(match[1] ?? "", match[2] ?? "", closing, selfClosing);
-    lastIndex = index + raw.length;
+function parseHtmlTag(value: string, start: number): ParsedHtmlTag | null {
+  let cursor = start + 1;
+  while (cursor < value.length && /\s/.test(value[cursor] ?? "")) cursor += 1;
+  const closing = value[cursor] === "/";
+  if (closing) {
+    cursor += 1;
+    while (cursor < value.length && /\s/.test(value[cursor] ?? "")) cursor += 1;
   }
 
-  output += escapeHtmlPreservingEntities(withoutDangerousBlocks.slice(lastIndex));
+  const nameStart = cursor;
+  if (!/[a-zA-Z]/.test(value[cursor] ?? "")) return null;
+  cursor += 1;
+  while (cursor < value.length && /[\w:-]/.test(value[cursor] ?? "")) cursor += 1;
+  const name = value.slice(nameStart, cursor).toLowerCase();
+  const attributesStart = cursor;
+  let quote = "";
+
+  for (; cursor < value.length; cursor += 1) {
+    const character = value[cursor] ?? "";
+    if (quote) {
+      if (character === quote) quote = "";
+      continue;
+    }
+    if (character === '"' || character === "'") {
+      quote = character;
+      continue;
+    }
+    if (character === "<") return null;
+    if (character !== ">") continue;
+
+    const rawAttributes = value.slice(attributesStart, cursor);
+    return {
+      closing,
+      end: cursor + 1,
+      name,
+      rawAttributes,
+      selfClosing: !closing && /\/\s*$/.test(rawAttributes),
+    };
+  }
+
+  return null;
+}
+
+function sanitizeSafeHtml(value: string): string {
+  let output = "";
+  let cursor = 0;
+  const suppressedTags: string[] = [];
+
+  while (cursor < value.length) {
+    const tagStart = value.indexOf("<", cursor);
+    if (tagStart === -1) {
+      if (suppressedTags.length === 0) {
+        output += escapeHtmlPreservingEntities(value.slice(cursor));
+      }
+      break;
+    }
+
+    if (suppressedTags.length === 0 && tagStart > cursor) {
+      output += escapeHtmlPreservingEntities(value.slice(cursor, tagStart));
+    }
+
+    const parsed = parseHtmlTag(value, tagStart);
+    if (!parsed) {
+      if (suppressedTags.length === 0) output += "&lt;";
+      cursor = tagStart + 1;
+      continue;
+    }
+
+    const dangerous = DANGEROUS_HTML_TAGS.has(parsed.name);
+    if (suppressedTags.length > 0) {
+      if (dangerous && !parsed.closing && !parsed.selfClosing) {
+        suppressedTags.push(parsed.name);
+      } else if (dangerous && parsed.closing) {
+        const matchingIndex = suppressedTags.lastIndexOf(parsed.name);
+        if (matchingIndex !== -1) suppressedTags.length = matchingIndex;
+      }
+    } else if (dangerous) {
+      if (!parsed.closing && !parsed.selfClosing) suppressedTags.push(parsed.name);
+    } else {
+      output += safeHtmlTag(
+        parsed.name,
+        parsed.rawAttributes,
+        parsed.closing,
+        parsed.selfClosing,
+      );
+    }
+
+    cursor = parsed.end;
+  }
   return output;
 }
 
