@@ -134,7 +134,7 @@ stackline-ai-starter/
     "@stackline/ai": "^0.0.3",
     "@stackline/ai-memory-sqlite": "^0.0.3",
     "@stackline/ai-ollama": "^0.0.3",
-    "@stackline/ai-rag-postgres": "^0.0.3",
+    "@stackline/ai-rag-postgres": "^0.0.4",
     "@stackline/ai-server": "^0.0.3",
     "@stackline/ai-ui": "^0.0.5"
   },

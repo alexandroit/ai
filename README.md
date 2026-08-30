@@ -11,7 +11,7 @@
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package releases:** core family `0.0.3`, UI `0.0.5`
+**Latest tested package releases:** core `0.0.3`, PostgreSQL RAG `0.0.4`, UI `0.0.5`
 
 ---
 

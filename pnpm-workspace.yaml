@@ -11,3 +11,8 @@ overrides:
   postcss: 8.5.26
 minimumReleaseAgeExclude:
   - '@stackline/multiselect@1.1.3'
+  # Exact Stackline artifacts are released from green CI and verified by digest.
+  - '@stackline/pg-pool@1.0.0'
+  - '@stackline/pg-types@1.0.0'
+  - '@stackline/pg@1.0.0'
+  - '@stackline/types-pg@1.0.0'

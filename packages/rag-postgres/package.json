@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-rag-postgres",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "PostgreSQL read-only RAG retriever for Stackline AI.",
   "license": "MIT",
   "author": "Stackline",
@@ -28,6 +28,7 @@
   "files": [
     "dist",
     "CHANGELOG.md",
+    "DEPENDENCY_REVIEW.md",
     "LICENSE",
     "README.md",
     "SECURITY.md",
@@ -41,8 +42,8 @@
   },
   "dependencies": {
     "@stackline/ai": "workspace:*",
-    "@types/pg": "^8.23.1",
-    "pg": "^8.23.0"
+    "@types/pg": "npm:@stackline/types-pg@1.0.0",
+    "pg": "npm:@stackline/pg@1.0.0"
   },
   "publishConfig": {
     "access": "public"

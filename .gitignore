@@ -19,3 +19,4 @@ coverage/
 build/
 release/
 release-artifacts/
+release-artifacts-*/

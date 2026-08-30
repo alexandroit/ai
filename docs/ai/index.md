@@ -2,7 +2,7 @@
 
 Stackline AI is a provider-neutral AI application foundation.
 
-Current releases: core family `0.0.3`, UI `0.0.5`.
+Current releases: core `0.0.3`, PostgreSQL RAG `0.0.4`, UI `0.0.5`.
 
 It separates:
 

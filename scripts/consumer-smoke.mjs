@@ -1,5 +1,5 @@
-import { execFileSync } from "node:child_process";
-import { existsSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { execFileSync, spawnSync } from "node:child_process";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -7,14 +7,21 @@ import { fileURLToPath } from "node:url";
 const artifactDir = resolve(process.argv[2] || "release-artifacts");
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const typescriptVersion = process.env.STACKLINE_TYPESCRIPT_VERSION;
-const packages = {
-  "@stackline/ai": "stackline-ai-0.0.3.tgz",
-  "@stackline/ai-server": "stackline-ai-server-0.0.3.tgz",
-  "@stackline/ai-ollama": "stackline-ai-ollama-0.0.3.tgz",
-  "@stackline/ai-memory-sqlite": "stackline-ai-memory-sqlite-0.0.3.tgz",
-  "@stackline/ai-rag-postgres": "stackline-ai-rag-postgres-0.0.3.tgz",
-  "@stackline/ai-ui": "stackline-ai-ui-0.0.5.tgz",
+const packageDirectories = {
+  "@stackline/ai": "packages/ai",
+  "@stackline/ai-server": "packages/server",
+  "@stackline/ai-ollama": "packages/provider-ollama",
+  "@stackline/ai-memory-sqlite": "packages/memory-sqlite",
+  "@stackline/ai-rag-postgres": "packages/rag-postgres",
+  "@stackline/ai-ui": "packages/ui",
 };
+const packages = Object.fromEntries(
+  Object.entries(packageDirectories).map(([name, directory]) => {
+    const manifest = JSON.parse(readFileSync(resolve(repositoryRoot, directory, "package.json"), "utf8"));
+    if (manifest.name !== name) throw new Error(`Package manifest mismatch for ${name}.`);
+    return [name, `${name.slice(1).replace("/", "-")}-${manifest.version}.tgz`];
+  }),
+);
 const temporaryRoot = mkdtempSync(`${tmpdir()}/stackline-ai-consumer-`);
 
 try {
@@ -128,10 +135,17 @@ studio.send("hello");
   );
 
   const npm = process.platform === "win32" ? "npm.cmd" : "npm";
-  execFileSync(npm, ["install", "--ignore-scripts", "--no-audit", "--no-fund"], {
+  const install = spawnSync(npm, ["install", "--ignore-scripts", "--no-audit", "--no-fund"], {
     cwd: temporaryRoot,
-    stdio: "inherit",
+    encoding: "utf8",
   });
+  process.stdout.write(install.stdout || "");
+  process.stderr.write(install.stderr || "");
+  if (install.status !== 0) throw new Error(`Consumer npm install failed with status ${install.status}.`);
+  if (/(?:^|\n)npm\s+(?:warn|error)\b|deprecated/i.test(`${install.stdout || ""}\n${install.stderr || ""}`)) {
+    throw new Error("Consumer npm install emitted a warning, error, or deprecation notice.");
+  }
+  execFileSync(npm, ["ls", "--all"], { cwd: temporaryRoot, stdio: "inherit" });
   execFileSync(process.execPath, ["runtime.mjs"], { cwd: temporaryRoot, stdio: "inherit" });
   const typescriptBin = typescriptVersion
     ? resolve(temporaryRoot, "node_modules/typescript/bin/tsc")
@@ -144,10 +158,17 @@ studio.send("hello");
   } else if (typescriptVersion) {
     throw new Error(`TypeScript ${typescriptVersion} was not installed for the consumer smoke test.`);
   }
-  execFileSync(npm, ["audit", "--omit=dev", "--audit-level=low"], {
+  execFileSync(npm, ["audit", "--audit-level=low"], {
     cwd: temporaryRoot,
     stdio: "inherit",
   });
+  const dependencyTree = execFileSync(npm, ["ls", "--all", "--json"], {
+    cwd: temporaryRoot,
+    encoding: "utf8",
+  });
+  if (/\"(?:xtend|postgres-array|postgres-bytea|postgres-date|postgres-interval)\"\s*:/.test(dependencyTree)) {
+    throw new Error("A removed legacy PostgreSQL dependency re-entered the consumer closure.");
+  }
 } finally {
   rmSync(temporaryRoot, { recursive: true, force: true });
 }

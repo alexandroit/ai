@@ -11,7 +11,7 @@
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai-rag-postgres)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package release:** `0.0.3`
+**Latest tested package release:** `0.0.4`
 
 ---
 
@@ -85,6 +85,10 @@ npm init -y
 npm pkg set type=module
 npm install @stackline/ai @stackline/ai-rag-postgres
 ```
+
+The PostgreSQL runtime and declaration packages are resolved through reviewed
+Stackline compatibility forks. Existing imports from `pg` and the public API of
+this package do not change.
 
 ### Full UI App With Ollama And PostgreSQL RAG
 
