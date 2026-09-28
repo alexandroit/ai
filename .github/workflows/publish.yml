@@ -39,7 +39,13 @@ jobs:
         run: test "$GITHUB_REF" = "refs/heads/main"
       - run: pnpm install --frozen-lockfile
       - run: pnpm run check
-      - run: pnpm run pack:release
+      - name: Pack and describe the candidate toolchain
+        run: |
+          node -p 'JSON.stringify({ node: process.version, zlib: process.versions.zlib, platform: process.platform, arch: process.arch })'
+          npm --version
+          pnpm --version
+          pnpm run pack:release
+          cat release-artifacts/SHA512SUMS
       - run: node scripts/consumer-smoke.mjs release-artifacts
       - name: Reject existing public versions
         shell: bash
@@ -72,6 +78,13 @@ jobs:
             exit 1
           fi
           (cd release-artifacts && sha512sum --check SHA512SUMS)
+      - name: Preserve failed candidate diagnostics
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: npm-release-diagnostic
+          path: release-artifacts/
+          if-no-files-found: ignore
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: npm-release
