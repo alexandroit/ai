@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { releasePackages } from "./release-packages.mjs";
+import { markdownLinkDestinations } from "./markdown-links.mjs";
 
 const root = new URL("..", import.meta.url).pathname;
 const requiredDocs = [
@@ -35,7 +36,7 @@ for (const { directory, manifest } of releasePackages(root)) {
     console.error(`${directory}/README.md does not match its package version.`);
     failed = true;
   }
-  if (!readme.includes("https://www.reddit.com/r/Stackline/")) {
+  if (!markdownLinkDestinations(readme).some((destination) => destination === "https://www.reddit.com/r/Stackline/")) {
     console.error(`${directory}/README.md is missing the Stackline community link.`);
     failed = true;
   }
