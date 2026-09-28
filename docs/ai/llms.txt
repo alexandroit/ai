@@ -1,5 +1,20 @@
 # Stackline AI
 
+## Current package versions
+
+| Package | Version |
+| --- | --- |
+| `@stackline/ai` | `0.0.4` |
+| `@stackline/ai-server` | `0.0.4` |
+| `@stackline/ai-ollama` | `0.0.4` |
+| `@stackline/ai-memory-sqlite` | `0.0.4` |
+| `@stackline/ai-rag-postgres` | `0.0.5` |
+| `@stackline/ai-ui` | `0.0.6` |
+| `ai-memory-sqlite` | `0.0.2` |
+| `ai-ollama` | `0.0.2` |
+| `ai-rag-postgres` | `0.0.2` |
+
+
 Stackline AI is a provider-neutral AI app foundation by Stackline.
 
 Package versions: core 0.0.4; PostgreSQL RAG 0.0.5; UI 0.0.6.
@@ -20,11 +35,11 @@ Core packages:
 
 Install by scenario:
 
-- Core only: `npm install @stackline/ai`
-- Ollama provider only: `npm install @stackline/ai @stackline/ai-ollama`
-- Backend API with Ollama: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama`
-- Full UI with Ollama: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui && npm install -D vite`
-- Complete stack: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite @stackline/ai-rag-postgres && npm install -D vite`
+- Core only: `npm install @stackline/ai@0.0.4`
+- Ollama provider only: `npm install @stackline/ai@0.0.4 @stackline/ai-ollama@0.0.4`
+- Backend API with Ollama: `npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4`
+- Full UI with Ollama: `npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6 && npm install -D vite`
+- Complete stack: `npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6 @stackline/ai-memory-sqlite@0.0.4 @stackline/ai-rag-postgres@0.0.5 && npm install -D vite`
 
 Recommended runtime path:
 
@@ -49,5 +64,5 @@ Security rule:
 Do not put provider API keys or database credentials in frontend code. Use a
 backend route powered by @stackline/ai-server.
 
-The 0.0.3 HTTP handler bounds request streams, returns HTTP 413 for oversized
+The 0.0.4 HTTP handler bounds request streams, returns HTTP 413 for oversized
 payloads, and requires an explicit model when allowedModels is configured.

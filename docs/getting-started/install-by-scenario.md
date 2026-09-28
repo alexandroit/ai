@@ -11,7 +11,7 @@ contracts without HTTP, UI, Ollama, memory, or RAG.
 ```bash
 npm init -y
 npm pkg set type=module
-npm install @stackline/ai
+npm install @stackline/ai@0.0.4
 ```
 
 You provide your own provider object:
@@ -28,7 +28,7 @@ need HTTP routes or the browser UI yet.
 ```bash
 npm init -y
 npm pkg set type=module
-npm install @stackline/ai @stackline/ai-ollama
+npm install @stackline/ai@0.0.4 @stackline/ai-ollama@0.0.4
 ```
 
 Verify Ollama first:
@@ -53,7 +53,7 @@ yet.
 ```bash
 npm init -y
 npm pkg set type=module
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4
 ```
 
 Create `.env`:
@@ -83,7 +83,7 @@ too.
 ```bash
 npm init -y
 npm pkg set type=module
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6
 npm install -D vite
 ```
 
@@ -116,7 +116,7 @@ conversation memory.
 ```bash
 npm init -y
 npm pkg set type=module
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6 @stackline/ai-memory-sqlite@0.0.4
 npm install -D vite
 ```
 
@@ -142,7 +142,7 @@ Use this when you want the UI, backend, Ollama, and database retrieval.
 ```bash
 npm init -y
 npm pkg set type=module
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-rag-postgres
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6 @stackline/ai-rag-postgres@0.0.5
 npm install -D vite
 ```
 
@@ -164,7 +164,7 @@ Use this when you want UI, backend, Ollama, SQLite memory, and PostgreSQL RAG.
 ```bash
 npm init -y
 npm pkg set type=module
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite @stackline/ai-rag-postgres
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6 @stackline/ai-memory-sqlite@0.0.4 @stackline/ai-rag-postgres@0.0.5
 npm install -D vite
 mkdir -p data sql src
 ```
@@ -197,13 +197,13 @@ Use this when your backend is Express. The Stackline handler uses Web
 ```bash
 npm init -y
 npm pkg set type=module
-npm install express @stackline/ai @stackline/ai-server @stackline/ai-ollama
+npm install express @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4
 ```
 
 If you want Express plus UI:
 
 ```bash
-npm install @stackline/ai-ui
+npm install @stackline/ai-ui@0.0.6
 npm install -D vite
 ```
 
@@ -215,7 +215,7 @@ rebuild the body for the Fetch-compatible handler.
 Use this only when your backend already provides compatible routes.
 
 ```bash
-npm install @stackline/ai-ui
+npm install @stackline/ai-ui@0.0.6
 ```
 
 Your backend must return:

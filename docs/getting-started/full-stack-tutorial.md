@@ -46,47 +46,47 @@ npm pkg set type=module
 If you want only the core contracts:
 
 ```bash
-npm install @stackline/ai
+npm install @stackline/ai@0.0.4
 ```
 
 If you want backend code that calls Ollama directly:
 
 ```bash
-npm install @stackline/ai @stackline/ai-ollama
+npm install @stackline/ai@0.0.4 @stackline/ai-ollama@0.0.4
 ```
 
 If you want backend HTTP routes:
 
 ```bash
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4
 ```
 
 If you want the browser Studio UI to work with Ollama, install the full UI
 stack:
 
 ```bash
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6
 npm install -D vite
 ```
 
 If you also want SQLite memory:
 
 ```bash
-npm install @stackline/ai-memory-sqlite
+npm install @stackline/ai-memory-sqlite@0.0.4
 mkdir -p data
 ```
 
 If you also want PostgreSQL RAG:
 
 ```bash
-npm install @stackline/ai-rag-postgres
+npm install @stackline/ai-rag-postgres@0.0.5
 mkdir -p sql
 ```
 
 This full tutorial uses the complete stack:
 
 ```bash
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite @stackline/ai-rag-postgres
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6 @stackline/ai-memory-sqlite@0.0.4 @stackline/ai-rag-postgres@0.0.5
 npm install -D vite
 mkdir -p data sql src
 ```

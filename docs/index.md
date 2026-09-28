@@ -1,5 +1,20 @@
 # Stackline AI
 
+## Current package versions
+
+| Package | Version |
+| --- | --- |
+| `@stackline/ai` | `0.0.4` |
+| `@stackline/ai-server` | `0.0.4` |
+| `@stackline/ai-ollama` | `0.0.4` |
+| `@stackline/ai-memory-sqlite` | `0.0.4` |
+| `@stackline/ai-rag-postgres` | `0.0.5` |
+| `@stackline/ai-ui` | `0.0.6` |
+| `ai-memory-sqlite` | `0.0.2` |
+| `ai-ollama` | `0.0.2` |
+| `ai-rag-postgres` | `0.0.2` |
+
+
 Stackline AI is a provider-neutral TypeScript SDK family for building AI
 applications with a clean boundary between browser UI, backend routes, provider
 adapters, memory, and RAG.
@@ -27,13 +42,13 @@ adapters, memory, and RAG.
 ## Quick Install
 
 ```bash
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6
 ```
 
 For memory and RAG:
 
 ```bash
-npm install @stackline/ai-memory-sqlite @stackline/ai-rag-postgres
+npm install @stackline/ai-memory-sqlite@0.0.4 @stackline/ai-rag-postgres@0.0.5
 ```
 
 ## Important Runtime Path

@@ -196,7 +196,7 @@
     <main class="shell">
       <section class="hero">
         <div>
-          <p class="eyebrow">Stackline AI 0.0.3 · PostgreSQL RAG 0.0.4 · AI UI 0.0.5</p>
+          <p class="eyebrow">Stackline AI 0.0.4 · PostgreSQL RAG 0.0.5 · AI UI 0.0.6</p>
           <h1>Provider-neutral AI apps, without leaking keys to the browser.</h1>
           <p class="lede">
             Stackline AI gives you backend contracts, a safe HTTP handler,
@@ -211,26 +211,28 @@
           </div>
         </div>
         <div class="chips" aria-label="Package list">
-          <span class="chip">@stackline/ai</span>
-          <span class="chip">@stackline/ai-server</span>
-          <span class="chip">@stackline/ai-ui</span>
-          <span class="chip">@stackline/ai-ollama</span>
-          <span class="chip">@stackline/ai-memory-sqlite</span>
-          <span class="chip">@stackline/ai-rag-postgres</span>
+          <span class="chip">@stackline/ai@0.0.4</span>
+          <span class="chip">@stackline/ai-server@0.0.4</span>
+          <span class="chip">@stackline/ai-ui@0.0.6</span>
+          <span class="chip">@stackline/ai-ollama@0.0.4</span>
+          <span class="chip">@stackline/ai-memory-sqlite@0.0.4</span>
+          <span class="chip">@stackline/ai-rag-postgres@0.0.5</span>
         </div>
       </section>
 
       <section class="section">
         <h2>Install By Scenario</h2>
+        <p>Compatibility aliases: <code>ai-memory-sqlite@0.0.2</code>, <code>ai-ollama@0.0.2</code>, <code>ai-rag-postgres@0.0.2</code>. Prefer the scoped package names for new applications.</p>
+
         <p>Core only:</p>
-        <pre><code>npm install @stackline/ai</code></pre>
+        <pre><code>npm install @stackline/ai@0.0.4</code></pre>
         <p>Backend API with Ollama:</p>
-        <pre><code>npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama</code></pre>
+        <pre><code>npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4</code></pre>
         <p>Full UI with Ollama:</p>
-        <pre><code>npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui
+        <pre><code>npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6
 npm install -D vite</code></pre>
         <p>Complete stack:</p>
-        <pre><code>npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite @stackline/ai-rag-postgres
+        <pre><code>npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6 @stackline/ai-memory-sqlite@0.0.4 @stackline/ai-rag-postgres@0.0.5
 npm install -D vite</code></pre>
         <p>
           Do not install only <code>@stackline/ai-ui</code> unless your backend

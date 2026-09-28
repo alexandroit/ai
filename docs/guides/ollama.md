@@ -3,7 +3,7 @@
 Install:
 
 ```bash
-npm install @stackline/ai @stackline/ai-ollama
+npm install @stackline/ai@0.0.4 @stackline/ai-ollama@0.0.4
 ```
 
 Use:

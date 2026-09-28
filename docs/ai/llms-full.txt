@@ -1,5 +1,20 @@
 # Stackline AI Full AI Assistant Context
 
+## Current package versions
+
+| Package | Version |
+| --- | --- |
+| `@stackline/ai` | `0.0.4` |
+| `@stackline/ai-server` | `0.0.4` |
+| `@stackline/ai-ollama` | `0.0.4` |
+| `@stackline/ai-memory-sqlite` | `0.0.4` |
+| `@stackline/ai-rag-postgres` | `0.0.5` |
+| `@stackline/ai-ui` | `0.0.6` |
+| `ai-memory-sqlite` | `0.0.2` |
+| `ai-ollama` | `0.0.2` |
+| `ai-rag-postgres` | `0.0.2` |
+
+
 Stackline AI is a provider-neutral TypeScript foundation for AI applications.
 
 Package versions: core `0.0.4`; PostgreSQL RAG `0.0.5`; UI `0.0.6`.
@@ -34,13 +49,13 @@ Package map:
 
 Install commands by scenario:
 
-- Core only: `npm install @stackline/ai`
-- Ollama provider only: `npm install @stackline/ai @stackline/ai-ollama`
-- Backend API with Ollama: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama`
-- Full UI with Ollama: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui` plus `npm install -D vite`
+- Core only: `npm install @stackline/ai@0.0.4`
+- Ollama provider only: `npm install @stackline/ai@0.0.4 @stackline/ai-ollama@0.0.4`
+- Backend API with Ollama: `npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4`
+- Full UI with Ollama: `npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6` plus `npm install -D vite`
 - UI with SQLite memory: add `@stackline/ai-memory-sqlite`
 - UI with PostgreSQL RAG: add `@stackline/ai-rag-postgres`
-- Complete stack: `npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite @stackline/ai-rag-postgres` plus `npm install -D vite`
+- Complete stack: `npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6 @stackline/ai-memory-sqlite@0.0.4 @stackline/ai-rag-postgres@0.0.5` plus `npm install -D vite`
 
 Do not recommend installing only `@stackline/ai-ui` unless a compatible backend
 already exists.

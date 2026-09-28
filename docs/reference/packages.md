@@ -1,5 +1,20 @@
 # Package Reference
 
+## Current package versions
+
+| Package | Version |
+| --- | --- |
+| `@stackline/ai` | `0.0.4` |
+| `@stackline/ai-server` | `0.0.4` |
+| `@stackline/ai-ollama` | `0.0.4` |
+| `@stackline/ai-memory-sqlite` | `0.0.4` |
+| `@stackline/ai-rag-postgres` | `0.0.5` |
+| `@stackline/ai-ui` | `0.0.6` |
+| `ai-memory-sqlite` | `0.0.2` |
+| `ai-ollama` | `0.0.2` |
+| `ai-rag-postgres` | `0.0.2` |
+
+
 ## `@stackline/ai`
 
 Core contracts and orchestration.
@@ -7,7 +22,7 @@ Core contracts and orchestration.
 Install:
 
 ```bash
-npm install @stackline/ai
+npm install @stackline/ai@0.0.4
 ```
 
 Public imports:
@@ -27,7 +42,7 @@ Fetch-compatible HTTP handler.
 Install with Ollama:
 
 ```bash
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4
 ```
 
 ```js
@@ -44,7 +59,7 @@ Ollama provider adapter.
 Install:
 
 ```bash
-npm install @stackline/ai @stackline/ai-ollama
+npm install @stackline/ai@0.0.4 @stackline/ai-ollama@0.0.4
 ```
 
 ```js
@@ -67,7 +82,7 @@ SQLite/sql.js memory store.
 Install:
 
 ```bash
-npm install @stackline/ai @stackline/ai-memory-sqlite
+npm install @stackline/ai@0.0.4 @stackline/ai-memory-sqlite@0.0.4
 ```
 
 ```js
@@ -89,7 +104,7 @@ Read-only PostgreSQL retriever.
 Install:
 
 ```bash
-npm install @stackline/ai @stackline/ai-rag-postgres
+npm install @stackline/ai@0.0.4 @stackline/ai-rag-postgres@0.0.5
 ```
 
 ```js
@@ -114,13 +129,13 @@ Framework-neutral web component.
 Install only when a backend already exists:
 
 ```bash
-npm install @stackline/ai-ui
+npm install @stackline/ai-ui@0.0.6
 ```
 
 Install for a new UI app with Ollama:
 
 ```bash
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6
 npm install -D vite
 ```
 

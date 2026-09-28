@@ -3,7 +3,7 @@
 Install:
 
 ```bash
-npm install @stackline/ai @stackline/ai-rag-postgres
+npm install @stackline/ai@0.0.4 @stackline/ai-rag-postgres@0.0.5
 ```
 
 Use a read-only view:

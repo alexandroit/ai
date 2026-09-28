@@ -1,5 +1,20 @@
 # Stackline AI Documentation
 
+## Current package versions
+
+| Package | Version |
+| --- | --- |
+| `@stackline/ai` | `0.0.4` |
+| `@stackline/ai-server` | `0.0.4` |
+| `@stackline/ai-ollama` | `0.0.4` |
+| `@stackline/ai-memory-sqlite` | `0.0.4` |
+| `@stackline/ai-rag-postgres` | `0.0.5` |
+| `@stackline/ai-ui` | `0.0.6` |
+| `ai-memory-sqlite` | `0.0.2` |
+| `ai-ollama` | `0.0.2` |
+| `ai-rag-postgres` | `0.0.2` |
+
+
 Stackline AI is a provider-neutral AI application foundation.
 
 Package versions: core `0.0.4`, PostgreSQL RAG `0.0.5`, UI `0.0.6`.
@@ -59,26 +74,26 @@ http://localhost:4622/
 Core only:
 
 ```bash
-npm install @stackline/ai
+npm install @stackline/ai@0.0.4
 ```
 
 Backend API with Ollama:
 
 ```bash
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4
 ```
 
 Full UI with Ollama:
 
 ```bash
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6
 npm install -D vite
 ```
 
 Complete stack:
 
 ```bash
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite @stackline/ai-rag-postgres
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6 @stackline/ai-memory-sqlite@0.0.4 @stackline/ai-rag-postgres@0.0.5
 npm install -D vite
 ```
 

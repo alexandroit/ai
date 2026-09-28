@@ -3,7 +3,7 @@
 Install:
 
 ```bash
-npm install @stackline/ai @stackline/ai-memory-sqlite
+npm install @stackline/ai@0.0.4 @stackline/ai-memory-sqlite@0.0.4
 ```
 
 Use:

@@ -20,7 +20,7 @@ Browser
 ### Existing Compatible Backend
 
 ```bash
-npm install @stackline/ai-ui
+npm install @stackline/ai-ui@0.0.6
 ```
 
 Use this only if `/api/ai/models` and `/api/ai/chat` already exist.
@@ -32,7 +32,7 @@ Use this when you want the Studio component to work from a new project:
 ```bash
 npm init -y
 npm pkg set type=module
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6
 npm install -D vite
 mkdir -p src
 ```
@@ -42,7 +42,7 @@ mkdir -p src
 ```bash
 npm init -y
 npm pkg set type=module
-npm install @stackline/ai @stackline/ai-server @stackline/ai-ollama @stackline/ai-ui @stackline/ai-memory-sqlite @stackline/ai-rag-postgres
+npm install @stackline/ai@0.0.4 @stackline/ai-server@0.0.4 @stackline/ai-ollama@0.0.4 @stackline/ai-ui@0.0.6 @stackline/ai-memory-sqlite@0.0.4 @stackline/ai-rag-postgres@0.0.5
 npm install -D vite
 mkdir -p data sql src
 ```
