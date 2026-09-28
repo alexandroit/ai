@@ -11,7 +11,7 @@
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai-ui)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package release:** `0.0.5`
+**Package version:** `0.0.6`
 
 ---
 
@@ -25,46 +25,7 @@
 
 The component is intentionally backend-first: it never stores provider keys, database URLs, SQL, RAG filters, or memory paths. It calls your backend through `/models` and `/chat`.
 
-## Features
-
-| Feature | Supported |
-| :--- | :---: |
-| Drop-in `<stackline-ai-studio>` custom element | ✅ |
-| Framework-neutral usage | ✅ |
-| Model picker powered by `@stackline/multiselect` | ✅ |
-| Language picker with built-in `en`, `pt`, `fr`, `es` plus custom languages | ✅ |
-| Safe Markdown and limited safe HTML rendering | ✅ |
-| LocalStorage history with quota protection | ✅ |
-| RAG evidence display without persisting evidence metadata | ✅ |
-| Clear conversation button | ✅ |
-| Custom endpoint attributes | ✅ |
-| CSS custom properties and CSS parts | ✅ |
-| Public methods and DOM events | ✅ |
-
-## Table of Contents
-
-1. [Why this package?](#why-this-package)
-2. [Features](#features)
-3. [Status](#status)
-4. [The Important Part](#the-important-part)
-5. [Install By Situation](#install-by-situation)
-6. [Complete Browser-To-Ollama Tutorial](#complete-browser-to-ollama-tutorial)
-7. [Minimal UI Markup After The Backend Exists](#minimal-ui-markup-after-the-backend-exists)
-8. [Full UI Markup](#full-ui-markup)
-9. [Public API](#public-api)
-10. [Attributes](#attributes)
-11. [Methods](#methods)
-12. [Events](#events)
-13. [Endpoint Schemas](#endpoint-schemas)
-14. [Styling](#styling)
-15. [Security](#security)
-
-## Status
-
-Initial public API, ESM-only, TypeScript declarations included. The package
-auto-registers `<stackline-ai-studio>` when imported in a browser.
-
-## The Important Part
+### The Important Part
 
 `<stackline-ai-studio></stackline-ai-studio>` is not a complete AI application.
 It is the frontend component. It needs backend endpoints that return models and
@@ -85,7 +46,44 @@ Browser
 Do not put Ollama Cloud keys, provider keys, database URLs, SQL, RAG filters, or
 memory paths in browser code.
 
-## Install By Situation
+### When To Use
+
+Use this package when you want a drop-in AI chat UI for Vanilla, Angular,
+React, Vue, Svelte, Astro, or any frontend that can render a custom element.
+
+## Compatibility
+
+| Item | Value |
+| --- | --- |
+| Package | `@stackline/ai-ui@0.0.6` |
+| Supported Node.js | `>=18.17.0` |
+| Module entry | `dist/index.js` (ES modules) |
+| Types | `dist/index.d.ts` |
+| Runtime dependencies | 1 direct dependency |
+
+### Status
+
+Initial public API, ESM-only, TypeScript declarations included. The package
+auto-registers `<stackline-ai-studio>` when imported in a browser.
+
+### Requirements
+
+- Browser with Custom Elements and Shadow DOM.
+- Backend endpoints compatible with `@stackline/ai-server`.
+- A model returned by `GET /api/ai/models`, or an explicit `model` attribute.
+
+### When Not To Use
+
+Do not use this package as a backend or security layer. It cannot protect
+provider credentials, database credentials, or private RAG data.
+
+### Limitations
+
+This is a styled Studio web component, not a fully headless UI package.
+
+## Installation
+
+### Install By Situation
 
 ### Existing Compatible Backend
 
@@ -139,23 +137,9 @@ npm install -D vite
 mkdir -p data sql src
 ```
 
-## Requirements
+## Usage
 
-- Browser with Custom Elements and Shadow DOM.
-- Backend endpoints compatible with `@stackline/ai-server`.
-- A model returned by `GET /api/ai/models`, or an explicit `model` attribute.
-
-## When To Use
-
-Use this package when you want a drop-in AI chat UI for Vanilla, Angular,
-React, Vue, Svelte, Astro, or any frontend that can render a custom element.
-
-## When Not To Use
-
-Do not use this package as a backend or security layer. It cannot protect
-provider credentials, database credentials, or private RAG data.
-
-## Complete Browser-To-Ollama Tutorial
+### Complete Browser-To-Ollama Tutorial
 
 This section starts from an empty folder and reaches a working
 `<stackline-ai-studio>` connected to local Ollama.
@@ -383,7 +367,7 @@ Open:
 http://localhost:4623/
 ```
 
-## Minimal UI Markup After The Backend Exists
+### Minimal UI Markup After The Backend Exists
 
 After `/api/ai/models` and `/api/ai/chat` are working, the UI can be as small
 as:
@@ -401,7 +385,7 @@ Default endpoints:
 - `GET /api/ai/models`
 - `POST /api/ai/chat`
 
-## Full UI Markup
+### Full UI Markup
 
 ```html
 <stackline-ai-studio
@@ -416,7 +400,36 @@ Default endpoints:
 ></stackline-ai-studio>
 ```
 
-## Public API
+## Features
+
+| Feature | Supported |
+| :--- | :---: |
+| Drop-in `<stackline-ai-studio>` custom element | ✅ |
+| Framework-neutral usage | ✅ |
+| Model picker powered by `@stackline/multiselect` | ✅ |
+| Language picker with built-in `en`, `pt`, `fr`, `es` plus custom languages | ✅ |
+| Safe Markdown and limited safe HTML rendering | ✅ |
+| LocalStorage history with quota protection | ✅ |
+| RAG evidence display without persisting evidence metadata | ✅ |
+| Clear conversation button | ✅ |
+| Custom endpoint attributes | ✅ |
+| CSS custom properties and CSS parts | ✅ |
+| Public methods and DOM events | ✅ |
+
+## Security
+
+### Markdown And HTML Safety
+
+Assistant responses are rendered as safe Markdown with a limited safe HTML
+subset. Code fences remain escaped, so HTML examples render as code. Unsafe
+tags and unsafe link schemes are removed.
+
+The UI is not a security boundary. Enforce authentication, authorization, model
+policy, rate limits, RAG filters, and provider credentials on the backend.
+
+## API Surface
+
+### Public API
 
 - `defineStacklineAIStudio(win?)`
 - `stacklineAIStudioTagName`
@@ -433,7 +446,7 @@ Default endpoints:
 - `StacklineAIStudioTranslations`
 - `StacklineAIStudioStoredState`
 
-## Attributes
+### Attributes
 
 - `endpoint`
 - `models-endpoint`
@@ -454,7 +467,7 @@ Default endpoints:
 - `history-limit`
 - `storage-max-bytes`
 
-## Methods
+### Methods
 
 ```js
 const studio = document.querySelector("stackline-ai-studio");
@@ -480,7 +493,7 @@ studio.clear();
 studio.focusComposer();
 ```
 
-## Events
+### Events
 
 ```js
 studio.addEventListener("stackline-response", (event) => {
@@ -500,7 +513,7 @@ studio.addEventListener("stackline-language-change", (event) => {
 });
 ```
 
-## Endpoint Schemas
+### Endpoint Schemas
 
 `GET /api/ai/models` must return:
 
@@ -539,7 +552,7 @@ and return:
 
 The UI accepts either top-level `content` or `message.content`.
 
-## Local Persistence
+### Local Persistence
 
 The component stores messages, selected model, and selected language in
 `localStorage` unless `persist="false"`.
@@ -552,7 +565,7 @@ Defaults:
 
 RAG evidence metadata is removed before browser persistence.
 
-## Languages
+### Languages
 
 Built-in language codes:
 
@@ -653,7 +666,7 @@ Fallback order:
 4. active-language one-off overrides from `labels`, root `translations`, or
    `setTranslations({ send: "Ask" })`.
 
-## Styling
+### Styling
 
 The component uses Shadow DOM and exposes CSS parts such as:
 
@@ -681,36 +694,57 @@ stackline-ai-studio {
 }
 ```
 
-## Markdown And HTML Safety
+### Documentation
 
-Assistant responses are rendered as safe Markdown with a limited safe HTML
-subset. Code fences remain escaped, so HTML examples render as code. Unsafe
-tags and unsafe link schemes are removed.
+- Full tutorial: `docs/getting-started/full-stack-tutorial.md`
+- Package reference: `docs/reference/packages.md`
 
-## Test The Example
+## Local Development
+
+Clone the [monorepo](https://github.com/alexandroit/ai) and run from its root. Repository tooling requires Node.js `>=22.13.0` and `pnpm@11.22.0`; release archives use official Node.js `24.20.0` and npm `11.19.0`.
+
+```bash
+pnpm install --frozen-lockfile
+pnpm --filter @stackline/ai-ui build
+pnpm --filter @stackline/ai-ui test
+pnpm run check
+```
+
+## Consumer Smoke Test
+
+### Test The Example
 
 ```bash
 pnpm --filter stackline-ai-local-demo smoke
 ```
 
-## Security
+Pack the release family and validate a fresh consumer, including runtime exports and TypeScript declarations:
 
-The UI is not a security boundary. Enforce authentication, authorization, model
-policy, rate limits, RAG filters, and provider credentials on the backend.
+```bash
+pnpm run pack:release
+node scripts/consumer-smoke.mjs release-artifacts
+```
 
-## Limitations
+## Release Checklist
 
-This is a styled Studio web component, not a fully headless UI package.
-
-## Versioning
+### Versioning
 
 Use the same release line as the backend Stackline AI packages.
 
+1. Update the package manifest, changelog, workspace references, and documentation together.
+2. Run the workspace checks plus `pnpm audit` and `pnpm audit --prod`.
+3. Use [publish.yml](https://github.com/alexandroit/ai/actions/workflows/publish.yml) and confirm `expected_manifest_sha512` against the reviewed `SHA512SUMS` file.
+4. Verify each public package's exact bytes and GitHub Actions provenance.
+
+## Community and Support
+
+Report reproducible issues in the [issue tracker](https://github.com/alexandroit/ai/issues). Use the [security policy](https://github.com/alexandroit/ai/blob/main/packages/ui/SECURITY.md) for security reports.
+
+- [Stackline / Alexandro.Net](https://alexandro.net/)
+- [GitHub](https://github.com/alexandroit)
+- [Maintainer LinkedIn](https://www.linkedin.com/in/aleinfo/)
+- [Reddit community: r/Stackline](https://www.reddit.com/r/Stackline/)
+
 ## License
 
-MIT
-
-## Documentation
-
-- Full tutorial: `docs/getting-started/full-stack-tutorial.md`
-- Package reference: `docs/reference/packages.md`
+[MIT](https://github.com/alexandroit/ai/blob/main/packages/ui/LICENSE). Copyright notices and the credits above are retained.

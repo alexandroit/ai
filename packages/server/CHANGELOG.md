@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.0.4 - 2026-09-28
+
+- Standardize npm discovery metadata, documentation, compatibility guidance, and Stackline community links.
+- Align internal workspace references with this release while preserving the public API.
+
 
 - Normalizes configured base paths with a linear scanner, including very long
   leading and trailing slash runs.

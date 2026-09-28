@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.5 - 2026-09-28
+
+- Standardize npm discovery metadata, documentation, compatibility guidance, and Stackline community links.
+- Align internal workspace references with this release while preserving the public API.
+
 ## 0.0.4 - 2026-08-30
 
 - Preserves the complete `0.0.3` runtime and TypeScript API.

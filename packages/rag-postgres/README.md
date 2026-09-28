@@ -11,7 +11,7 @@
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai-rag-postgres)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package release:** `0.0.4`
+**Package version:** `0.0.5`
 
 ---
 
@@ -23,40 +23,7 @@
 
 `@stackline/ai-rag-postgres` gives Stackline AI a database retrieval layer without tying the provider to PostgreSQL. The core receives normalized `StacklineRagContext[]`, so the same provider/UI path works with or without RAG.
 
-## Features
-
-| Feature | Supported |
-| :--- | :---: |
-| PostgreSQL connection string | ✅ |
-| Existing client/pool support | ✅ |
-| Parameterized SQL helper | ✅ |
-| Custom query callback | ✅ |
-| Custom row mapping | ✅ |
-| Minimum query length | ✅ |
-| Result limit | ✅ |
-| Read-only view friendly | ✅ |
-| TypeScript declarations | ✅ |
-
-## Table of Contents
-
-1. [Why this package?](#why-this-package)
-2. [Features](#features)
-3. [Status](#status)
-4. [Where This Fits](#where-this-fits)
-5. [Install By Situation](#install-by-situation)
-6. [Database Shape](#database-shape)
-7. [Complete Integration](#complete-integration)
-8. [Prove RAG Is Used](#prove-rag-is-used)
-9. [Public API](#public-api)
-10. [Query Contract](#query-contract)
-11. [Row Mapping](#row-mapping)
-12. [Security](#security)
-
-## Status
-
-Initial public API, ESM-only, TypeScript declarations included.
-
-## Where This Fits
+### Where This Fits
 
 This package is backend-only retrieval. It reads context from PostgreSQL and
 returns `StacklineRagContext[]` to `@stackline/ai`.
@@ -73,7 +40,44 @@ Browser UI
 
 The browser should never receive database URLs, SQL, or tenant filters.
 
-## Install By Situation
+### When To Use
+
+Use this package when your RAG context can be read from PostgreSQL tables,
+views, or tenant-filtered queries.
+
+## Compatibility
+
+| Item | Value |
+| --- | --- |
+| Package | `@stackline/ai-rag-postgres@0.0.5` |
+| Supported Node.js | `>=18.17.0` |
+| Module entry | `dist/index.js` (ES modules) |
+| Types | `dist/index.d.ts` |
+| Runtime dependencies | 3 direct dependencies |
+
+### Status
+
+Initial public API, ESM-only, TypeScript declarations included.
+
+### Requirements
+
+- Runtime: Node.js `>=18.17.0`.
+- PostgreSQL connection string or compatible query client.
+- Read-only SQL query or custom `query` function.
+
+### When Not To Use
+
+Do not use it as a vector database replacement. The current package is lexical
+SQL retrieval unless you provide your own SQL/ranking.
+
+### Limitations
+
+No embeddings are implemented in this package line. Add embeddings in SQL or a
+separate retriever when needed.
+
+## Installation
+
+### Install By Situation
 
 ### RAG Retriever Only
 
@@ -109,23 +113,9 @@ RAG_MIN_QUERY_LENGTH=2
 RAG_LIMIT=4
 ```
 
-## Requirements
+## Usage
 
-- Runtime: Node.js `>=18.17.0`.
-- PostgreSQL connection string or compatible query client.
-- Read-only SQL query or custom `query` function.
-
-## When To Use
-
-Use this package when your RAG context can be read from PostgreSQL tables,
-views, or tenant-filtered queries.
-
-## When Not To Use
-
-Do not use it as a vector database replacement. The current package is lexical
-SQL retrieval unless you provide your own SQL/ranking.
-
-## Database Shape
+### Database Shape
 
 A stable view is the simplest production contract:
 
@@ -146,7 +136,7 @@ from documents;
 
 Grant the application a read-only user for this view.
 
-## Complete Integration
+### Complete Integration
 
 ```js
 import { createStacklineAIServer } from "@stackline/ai/server";
@@ -187,7 +177,7 @@ process.on("SIGINT", async () => {
 
 Use `@stackline/ai-server` to expose this `ai` instance over HTTP.
 
-## Prove RAG Is Used
+### Prove RAG Is Used
 
 Seed:
 
@@ -217,14 +207,35 @@ The provider receives a prepended system message containing the retrieved
 context. The HTTP response metadata includes RAG evidence under
 `message.metadata.stacklineRag`.
 
-## Public API
+## Features
+
+| Feature | Supported |
+| :--- | :---: |
+| PostgreSQL connection string | ✅ |
+| Existing client/pool support | ✅ |
+| Parameterized SQL helper | ✅ |
+| Custom query callback | ✅ |
+| Custom row mapping | ✅ |
+| Minimum query length | ✅ |
+| Result limit | ✅ |
+| Read-only view friendly | ✅ |
+| TypeScript declarations | ✅ |
+
+## Security
+
+Use read-only database users, stable views, tenant filters, and parameterized
+queries. Do not expose SQL or connection strings to browsers.
+
+## API Surface
+
+### Public API
 
 - `createPostgresRagRetriever(options)`
 - `StacklinePostgresRagRetrieverOptions`
 - `StacklinePostgresQuery`
 - `StacklinePostgresQueryable`
 
-## Options
+### Options
 
 - `connectionString`
 - `connection`
@@ -235,7 +246,7 @@ context. The HTTP response metadata includes RAG evidence under
 - `limit`
 - `minQueryLength`
 
-## Query Contract
+### Query Contract
 
 With `sql`, Stackline supplies:
 
@@ -261,7 +272,7 @@ createPostgresRagRetriever({
 });
 ```
 
-## Row Mapping
+### Row Mapping
 
 Default mapping prefers `content`, `text`, `body`, or `description`. Provide
 `mapRow` for domain-specific metadata:
@@ -279,31 +290,57 @@ createPostgresRagRetriever({
 });
 ```
 
-## Test The Example
+### Documentation
+
+- Full tutorial: `docs/getting-started/full-stack-tutorial.md`
+- Production guide: `docs/guides/production.md`
+
+## Local Development
+
+Clone the [monorepo](https://github.com/alexandroit/ai) and run from its root. Repository tooling requires Node.js `>=22.13.0` and `pnpm@11.22.0`; release archives use official Node.js `24.20.0` and npm `11.19.0`.
+
+```bash
+pnpm install --frozen-lockfile
+pnpm --filter @stackline/ai-rag-postgres build
+pnpm --filter @stackline/ai-rag-postgres test
+pnpm run check
+```
+
+## Consumer Smoke Test
+
+### Test The Example
 
 ```bash
 pnpm --filter stackline-ai-example-postgres-rag smoke
 ```
 
-## Security
+Pack the release family and validate a fresh consumer, including runtime exports and TypeScript declarations:
 
-Use read-only database users, stable views, tenant filters, and parameterized
-queries. Do not expose SQL or connection strings to browsers.
+```bash
+pnpm run pack:release
+node scripts/consumer-smoke.mjs release-artifacts
+```
 
-## Limitations
+## Release Checklist
 
-No embeddings are implemented in this package line. Add embeddings in SQL or a
-separate retriever when needed.
-
-## Versioning
+### Versioning
 
 Use the same release line as `@stackline/ai`.
 
+1. Update the package manifest, changelog, workspace references, and documentation together.
+2. Run the workspace checks plus `pnpm audit` and `pnpm audit --prod`.
+3. Use [publish.yml](https://github.com/alexandroit/ai/actions/workflows/publish.yml) and confirm `expected_manifest_sha512` against the reviewed `SHA512SUMS` file.
+4. Verify each public package's exact bytes and GitHub Actions provenance.
+
+## Community and Support
+
+Report reproducible issues in the [issue tracker](https://github.com/alexandroit/ai/issues). Use the [security policy](https://github.com/alexandroit/ai/blob/main/packages/rag-postgres/SECURITY.md) for security reports.
+
+- [Stackline / Alexandro.Net](https://alexandro.net/)
+- [GitHub](https://github.com/alexandroit)
+- [Maintainer LinkedIn](https://www.linkedin.com/in/aleinfo/)
+- [Reddit community: r/Stackline](https://www.reddit.com/r/Stackline/)
+
 ## License
 
-MIT
-
-## Documentation
-
-- Full tutorial: `docs/getting-started/full-stack-tutorial.md`
-- Production guide: `docs/guides/production.md`
+[MIT](https://github.com/alexandroit/ai/blob/main/packages/rag-postgres/LICENSE). Copyright notices and the credits above are retained.

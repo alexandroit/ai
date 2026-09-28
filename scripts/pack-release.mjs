@@ -4,24 +4,16 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { packageDirectories } from "./release-packages.mjs";
+
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const artifactDir = resolve(root, process.env.STACKLINE_ARTIFACT_DIR || "release-artifacts");
-const packageDirs = [
-  "packages/ai",
-  "packages/server",
-  "packages/provider-ollama",
-  "packages/memory-sqlite",
-  "packages/rag-postgres",
-  "packages/ui",
-];
 const requiredFiles = [
   "package/package.json",
   "package/README.md",
   "package/LICENSE",
   "package/CHANGELOG.md",
   "package/SECURITY.md",
-  "package/dist/index.js",
-  "package/dist/index.d.ts",
 ];
 
 mkdirSync(artifactDir, { recursive: true });
@@ -32,7 +24,7 @@ if (readdirSync(artifactDir).some((file) => file.endsWith(".tgz") || file === "S
 const pnpm = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 const tarballs = [];
 
-for (const relativeDir of packageDirs) {
+for (const relativeDir of packageDirectories) {
   const packageDir = resolve(root, relativeDir);
   const manifest = JSON.parse(readFileSync(resolve(packageDir, "package.json"), "utf8"));
   const before = new Set(readdirSync(artifactDir));
@@ -64,7 +56,9 @@ for (const relativeDir of packageDirs) {
       .split(/\r?\n/)
       .filter(Boolean),
   );
-  for (const requiredFile of requiredFiles) {
+  const entryFiles = [packedManifest.exports["."].import, packedManifest.types]
+    .map((file) => `package/${file.replace(/^\.\//, "")}`);
+  for (const requiredFile of [...requiredFiles, ...entryFiles]) {
     if (!entries.has(requiredFile)) {
       throw new Error(`${created[0]} is missing ${requiredFile}.`);
     }

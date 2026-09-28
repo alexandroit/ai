@@ -1,0 +1,59 @@
+{
+  "name": "ai-memory-sqlite",
+  "version": "0.0.2",
+  "description": "Unscoped convenience entry point for Stackline AI SQLite conversation memory.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "package.json",
+    "LICENSE",
+    "SECURITY.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "pack:dry-run": "pnpm pack --dry-run"
+  },
+  "dependencies": {
+    "@stackline/ai-memory-sqlite": "workspace:*"
+  },
+  "keywords": [
+    "stackline",
+    "ai",
+    "sqlite",
+    "sqljs",
+    "memory",
+    "conversation-memory",
+    "persistence",
+    "typescript",
+    "esm"
+  ],
+  "homepage": "https://alexandro.net/docs/ai/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandroit/ai.git",
+    "directory": "packages/alias-memory-sqlite"
+  },
+  "bugs": {
+    "url": "https://github.com/alexandroit/ai/issues"
+  },
+  "author": "Stackline",
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

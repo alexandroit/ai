@@ -2,7 +2,14 @@
 
 All notable changes to the Stackline AI package family are documented here.
 
-## Unreleased
+## 2026-09-28
+
+- Updates only the Express example's qs lock resolution from 6.15.2 to 6.16.0, fixing GHSA-x5fp-wj9c-mxmx and GHSA-4mjr-xmp4-gh2g; qs is not shipped in the library packages.
+
+- Publishes the existing server/provider/UI security hardening in the next scoped patches.
+- Adds the three existing unscoped adapter entry points to the same source-controlled release pipeline.
+- Standardizes package discovery metadata, documentation, compatibility tables, and community links.
+- Pins release packaging to official Node.js 24.20.0, npm 11.19.0, and pnpm 11.22.0; registry checks fail closed unless the requested version returns E404.
 
 - Replaces path-normalization regular expressions with linear scanners in the
   HTTP server and Ollama provider.

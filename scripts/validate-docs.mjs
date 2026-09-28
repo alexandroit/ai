@@ -1,6 +1,8 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { releasePackages } from "./release-packages.mjs";
+
 const root = new URL("..", import.meta.url).pathname;
 const requiredDocs = [
   "docs/index.md",
@@ -20,16 +22,25 @@ const requiredPhrases = [
   "createPostgresRagRetriever",
   "stackline-ai-studio",
 ];
-const currentVersions = {
-  "@stackline/ai": "0.0.3",
-  "@stackline/ai-memory-sqlite": "0.0.3",
-  "@stackline/ai-ollama": "0.0.3",
-  "@stackline/ai-rag-postgres": "0.0.4",
-  "@stackline/ai-server": "0.0.3",
-  "@stackline/ai-ui": "0.0.5",
-};
+const currentVersions = Object.fromEntries(
+  releasePackages(root).filter(({ manifest }) => manifest.name.startsWith("@stackline/"))
+    .map(({ manifest }) => [manifest.name, manifest.version]),
+);
 
 let failed = false;
+
+for (const { directory, manifest } of releasePackages(root)) {
+  const readme = readFileSync(join(root, directory, "README.md"), "utf8");
+  if (!readme.includes("**Package version:** `" + manifest.version + "`")) {
+    console.error(`${directory}/README.md does not match its package version.`);
+    failed = true;
+  }
+  if (!readme.includes("https://www.reddit.com/r/Stackline/")) {
+    console.error(`${directory}/README.md is missing the Stackline community link.`);
+    failed = true;
+  }
+}
+
 
 for (const doc of requiredDocs) {
   const path = join(root, doc);

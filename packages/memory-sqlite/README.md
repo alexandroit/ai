@@ -11,7 +11,7 @@
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai-memory-sqlite)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package release:** `0.0.3`
+**Package version:** `0.0.4`
 
 ---
 
@@ -23,38 +23,7 @@
 
 `@stackline/ai-memory-sqlite` gives Stackline AI a local persistence layer without requiring a database server. It is designed for development, smoke tests, demos, and small private deployments where a single backend instance writes conversation memory.
 
-## Features
-
-| Feature | Supported |
-| :--- | :---: |
-| SQLite/sql.js persistence | ✅ |
-| Automatic schema migration | ✅ |
-| Session and user metadata | ✅ |
-| User message indexing | ✅ |
-| Assistant response indexing | ✅ |
-| Optional RAG context storage | ✅ |
-| Search returning `StacklineRagContext[]` | ✅ |
-| Graceful close hook | ✅ |
-
-## Table of Contents
-
-1. [Why this package?](#why-this-package)
-2. [Features](#features)
-3. [Status](#status)
-4. [Where This Fits](#where-this-fits)
-5. [Install By Situation](#install-by-situation)
-6. [Complete Integration](#complete-integration)
-7. [Prove Persistence](#prove-persistence)
-8. [Public API](#public-api)
-9. [Options](#options)
-10. [Logical Schema](#logical-schema)
-11. [Security](#security)
-
-## Status
-
-Initial public API, ESM-only, TypeScript declarations included.
-
-## Where This Fits
+### Where This Fits
 
 This package is backend-only memory storage. It is not the UI, not an HTTP
 server, and not a provider.
@@ -71,7 +40,44 @@ Browser UI
 
 The browser should never know the SQLite path.
 
-## Install By Situation
+### When To Use
+
+Use this package for local development, smoke tests, prototypes, and
+single-instance deployments that need simple persisted conversation memory.
+
+## Compatibility
+
+| Item | Value |
+| --- | --- |
+| Package | `@stackline/ai-memory-sqlite@0.0.4` |
+| Supported Node.js | `>=18.17.0` |
+| Module entry | `dist/index.js` (ES modules) |
+| Types | `dist/index.d.ts` |
+| Runtime dependencies | 2 direct dependencies |
+
+### Status
+
+Initial public API, ESM-only, TypeScript declarations included.
+
+### Requirements
+
+- Runtime: Node.js `>=18.17.0`.
+- Writable filesystem path for the SQLite file.
+- A Stackline AI core created with `createStacklineAIServer`.
+
+### When Not To Use
+
+Do not use it as the default for horizontally scaled production systems. Use a
+server database-backed memory store for multi-instance deployments.
+
+### Limitations
+
+This package is not a distributed memory service. Plan backups, retention, and
+tenant isolation before production use.
+
+## Installation
+
+### Install By Situation
 
 ### Memory Store Only
 
@@ -101,23 +107,9 @@ STACKLINE_AI_MEMORY=true
 STACKLINE_AI_MEMORY_PATH=./data/memory.sqlite
 ```
 
-## Requirements
+## Usage
 
-- Runtime: Node.js `>=18.17.0`.
-- Writable filesystem path for the SQLite file.
-- A Stackline AI core created with `createStacklineAIServer`.
-
-## When To Use
-
-Use this package for local development, smoke tests, prototypes, and
-single-instance deployments that need simple persisted conversation memory.
-
-## When Not To Use
-
-Do not use it as the default for horizontally scaled production systems. Use a
-server database-backed memory store for multi-instance deployments.
-
-## Complete Integration
+### Complete Integration
 
 ```js
 import { mkdirSync } from "node:fs";
@@ -158,7 +150,7 @@ process.on("SIGINT", async () => {
 
 Use `@stackline/ai-server` to expose this `ai` instance over HTTP.
 
-## Prove Persistence
+### Prove Persistence
 
 Send a chat request with metadata:
 
@@ -178,12 +170,32 @@ Send a chat request with metadata:
 Restart the server. The SQLite file remains at `STACKLINE_AI_MEMORY_PATH`.
 Searchable entries are written to `ai_memories` when indexing is enabled.
 
-## Public API
+## Features
+
+| Feature | Supported |
+| :--- | :---: |
+| SQLite/sql.js persistence | ✅ |
+| Automatic schema migration | ✅ |
+| Session and user metadata | ✅ |
+| User message indexing | ✅ |
+| Assistant response indexing | ✅ |
+| Optional RAG context storage | ✅ |
+| Search returning `StacklineRagContext[]` | ✅ |
+| Graceful close hook | ✅ |
+
+## Security
+
+RAG contexts and RAG metadata are not stored by default. Opt in with
+`storeRagContexts` and `storeRagMetadata` only when your policy allows it.
+
+## API Surface
+
+### Public API
 
 - `createSqliteMemoryStore(options)`
 - `StacklineSqliteMemoryStoreOptions`
 
-## Options
+### Options
 
 - `path`
 - `indexAssistantResponses`
@@ -191,7 +203,7 @@ Searchable entries are written to `ai_memories` when indexing is enabled.
 - `storeRagContexts`
 - `storeRagMetadata`
 
-## Logical Schema
+### Logical Schema
 
 The store creates:
 
@@ -201,45 +213,71 @@ The store creates:
 - `ai_retrievals`
 - `ai_memories`
 
-## Persistence
+### Persistence
 
 The parent folder is created automatically. The sql.js database is exported to
 the configured `path` after writes and migrations.
 
-## Search
+### Search
 
 `store.search(query, { limit })` searches indexed memory content and returns
 `StacklineRagContext[]`.
 
-## Closing
+### Closing
 
 Call `close()` during shutdown.
 
-## Test The Example
+### Documentation
+
+- Full tutorial: `docs/getting-started/full-stack-tutorial.md`
+- Production guide: `docs/guides/production.md`
+
+## Local Development
+
+Clone the [monorepo](https://github.com/alexandroit/ai) and run from its root. Repository tooling requires Node.js `>=22.13.0` and `pnpm@11.22.0`; release archives use official Node.js `24.20.0` and npm `11.19.0`.
+
+```bash
+pnpm install --frozen-lockfile
+pnpm --filter @stackline/ai-memory-sqlite build
+pnpm --filter @stackline/ai-memory-sqlite test
+pnpm run check
+```
+
+## Consumer Smoke Test
+
+### Test The Example
 
 ```bash
 pnpm --filter stackline-ai-example-sqlite-memory smoke
 ```
 
-## Security
+Pack the release family and validate a fresh consumer, including runtime exports and TypeScript declarations:
 
-RAG contexts and RAG metadata are not stored by default. Opt in with
-`storeRagContexts` and `storeRagMetadata` only when your policy allows it.
+```bash
+pnpm run pack:release
+node scripts/consumer-smoke.mjs release-artifacts
+```
 
-## Limitations
+## Release Checklist
 
-This package is not a distributed memory service. Plan backups, retention, and
-tenant isolation before production use.
-
-## Versioning
+### Versioning
 
 Use the same release line as `@stackline/ai`.
 
+1. Update the package manifest, changelog, workspace references, and documentation together.
+2. Run the workspace checks plus `pnpm audit` and `pnpm audit --prod`.
+3. Use [publish.yml](https://github.com/alexandroit/ai/actions/workflows/publish.yml) and confirm `expected_manifest_sha512` against the reviewed `SHA512SUMS` file.
+4. Verify each public package's exact bytes and GitHub Actions provenance.
+
+## Community and Support
+
+Report reproducible issues in the [issue tracker](https://github.com/alexandroit/ai/issues). Use the [security policy](https://github.com/alexandroit/ai/blob/main/packages/memory-sqlite/SECURITY.md) for security reports.
+
+- [Stackline / Alexandro.Net](https://alexandro.net/)
+- [GitHub](https://github.com/alexandroit)
+- [Maintainer LinkedIn](https://www.linkedin.com/in/aleinfo/)
+- [Reddit community: r/Stackline](https://www.reddit.com/r/Stackline/)
+
 ## License
 
-MIT
-
-## Documentation
-
-- Full tutorial: `docs/getting-started/full-stack-tutorial.md`
-- Production guide: `docs/guides/production.md`
+[MIT](https://github.com/alexandroit/ai/blob/main/packages/memory-sqlite/LICENSE). Copyright notices and the credits above are retained.

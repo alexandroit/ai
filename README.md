@@ -11,7 +11,7 @@
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package releases:** core `0.0.3`, PostgreSQL RAG `0.0.4`, UI `0.0.5`
+**Package versions:** core `0.0.4`, PostgreSQL RAG `0.0.5`, UI `0.0.6`
 
 ---
 
@@ -89,14 +89,17 @@ backend.
 
 ## Packages
 
-| Package | Responsibility | Runtime |
-|---|---|---|
-| `@stackline/ai` | Core contracts, model listing, chat orchestration, RAG, memory capture | backend/shared |
-| `@stackline/ai-server` | Fetch-compatible HTTP handler for `/health`, `/manifest`, `/models`, `/chat` | backend |
-| `@stackline/ai-ollama` | Ollama provider adapter | backend |
-| `@stackline/ai-memory-sqlite` | SQLite/sql.js conversation memory | backend |
-| `@stackline/ai-rag-postgres` | Read-only PostgreSQL RAG retriever | backend |
-| `@stackline/ai-ui` | Framework-neutral Studio web component | browser |
+| Package | Version | Responsibility | Runtime |
+|---|---|---|---|
+| [@stackline/ai](packages/ai/README.md) | `0.0.4` | Provider-neutral Stackline AI contracts, server core, RAG, memory, and adapter interfaces | backend/shared |
+| [@stackline/ai-server](packages/server/README.md) | `0.0.4` | Fetch-compatible HTTP backend handler for Stackline AI | backend |
+| [@stackline/ai-ollama](packages/provider-ollama/README.md) | `0.0.4` | Ollama provider adapter for Stackline AI | backend |
+| [@stackline/ai-memory-sqlite](packages/memory-sqlite/README.md) | `0.0.4` | SQLite conversation memory store for Stackline AI development and tests | backend |
+| [@stackline/ai-rag-postgres](packages/rag-postgres/README.md) | `0.0.5` | PostgreSQL read-only RAG retriever for Stackline AI | backend |
+| [@stackline/ai-ui](packages/ui/README.md) | `0.0.6` | Framework-neutral Stackline AI Studio web component | browser |
+| [ai-memory-sqlite](packages/alias-memory-sqlite/README.md) | `0.0.2` | Unscoped convenience entry point for Stackline AI SQLite conversation memory | backend |
+| [ai-ollama](packages/alias-ollama/README.md) | `0.0.2` | Unscoped convenience entry point for the Stackline AI Ollama provider | backend |
+| [ai-rag-postgres](packages/alias-rag-postgres/README.md) | `0.0.2` | Unscoped convenience entry point for the Stackline AI PostgreSQL RAG retriever | backend |
 
 ## Install By Scenario
 
@@ -417,7 +420,10 @@ policy in production.
 
 ## Community
 
-https://www.reddit.com/r/Stackline/
+- [Stackline / Alexandro.Net](https://alexandro.net/)
+- [GitHub](https://github.com/alexandroit)
+- [Maintainer LinkedIn](https://www.linkedin.com/in/aleinfo/)
+- [Reddit community: r/Stackline](https://www.reddit.com/r/Stackline/)
 
 ## License
 

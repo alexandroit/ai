@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-memory-sqlite",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "SQLite conversation memory store for Stackline AI development and tests.",
   "license": "MIT",
   "author": "Stackline",
@@ -48,30 +48,13 @@
   },
   "keywords": [
     "stackline",
-    "stackline-ai",
     "ai",
-    "artificial-intelligence",
-    "generative-ai",
-    "memory",
-    "ai-memory",
-    "llm-memory",
-    "conversation-memory",
-    "chat-memory",
-    "persistence",
     "sqlite",
     "sqljs",
-    "sql.js",
-    "local-memory",
-    "local-database",
-    "rag",
-    "rag-safe",
-    "retrieval-augmented-generation",
-    "backend",
-    "llm",
-    "conversation",
-    "development",
-    "testing",
+    "memory",
+    "conversation-memory",
+    "persistence",
     "typescript",
-    "javascript"
+    "esm"
   ]
 }

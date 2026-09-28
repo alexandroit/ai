@@ -11,7 +11,7 @@
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package release:** `0.0.3`
+**Package version:** `0.0.4`
 
 ---
 
@@ -23,40 +23,7 @@
 
 `@stackline/ai` is the core contract package. It deliberately does not open an HTTP port and does not render UI. It coordinates providers, optional RAG retrieval, and optional memory capture so every framework or runtime can share the same backend behavior.
 
-## Features
-
-| Feature | Supported |
-| :--- | :---: |
-| Provider-neutral chat contract | ✅ |
-| Model listing contract | ✅ |
-| RAG context injection | ✅ |
-| Direct RAG answers | ✅ |
-| Memory capture hooks | ✅ |
-| Backend/server integration | ✅ |
-| TypeScript declarations | ✅ |
-| ESM-only package | ✅ |
-
-## Table of Contents
-
-1. [Why this package?](#why-this-package)
-2. [Features](#features)
-3. [Status](#status)
-4. [What This Package Does](#what-this-package-does)
-5. [Install By Situation](#install-by-situation)
-6. [Minimal Provider Test](#minimal-provider-test)
-7. [Ollama Path](#ollama-path)
-8. [Public API](#public-api)
-9. [Main Types](#main-types)
-10. [Configuration](#configuration)
-11. [Request Contract](#request-contract)
-12. [Response Contract](#response-contract)
-13. [Security](#security)
-
-## Status
-
-Initial public API, ESM-only, TypeScript declarations included.
-
-## What This Package Does
+### What This Package Does
 
 This package is the core orchestration layer. It does not open an HTTP port and
 it does not render a UI.
@@ -72,7 +39,46 @@ memory store     -> optional persistence after response
 Use `@stackline/ai-server` to expose it as HTTP and `@stackline/ai-ui` to render
 the browser Studio.
 
-## Install By Situation
+### When To Use
+
+Use this package when you need a provider-neutral backend core for chat, model
+listing, RAG orchestration, and optional memory capture.
+
+## Compatibility
+
+| Item | Value |
+| --- | --- |
+| Package | `@stackline/ai@0.0.4` |
+| Supported Node.js | `>=18.17.0` |
+| Module entry | `dist/index.js` (ES modules) |
+| Types | `dist/index.d.ts` |
+| Runtime dependencies | 0 direct dependencies |
+
+### Status
+
+Initial public API, ESM-only, TypeScript declarations included.
+
+### Requirements
+
+- Runtime: Node.js `>=18.17.0`.
+- Repository development: Node.js `>=22.13.0`.
+- ESM project (`"type": "module"`).
+
+### When Not To Use
+
+Do not use it directly in browser code. Browser apps should call your backend
+route and optionally render `@stackline/ai-ui`.
+
+### Limitations
+
+- Streaming is part of the provider contract but is not exposed by the current
+  HTTP package.
+- The core does not implement authentication, authorization, rate limiting, or
+  persistence by itself.
+
+## Installation
+
+### Install By Situation
 
 ### Core Only
 
@@ -111,23 +117,9 @@ npm install -D vite
 mkdir -p src
 ```
 
-## Requirements
+## Usage
 
-- Runtime: Node.js `>=18.17.0`.
-- Repository development: Node.js `>=22.13.0`.
-- ESM project (`"type": "module"`).
-
-## When To Use
-
-Use this package when you need a provider-neutral backend core for chat, model
-listing, RAG orchestration, and optional memory capture.
-
-## When Not To Use
-
-Do not use it directly in browser code. Browser apps should call your backend
-route and optionally render `@stackline/ai-ui`.
-
-## Minimal Provider Test
+### Minimal Provider Test
 
 This does not need Ollama. It verifies the core contract.
 
@@ -169,7 +161,7 @@ const response = await ai.chat({
 console.log(response.content);
 ```
 
-## Ollama Path
+### Ollama Path
 
 ```js
 import { createStacklineAIServer } from "@stackline/ai/server";
@@ -190,7 +182,27 @@ const ai = createStacklineAIServer({
 
 Expose it with `@stackline/ai-server` before using the browser UI.
 
-## Public API
+## Features
+
+| Feature | Supported |
+| :--- | :---: |
+| Provider-neutral chat contract | ✅ |
+| Model listing contract | ✅ |
+| RAG context injection | ✅ |
+| Direct RAG answers | ✅ |
+| Memory capture hooks | ✅ |
+| Backend/server integration | ✅ |
+| TypeScript declarations | ✅ |
+| ESM-only package | ✅ |
+
+## Security
+
+Keep providers, database access, memory paths, and RAG retrievers on the
+backend. Treat retrieved RAG context as untrusted supporting material.
+
+## API Surface
+
+### Public API
 
 ```js
 import { createStacklineAIServer } from "@stackline/ai";
@@ -199,7 +211,7 @@ import { createStacklineAIServer } from "@stackline/ai/server";
 
 Both imports are valid exported paths.
 
-## Main Types
+### Main Types
 
 - `StacklineAIProvider`
 - `StacklineAIProviderCapabilities`
@@ -213,7 +225,7 @@ Both imports are valid exported paths.
 - `StacklineAIServer`
 - `StacklineAIServerConfig`
 
-## Configuration
+### Configuration
 
 ```js
 createStacklineAIServer({
@@ -253,7 +265,7 @@ createStacklineAIServer({
 });
 ```
 
-## Request Contract
+### Request Contract
 
 ```json
 {
@@ -268,7 +280,7 @@ createStacklineAIServer({
 }
 ```
 
-## Response Contract
+### Response Contract
 
 ```json
 {
@@ -282,12 +294,12 @@ createStacklineAIServer({
 When RAG returns contexts, the core prepends a provider-neutral `system`
 message with retrieved material. RAG evidence is returned in response metadata.
 
-## Error Handling
+### Error Handling
 
 The core does not convert errors to HTTP. Provider, RAG, and memory errors are
 thrown to the caller. `@stackline/ai-server` converts them to JSON HTTP errors.
 
-## Package Integration
+### Package Integration
 
 - Provider: `@stackline/ai-ollama`.
 - HTTP: `@stackline/ai-server`.
@@ -295,13 +307,7 @@ thrown to the caller. `@stackline/ai-server` converts them to JSON HTTP errors.
 - Memory: `@stackline/ai-memory-sqlite`.
 - RAG: `@stackline/ai-rag-postgres`.
 
-## Test The Example
-
-```bash
-pnpm --filter stackline-ai-example-ollama-minimal smoke
-```
-
-## Troubleshooting
+### Troubleshooting
 
 - If a provider receives RAG context, it appears as a prepended `system`
   message with `metadata.stacklineRagContext: true`.
@@ -310,28 +316,58 @@ pnpm --filter stackline-ai-example-ollama-minimal smoke
 - If Ollama throws `Ollama chat requires a model...`, fix provider/UI model
   configuration in `@stackline/ai-ollama` and `@stackline/ai-ui`.
 
-## Security
+### Documentation
 
-Keep providers, database access, memory paths, and RAG retrievers on the
-backend. Treat retrieved RAG context as untrusted supporting material.
+- Full tutorial: `docs/getting-started/full-stack-tutorial.md`
+- API reference: `docs/reference/packages.md`
 
-## Limitations
+## Local Development
 
-- Streaming is part of the provider contract but is not exposed by the current
-  HTTP package.
-- The core does not implement authentication, authorization, rate limiting, or
-  persistence by itself.
+Clone the [monorepo](https://github.com/alexandroit/ai) and run from its root. Repository tooling requires Node.js `>=22.13.0` and `pnpm@11.22.0`; release archives use official Node.js `24.20.0` and npm `11.19.0`.
 
-## Versioning
+```bash
+pnpm install --frozen-lockfile
+pnpm --filter @stackline/ai build
+pnpm --filter @stackline/ai test
+pnpm run check
+```
+
+## Consumer Smoke Test
+
+### Test The Example
+
+```bash
+pnpm --filter stackline-ai-example-ollama-minimal smoke
+```
+
+Pack the release family and validate a fresh consumer, including runtime exports and TypeScript declarations:
+
+```bash
+pnpm run pack:release
+node scripts/consumer-smoke.mjs release-artifacts
+```
+
+## Release Checklist
+
+### Versioning
 
 This package follows semver. Keep adapter and server packages on compatible
 Stackline AI release lines.
 
+1. Update the package manifest, changelog, workspace references, and documentation together.
+2. Run the workspace checks plus `pnpm audit` and `pnpm audit --prod`.
+3. Use [publish.yml](https://github.com/alexandroit/ai/actions/workflows/publish.yml) and confirm `expected_manifest_sha512` against the reviewed `SHA512SUMS` file.
+4. Verify each public package's exact bytes and GitHub Actions provenance.
+
+## Community and Support
+
+Report reproducible issues in the [issue tracker](https://github.com/alexandroit/ai/issues). Use the [security policy](https://github.com/alexandroit/ai/blob/main/packages/ai/SECURITY.md) for security reports.
+
+- [Stackline / Alexandro.Net](https://alexandro.net/)
+- [GitHub](https://github.com/alexandroit)
+- [Maintainer LinkedIn](https://www.linkedin.com/in/aleinfo/)
+- [Reddit community: r/Stackline](https://www.reddit.com/r/Stackline/)
+
 ## License
 
-MIT
-
-## Documentation
-
-- Full tutorial: `docs/getting-started/full-stack-tutorial.md`
-- API reference: `docs/reference/packages.md`
+[MIT](https://github.com/alexandroit/ai/blob/main/packages/ai/LICENSE). Copyright notices and the credits above are retained.

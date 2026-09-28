@@ -19,7 +19,7 @@ const requiredPackageFields = [
   "bugs",
   "publishConfig",
 ];
-const requiredPackageFiles = ["dist", "README.md", "LICENSE", "CHANGELOG.md", "SECURITY.md"];
+const requiredPackageFiles = [ "README.md", "LICENSE", "CHANGELOG.md", "SECURITY.md"];
 const secretPatterns = [
   /npm_[A-Za-z0-9]{20,}/,
   /sk-[A-Za-z0-9]{20,}/,
@@ -57,18 +57,31 @@ for (const name of readdirSync(packagesDir)) {
     if (!manifest.files?.includes(file)) {
       fail(`${manifest.name} package files must include ${file}.`);
     }
-    if (file !== "dist" && !existsSync(join(packagesDir, name, file))) {
+    if (!existsSync(join(packagesDir, name, file))) {
       fail(`${manifest.name} is missing ${file}.`);
     }
   }
 
-  if (!existsSync(join(packagesDir, name, "dist", "index.js"))) {
-    fail(`${manifest.name} is missing dist/index.js. Run pnpm build.`);
+  for (const entry of [manifest.exports?.["."]?.import, manifest.types]) {
+    if (typeof entry !== "string") {
+      fail(`${manifest.name} must declare runtime and type entrypoints.`);
+      continue;
+    }
+    const file = entry.replace(/^\.\//, "");
+    if (!existsSync(join(packagesDir, name, file))) {
+      fail(`${manifest.name} is missing ${file}. Run pnpm build for generated entries.`);
+    }
+    if (!manifest.files?.some((included) => file === included || file.startsWith(`${included}/`))) {
+      fail(`${manifest.name} package files must include ${file}.`);
+    }
+  }
+  if (manifest.keywords?.filter((keyword) => keyword === "stackline").length !== 1) {
+    fail(`${manifest.name} must include the stackline keyword exactly once.`);
+  }
+  if (manifest.repository?.directory !== `packages/${name}`) {
+    fail(`${manifest.name} repository.directory must identify its package source.`);
   }
 
-  if (!existsSync(join(packagesDir, name, "dist", "index.d.ts"))) {
-    fail(`${manifest.name} is missing dist/index.d.ts. Run pnpm build.`);
-  }
 }
 
 function scan(path) {

@@ -4,23 +4,13 @@ import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { archiveName, releasePackages } from "./release-packages.mjs";
+
 const artifactDir = resolve(process.argv[2] || "release-artifacts");
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const typescriptVersion = process.env.STACKLINE_TYPESCRIPT_VERSION;
-const packageDirectories = {
-  "@stackline/ai": "packages/ai",
-  "@stackline/ai-server": "packages/server",
-  "@stackline/ai-ollama": "packages/provider-ollama",
-  "@stackline/ai-memory-sqlite": "packages/memory-sqlite",
-  "@stackline/ai-rag-postgres": "packages/rag-postgres",
-  "@stackline/ai-ui": "packages/ui",
-};
 const packages = Object.fromEntries(
-  Object.entries(packageDirectories).map(([name, directory]) => {
-    const manifest = JSON.parse(readFileSync(resolve(repositoryRoot, directory, "package.json"), "utf8"));
-    if (manifest.name !== name) throw new Error(`Package manifest mismatch for ${name}.`);
-    return [name, `${name.slice(1).replace("/", "-")}-${manifest.version}.tgz`];
-  }),
+  releasePackages(repositoryRoot).map(({ manifest }) => [manifest.name, archiveName(manifest)]),
 );
 const temporaryRoot = mkdtempSync(`${tmpdir()}/stackline-ai-consumer-`);
 
@@ -44,12 +34,24 @@ try {
 
   writeFileSync(
     resolve(temporaryRoot, "runtime.mjs"),
-    `import { createStacklineAIServer } from "@stackline/ai/server";
+    `import * as scopedMemory from "@stackline/ai-memory-sqlite";
+import * as memoryAlias from "ai-memory-sqlite";
+import * as scopedOllama from "@stackline/ai-ollama";
+import * as ollamaAlias from "ai-ollama";
+import * as scopedRag from "@stackline/ai-rag-postgres";
+import * as ragAlias from "ai-rag-postgres";
+import { createStacklineAIServer } from "@stackline/ai/server";
 import { createStacklineAIHttpHandler } from "@stackline/ai-server";
 import { ollamaProvider } from "@stackline/ai-ollama";
 import { createSqliteMemoryStore } from "@stackline/ai-memory-sqlite";
 import { createPostgresRagRetriever } from "@stackline/ai-rag-postgres";
 import { stacklineAIStudioTagName } from "@stackline/ai-ui";
+
+for (const [canonical, alias] of [[scopedMemory, memoryAlias], [scopedOllama, ollamaAlias], [scopedRag, ragAlias]]) {
+  const names = Object.keys(canonical).sort();
+  if (JSON.stringify(names) !== JSON.stringify(Object.keys(alias).sort())) throw new Error("Alias export names differ.");
+  for (const name of names) if (canonical[name] !== alias[name]) throw new Error("Alias export identity differs: " + name);
+}
 
 const provider = {
   name: "consumer",
@@ -96,6 +98,9 @@ import { ollamaProvider, type OllamaProviderOptions } from "@stackline/ai-ollama
 import { createSqliteMemoryStore, type StacklineSqliteMemoryStoreOptions } from "@stackline/ai-memory-sqlite";
 import { createPostgresRagRetriever, type StacklinePostgresRagRetrieverOptions } from "@stackline/ai-rag-postgres";
 import { defineStacklineAIStudio, type StacklineAIStudioElement } from "@stackline/ai-ui";
+import { createSqliteMemoryStore as aliasMemory, type StacklineSqliteMemoryStoreOptions as AliasSqliteOptions } from "ai-memory-sqlite";
+import { ollamaProvider as aliasOllama, type OllamaProviderOptions as AliasOllamaOptions } from "ai-ollama";
+import { createPostgresRagRetriever as aliasRag, type StacklinePostgresRagRetrieverOptions as AliasPostgresOptions } from "ai-rag-postgres";
 
 declare const provider: StacklineAIProvider;
 const server = createStacklineAIServer({ provider });
@@ -109,6 +114,12 @@ const postgresOptions: StacklinePostgresRagRetrieverOptions = {
   client: { query: async () => ({ rows: [] }) },
 };
 createPostgresRagRetriever(postgresOptions);
+const aliasSqliteOptions: AliasSqliteOptions = sqliteOptions;
+const aliasOllamaOptions: AliasOllamaOptions = ollamaOptions;
+const aliasPostgresOptions: AliasPostgresOptions = postgresOptions;
+aliasMemory(aliasSqliteOptions).close();
+aliasOllama(aliasOllamaOptions);
+aliasRag(aliasPostgresOptions);
 defineStacklineAIStudio();
 declare const studio: StacklineAIStudioElement;
 studio.send("hello");

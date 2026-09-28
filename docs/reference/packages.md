@@ -192,3 +192,15 @@ studio.setTranslationPacks({
 
 studio.setLanguage("de");
 ```
+
+## Unscoped convenience entry points
+
+These packages re-export the complete canonical API and are published from the same checked GitHub source:
+
+| Entry point | Canonical implementation |
+| --- | --- |
+| `ai-memory-sqlite` | `@stackline/ai-memory-sqlite` |
+| `ai-ollama` | `@stackline/ai-ollama` |
+| `ai-rag-postgres` | `@stackline/ai-rag-postgres` |
+
+The scoped packages remain valid imports. The aliases add no runtime behavior; their README files describe the same backend requirements and security boundaries.

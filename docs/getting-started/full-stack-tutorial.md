@@ -131,12 +131,12 @@ stackline-ai-starter/
     "test": "node smoke.mjs"
   },
   "dependencies": {
-    "@stackline/ai": "^0.0.3",
-    "@stackline/ai-memory-sqlite": "^0.0.3",
-    "@stackline/ai-ollama": "^0.0.3",
-    "@stackline/ai-rag-postgres": "^0.0.4",
-    "@stackline/ai-server": "^0.0.3",
-    "@stackline/ai-ui": "^0.0.5"
+    "@stackline/ai": "^0.0.4",
+    "@stackline/ai-memory-sqlite": "^0.0.4",
+    "@stackline/ai-ollama": "^0.0.4",
+    "@stackline/ai-rag-postgres": "^0.0.5",
+    "@stackline/ai-server": "^0.0.4",
+    "@stackline/ai-ui": "^0.0.6"
   },
   "devDependencies": {
     "vite": "^8.2.1"

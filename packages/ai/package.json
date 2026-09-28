@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Provider-neutral Stackline AI contracts, server core, RAG, memory, and adapter interfaces.",
   "license": "MIT",
   "author": "Stackline",
@@ -48,29 +48,13 @@
   },
   "keywords": [
     "stackline",
-    "stackline-ai",
     "ai",
-    "artificial-intelligence",
-    "generative-ai",
-    "rag",
-    "retrieval-augmented-generation",
-    "memory",
-    "conversation-memory",
     "llm",
-    "llm-sdk",
-    "ai-sdk",
-    "chat",
-    "chatbot",
-    "backend",
-    "server",
-    "gateway",
-    "secure-gateway",
+    "sdk",
     "provider",
-    "provider-adapter",
-    "multi-provider",
-    "context-retrieval",
-    "ollama",
+    "rag",
+    "memory",
     "typescript",
-    "javascript"
+    "esm"
   ]
 }

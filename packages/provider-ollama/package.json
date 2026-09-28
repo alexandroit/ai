@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-ollama",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Ollama provider adapter for Stackline AI.",
   "license": "MIT",
   "author": "Stackline",
@@ -47,28 +47,12 @@
   },
   "keywords": [
     "stackline",
-    "stackline-ai",
     "ai",
-    "artificial-intelligence",
-    "generative-ai",
     "ollama",
-    "ollama-ai",
-    "ollama-api",
-    "ollama-provider",
-    "local-ollama",
     "local-llm",
-    "llm",
-    "llm-provider",
     "provider",
-    "provider-adapter",
     "model-listing",
-    "auto-model",
-    "chat",
-    "chatbot",
-    "backend",
-    "gateway",
-    "rag-ready",
     "typescript",
-    "javascript"
+    "esm"
   ]
 }

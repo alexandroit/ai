@@ -18,22 +18,23 @@ concurrency:
 
 jobs:
   publish:
-    name: Verify and publish six packages with provenance
+    name: Verify and publish nine packages with provenance
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.20.0
+          package-manager-cache: false
+          registry-url: https://registry.npmjs.org
+      - run: npm install --global npm@11.19.0
       - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v4.2.0
         with:
           version: 11.22.0
           run_install: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: 22.22.3
-          package-manager-cache: false
-          registry-url: https://registry.npmjs.org
       - name: Require the default branch
         run: test "$GITHUB_REF" = "refs/heads/main"
       - run: pnpm install --frozen-lockfile
@@ -43,13 +44,16 @@ jobs:
       - name: Reject existing public versions
         shell: bash
         run: |
+          set -euo pipefail
           for archive in release-artifacts/*.tgz; do
             manifest="$(tar -xOf "$archive" package/package.json)"
             package="$(node -e 'const input=[]; process.stdin.on("data", c => input.push(c)); process.stdin.on("end", () => process.stdout.write(JSON.parse(Buffer.concat(input)).name));' <<<"$manifest")"
             version="$(node -e 'const input=[]; process.stdin.on("data", c => input.push(c)); process.stdin.on("end", () => process.stdout.write(JSON.parse(Buffer.concat(input)).version));' <<<"$manifest")"
-            if npm view "$package@$version" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+            if npm view "$package@$version" version --json --registry=https://registry.npmjs.org > "$RUNNER_TEMP/npm-version-check.json"; then
               echo "$package@$version already exists" >&2
               exit 1
+            else
+              node -e 'const fs = require("node:fs"); const response = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + "/npm-version-check.json", "utf8")); if (response.error?.code !== "E404") throw new Error("Registry lookup failed without confirming version absence");'
             fi
           done
       - name: Verify the immutable artifact manifest
@@ -68,7 +72,6 @@ jobs:
             exit 1
           fi
           (cd release-artifacts && sha512sum --check SHA512SUMS)
-      - run: npm install --global npm@11.19.0
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: npm-release
@@ -77,6 +80,8 @@ jobs:
       - name: Publish packages through OIDC
         shell: bash
         run: |
-          for archive in release-artifacts/*.tgz; do
+          set -euo pipefail
+          node --input-type=module -e 'import { releasePackages, archiveName } from "./scripts/release-packages.mjs"; for (const { manifest } of releasePackages(process.cwd())) console.log("release-artifacts/" + archiveName(manifest));' > "$RUNNER_TEMP/publish-order.txt"
+          while IFS= read -r archive; do
             npm publish "$archive" --access public --provenance --registry=https://registry.npmjs.org
-          done
+          done < "$RUNNER_TEMP/publish-order.txt"

@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-rag-postgres",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "PostgreSQL read-only RAG retriever for Stackline AI.",
   "license": "MIT",
   "author": "Stackline",
@@ -50,26 +50,14 @@
   },
   "keywords": [
     "stackline",
-    "stackline-ai",
     "ai",
-    "artificial-intelligence",
-    "generative-ai",
-    "rag",
-    "retrieval-augmented-generation",
-    "context-retrieval",
-    "retriever",
-    "database-retriever",
-    "postgres",
     "postgresql",
-    "pg",
-    "database",
+    "postgres",
+    "rag",
+    "retrieval",
+    "read-only",
     "sql",
-    "readonly-sql",
-    "readonly",
-    "llm",
-    "backend",
-    "knowledge-base",
     "typescript",
-    "javascript"
+    "esm"
   ]
 }

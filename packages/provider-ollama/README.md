@@ -11,7 +11,7 @@
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai-ollama)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Latest tested package release:** `0.0.3`
+**Package version:** `0.0.4`
 
 ---
 
@@ -23,45 +23,52 @@
 
 `@stackline/ai-ollama` keeps Ollama behind your backend while still giving Stackline UI and HTTP packages a provider-neutral interface. It documents the full model path because Ollama `/api/chat` requires a real model name.
 
-## Features
-
-| Feature | Supported |
-| :--- | :---: |
-| Local Ollama target | ✅ |
-| Ollama-compatible API target | ✅ |
-| Optional API key header | ✅ |
-| Explicit model selection | ✅ |
-| `model: "auto"` fallback | ✅ |
-| `/api/tags` model listing | ✅ |
-| Non-chat model filtering for auto mode | ✅ |
-| TypeScript declarations | ✅ |
-
-## Table of Contents
-
-1. [Why this package?](#why-this-package)
-2. [Features](#features)
-3. [Status](#status)
-4. [What This Package Does](#what-this-package-does)
-5. [Install By Situation](#install-by-situation)
-6. [Step 1: Validate Ollama Before Stackline](#step-1-validate-ollama-before-stackline)
-7. [Step 2: Use An Explicit Model First](#step-2-use-an-explicit-model-first)
-8. [Step 3: Expose It Through The Server](#step-3-expose-it-through-the-server)
-9. [`model: "auto"`](#model-auto)
-10. [Model Empty Troubleshooting](#model-empty-troubleshooting)
-11. [Security](#security)
-
-## Status
-
-Initial public API, ESM-only, TypeScript declarations included.
-
-## What This Package Does
+### What This Package Does
 
 This package adapts local Ollama, Ollama Cloud, or an Ollama-compatible API to
 the provider contract from `@stackline/ai`.
 
 It is backend code. Do not put Ollama Cloud keys in browser code.
 
-## Install By Situation
+### When To Use
+
+Use this package when Stackline AI should call local Ollama, Ollama Cloud, or an
+Ollama-compatible backend.
+
+## Compatibility
+
+| Item | Value |
+| --- | --- |
+| Package | `@stackline/ai-ollama@0.0.4` |
+| Supported Node.js | `>=18.17.0` |
+| Module entry | `dist/index.js` (ES modules) |
+| Types | `dist/index.d.ts` |
+| Runtime dependencies | 1 direct dependency |
+
+### Status
+
+Initial public API, ESM-only, TypeScript declarations included.
+
+### Requirements
+
+- Runtime: Node.js `>=18.17.0`.
+- Ollama or an Ollama-compatible API.
+- At least one installed chat model, unless every request supplies a valid
+  explicit model.
+
+### When Not To Use
+
+Do not import this package in the browser for private deployments. It belongs
+behind `@stackline/ai-server`.
+
+### Limitations
+
+The adapter sends `stream: false`. Provider capabilities report streaming, but
+the current HTTP package does not expose streaming routes.
+
+## Installation
+
+### Install By Situation
 
 ### Ollama Provider Only
 
@@ -96,24 +103,9 @@ npm install -D vite
 mkdir -p src
 ```
 
-## Requirements
+## Usage
 
-- Runtime: Node.js `>=18.17.0`.
-- Ollama or an Ollama-compatible API.
-- At least one installed chat model, unless every request supplies a valid
-  explicit model.
-
-## When To Use
-
-Use this package when Stackline AI should call local Ollama, Ollama Cloud, or an
-Ollama-compatible backend.
-
-## When Not To Use
-
-Do not import this package in the browser for private deployments. It belongs
-behind `@stackline/ai-server`.
-
-## Step 1: Validate Ollama Before Stackline
+### Step 1: Validate Ollama Before Stackline
 
 ```bash
 ollama --version
@@ -138,7 +130,7 @@ curl http://127.0.0.1:11434/api/chat \
 
 If `llama3.1` is not installed, use the exact `NAME` shown by `ollama list`.
 
-## Step 2: Use An Explicit Model First
+### Step 2: Use An Explicit Model First
 
 Explicit models are the safest first deployment because they make failures
 obvious.
@@ -168,7 +160,7 @@ const response = await ai.chat({
 console.log(response.content);
 ```
 
-## Step 3: Expose It Through The Server
+### Step 3: Expose It Through The Server
 
 ```js
 import { createStacklineAIHttpHandler } from "@stackline/ai-server";
@@ -190,7 +182,7 @@ Then the browser UI can call:
 ></stackline-ai-studio>
 ```
 
-## `model: "auto"`
+### `model: "auto"`
 
 The provider also supports:
 
@@ -212,19 +204,39 @@ Ollama chat requires a model. Use a model name or model: "auto".
 Use explicit models when debugging a first install. Use `auto` when you want
 the backend to select the first installed chat-like model.
 
-## Public API
+## Features
+
+| Feature | Supported |
+| :--- | :---: |
+| Local Ollama target | ✅ |
+| Ollama-compatible API target | ✅ |
+| Optional API key header | ✅ |
+| Explicit model selection | ✅ |
+| `model: "auto"` fallback | ✅ |
+| `/api/tags` model listing | ✅ |
+| Non-chat model filtering for auto mode | ✅ |
+| TypeScript declarations | ✅ |
+
+## Security
+
+Keep `apiKey` on the backend. Use model allow-lists in `@stackline/ai-server`
+when exposing a public app.
+
+## API Surface
+
+### Public API
 
 - `ollamaProvider(options?: OllamaProviderOptions)`
 - `OllamaProviderOptions`
 
-## Options
+### Options
 
 - `target`: defaults to `http://127.0.0.1:11434`.
 - `apiKey`: optional bearer token.
 - `model`: explicit model or `"auto"`.
 - `fetch`: optional fetch implementation for tests or custom runtimes.
 
-## Model Empty Troubleshooting
+### Model Empty Troubleshooting
 
 Symptom:
 
@@ -256,11 +268,11 @@ Use the same value in UI markup when you want the browser to send it:
 <stackline-ai-studio model="llama3.1"></stackline-ai-studio>
 ```
 
-## Error Handling
+### Error Handling
 
 Non-OK Ollama responses include the upstream error text when possible.
 
-## Integration
+### Integration
 
 Use with:
 
@@ -268,31 +280,57 @@ Use with:
 - `@stackline/ai-server` for safe backend HTTP routes;
 - `@stackline/ai-ui` for the browser Studio component.
 
-## Test The Example
+### Documentation
+
+- Full tutorial: `docs/getting-started/full-stack-tutorial.md`
+- Package reference: `docs/reference/packages.md`
+
+## Local Development
+
+Clone the [monorepo](https://github.com/alexandroit/ai) and run from its root. Repository tooling requires Node.js `>=22.13.0` and `pnpm@11.22.0`; release archives use official Node.js `24.20.0` and npm `11.19.0`.
+
+```bash
+pnpm install --frozen-lockfile
+pnpm --filter @stackline/ai-ollama build
+pnpm --filter @stackline/ai-ollama test
+pnpm run check
+```
+
+## Consumer Smoke Test
+
+### Test The Example
 
 ```bash
 pnpm --filter stackline-ai-example-ollama-minimal smoke
 ```
 
-## Security
+Pack the release family and validate a fresh consumer, including runtime exports and TypeScript declarations:
 
-Keep `apiKey` on the backend. Use model allow-lists in `@stackline/ai-server`
-when exposing a public app.
+```bash
+pnpm run pack:release
+node scripts/consumer-smoke.mjs release-artifacts
+```
 
-## Limitations
+## Release Checklist
 
-The adapter sends `stream: false`. Provider capabilities report streaming, but
-the current HTTP package does not expose streaming routes.
-
-## Versioning
+### Versioning
 
 Use the same release line as `@stackline/ai`.
 
+1. Update the package manifest, changelog, workspace references, and documentation together.
+2. Run the workspace checks plus `pnpm audit` and `pnpm audit --prod`.
+3. Use [publish.yml](https://github.com/alexandroit/ai/actions/workflows/publish.yml) and confirm `expected_manifest_sha512` against the reviewed `SHA512SUMS` file.
+4. Verify each public package's exact bytes and GitHub Actions provenance.
+
+## Community and Support
+
+Report reproducible issues in the [issue tracker](https://github.com/alexandroit/ai/issues). Use the [security policy](https://github.com/alexandroit/ai/blob/main/packages/provider-ollama/SECURITY.md) for security reports.
+
+- [Stackline / Alexandro.Net](https://alexandro.net/)
+- [GitHub](https://github.com/alexandroit)
+- [Maintainer LinkedIn](https://www.linkedin.com/in/aleinfo/)
+- [Reddit community: r/Stackline](https://www.reddit.com/r/Stackline/)
+
 ## License
 
-MIT
-
-## Documentation
-
-- Full tutorial: `docs/getting-started/full-stack-tutorial.md`
-- Package reference: `docs/reference/packages.md`
+[MIT](https://github.com/alexandroit/ai/blob/main/packages/provider-ollama/LICENSE). Copyright notices and the credits above are retained.
