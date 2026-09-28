@@ -77,11 +77,13 @@ jobs:
           name: npm-release
           path: release-artifacts/
           if-no-files-found: error
-      - name: Publish packages through OIDC
+      - name: Publish packages with provenance
         shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.STACKLINE_NPM_PUBLISH_TOKEN }}
         run: |
           set -euo pipefail
           node --input-type=module -e 'import { releasePackages, archiveName } from "./scripts/release-packages.mjs"; for (const { manifest } of releasePackages(process.cwd())) console.log("release-artifacts/" + archiveName(manifest));' > "$RUNNER_TEMP/publish-order.txt"
           while IFS= read -r archive; do
-            npm publish "$archive" --ignore-scripts --access public --provenance --registry=https://registry.npmjs.org
+            npm publish "./$archive" --ignore-scripts --access public --provenance --registry=https://registry.npmjs.org
           done < "$RUNNER_TEMP/publish-order.txt"
