@@ -40,6 +40,15 @@ for (const relativeDir of packageDirectories) {
   }
 
   const tarball = resolve(artifactDir, created[0]);
+  const archive = readFileSync(tarball);
+  if (archive.length < 10 || archive[0] !== 0x1f || archive[1] !== 0x8b || archive[2] !== 8 || archive[3] !== 0) {
+    throw new Error(`Expected a gzip archive: ${created[0]}.`);
+  }
+  // RFC 1952 uses 255 for an unspecified OS. The platform marker otherwise
+  // differs between macOS and Linux despite identical tar and compressed data.
+  archive[9] = 255;
+  writeFileSync(tarball, archive);
+
   const packedManifestText = execFileSync("tar", ["-xOf", tarball, "package/package.json"], {
     encoding: "utf8",
   });
