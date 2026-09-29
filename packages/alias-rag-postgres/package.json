@@ -1,6 +1,6 @@
 {
   "name": "ai-rag-postgres",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Unscoped convenience entry point for the Stackline AI PostgreSQL RAG retriever.",
   "license": "MIT",
   "type": "module",
