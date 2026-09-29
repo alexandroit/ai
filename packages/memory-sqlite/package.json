@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-memory-sqlite",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "SQLite conversation memory store for Stackline AI development and tests.",
   "license": "MIT",
   "author": "Stackline",

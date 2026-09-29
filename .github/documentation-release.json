@@ -4,7 +4,7 @@
     {
       "name": "@stackline/ai",
       "path": "packages/ai/README.md",
-      "version": "0.0.5",
+      "version": "0.0.6",
       "baselineVersion": "0.0.4",
       "keywords": [
         "stackline",
@@ -22,15 +22,13 @@
       "homepage": "https://alexandro.net/docs/ai/",
       "baselineTarball": "https://registry.npmjs.org/@stackline/ai/-/ai-0.0.4.tgz",
       "baselineIntegrity": "sha512-B2ErYQUtXUztEB1OGuxO2PlP1xXH6/F62Xs95avQYRqjiAwIqki2Q94YqChyN6YwZRERopqzdpsTzqvFZF7o+w==",
-      "expectedSha512": "ab4843c34c389eb22c75c0eb5356d30d8020c0e437b9cdddd4df7d5ebc603e630967e488b65734c4d53e1ea21fc415c3a55286eab91fd5f4e62f79269dea467e",
-      "tag": "docs-stackline-ai-v0.0.5",
-      "expectedSourceCommit": "0e94452f341864d3b86a7fa5054724b226f50cee",
-      "expectedPublicationRun": "https://github.com/alexandroit/ai/actions/runs/36513728620/attempts/1"
+      "expectedSha512": "7346b602bb0c12cf52865b185e1ed35b6b38ae033e6c1af4677f6186ac04ca08c0df95970bed543b2629d25b4546a8ac130e1eaa01cffaec18b839b09c471918",
+      "tag": "docs-stackline-ai-v0.0.6"
     },
     {
       "name": "@stackline/ai-memory-sqlite",
       "path": "packages/memory-sqlite/README.md",
-      "version": "0.0.5",
+      "version": "0.0.6",
       "baselineVersion": "0.0.4",
       "keywords": [
         "stackline",
@@ -49,13 +47,13 @@
       "homepage": "https://alexandro.net/docs/ai/",
       "baselineTarball": "https://registry.npmjs.org/@stackline/ai-memory-sqlite/-/ai-memory-sqlite-0.0.4.tgz",
       "baselineIntegrity": "sha512-ldH1FnV2gBYTDL6lRMJes3dI/VilWlIJBocwRJgRMJ7EQOsT1yVU5YxXr8NCE8VFYMiqd4IhkGcEQI4pYe5Wgg==",
-      "expectedSha512": "de50cc46bc0d215a9c1d72c5b5186323ab31e37080368109c81f5b623fe7b4ba3f8f80fdb140d6e06d24b6da02d50bb7ae8ae36e9f2fb3eb0a24014842a42261",
-      "tag": "docs-stackline-ai-memory-sqlite-v0.0.5"
+      "expectedSha512": "a9d7fba95735e923427763d841b28357908ec7b5adad7a5facfcc8515efea2552bbb2a3cc4d2410ffadf1dd9b199bdc68c9f2832c9186ccbc2b181713da8ec56",
+      "tag": "docs-stackline-ai-memory-sqlite-v0.0.6"
     },
     {
       "name": "@stackline/ai-ollama",
       "path": "packages/provider-ollama/README.md",
-      "version": "0.0.5",
+      "version": "0.0.6",
       "baselineVersion": "0.0.4",
       "keywords": [
         "stackline",
@@ -73,13 +71,13 @@
       "homepage": "https://alexandro.net/docs/ai/",
       "baselineTarball": "https://registry.npmjs.org/@stackline/ai-ollama/-/ai-ollama-0.0.4.tgz",
       "baselineIntegrity": "sha512-76nsaradsxfMcnLLshN6CKi134TCNL1hQtB7NEYcNi0JLKd1WMckePZ6am6wTigbL+hZuzVl52vDL6eRukK6dA==",
-      "expectedSha512": "d0cfa2cecb364cbf7a35de9d928cb1f753077bbe5e0a72ae4cc7013a45400dc84db7a2539595bfc927c20a3334e637bdb47fc2843518d4a22fab5e4277c90d27",
-      "tag": "docs-stackline-ai-ollama-v0.0.5"
+      "expectedSha512": "07696749392953ffe3b4a587033326fe16b5cbd7821be712b5c04cae99fd625419c8b0cbf694f7523a774e9407e7d687783782045dc427596e51e5f0210953ca",
+      "tag": "docs-stackline-ai-ollama-v0.0.6"
     },
     {
       "name": "@stackline/ai-rag-postgres",
       "path": "packages/rag-postgres/README.md",
-      "version": "0.0.6",
+      "version": "0.0.7",
       "baselineVersion": "0.0.5",
       "keywords": [
         "stackline",
@@ -99,13 +97,13 @@
       "homepage": "https://alexandro.net/docs/ai/",
       "baselineTarball": "https://registry.npmjs.org/@stackline/ai-rag-postgres/-/ai-rag-postgres-0.0.5.tgz",
       "baselineIntegrity": "sha512-7NrxLZ9EhvD5JdSuM2FE2J5bGDuiC/t+rmKsah49KS+VUIBYnJrKaBfNqkUCF7gWiXx9H6uZcBwOBU7pXCaVyw==",
-      "expectedSha512": "5d0ccd6d2b8c524a1bab17079f4d80b57824c273c4ef66f2bdaabbf8407acde7b88c1ca52fdfb58a8dfe204d3f962636d35bb14a0ce440c19feb9c10faef53b3",
-      "tag": "docs-stackline-ai-rag-postgres-v0.0.6"
+      "expectedSha512": "54fa0d4da21acc55e2df32205c7846056d6f8cf0b1ef0ad022a82ffe7ad31990b7e1726afe8936ec0d73bb674e179e8d4dae75f50c661bf182e8489beb39ac0a",
+      "tag": "docs-stackline-ai-rag-postgres-v0.0.7"
     },
     {
       "name": "@stackline/ai-server",
       "path": "packages/server/README.md",
-      "version": "0.0.5",
+      "version": "0.0.6",
       "baselineVersion": "0.0.4",
       "keywords": [
         "stackline",
@@ -124,13 +122,13 @@
       "homepage": "https://alexandro.net/docs/ai/",
       "baselineTarball": "https://registry.npmjs.org/@stackline/ai-server/-/ai-server-0.0.4.tgz",
       "baselineIntegrity": "sha512-GJE5XzoKGdieJJhiZXCZqNaGj9QG6jpJC8t3EsuK1+dFqsohcfrvGR7KiJFQ4EYzSM9kuGEOvNsqN4s9F0FgKw==",
-      "expectedSha512": "1e1a0d7d1e6045a905076ab5eadd2f18bdc00d7063b03d3ccf117142576bf32fa4f6d2c130ae62a45a1684bea2767f2b8ca1780f3cc99be6dab8d5b77603c402",
-      "tag": "docs-stackline-ai-server-v0.0.5"
+      "expectedSha512": "e11f6f2946ca73d7502ff13733d2b8325a3b72daa509179584548ccecde7a23be48d9c6c754ec1e4d3aecac6f8d6a48e767f00aff9b793c79d3aaf1404f75f53",
+      "tag": "docs-stackline-ai-server-v0.0.6"
     },
     {
       "name": "@stackline/ai-ui",
       "path": "packages/ui/README.md",
-      "version": "0.0.7",
+      "version": "0.0.8",
       "baselineVersion": "0.0.6",
       "keywords": [
         "stackline",
@@ -150,13 +148,13 @@
       "homepage": "https://alexandro.net/docs/ai/",
       "baselineTarball": "https://registry.npmjs.org/@stackline/ai-ui/-/ai-ui-0.0.6.tgz",
       "baselineIntegrity": "sha512-Zh8EpuN46JL6SX9Uk6MF4KJr5yAwc18K2xh1hL2/xEbn5oTqNeU36f1NwZsEvsV+7Wk7y9B8ceWg5kvFepOBWw==",
-      "expectedSha512": "87f420476b4362e8125d340953cc85661d2e0ae83dc62b7ab4730e493f16923ad9f4e0a2e06cb8b69a8f1570990f406f6302e0c2391c761276c5981531dbba27",
-      "tag": "docs-stackline-ai-ui-v0.0.7"
+      "expectedSha512": "d5f03790a353dc1a3959be1b679b8e36a4717cef35b64a47eed1bc864d1f8035e7753dc05e98cca9624c10ae7c8a82c6e2bc5e541c722fbc777448754fc08aae",
+      "tag": "docs-stackline-ai-ui-v0.0.8"
     },
     {
       "name": "ai-memory-sqlite",
       "path": "packages/alias-memory-sqlite/README.md",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "baselineVersion": "0.0.2",
       "keywords": [
         "stackline",
@@ -175,13 +173,13 @@
       "homepage": "https://alexandro.net/docs/ai/",
       "baselineTarball": "https://registry.npmjs.org/ai-memory-sqlite/-/ai-memory-sqlite-0.0.2.tgz",
       "baselineIntegrity": "sha512-OduuHjlmzKVsjlm+EOz+0XIOhwAhhqdMRDe+uEjB9ZdHmH4n3fSRYElUeF6dLTm+2dxV5ykxbZTKPsSDzSbxtw==",
-      "expectedSha512": "d4b740715b4f4ee0ab3ac4fa356b1a8788748c57ae19133850f3d0ac80b89506bfe58bf6dd50a066bc7c4914251e5f6f6884bc1e4ff0aef58900324c21ceeaca",
-      "tag": "docs-ai-memory-sqlite-v0.0.3"
+      "expectedSha512": "19fe472de997635563fbe32628d5244ce69cc1ea44e13f49716a1bfba445aee9256ea69af51cebee17baed60ccc6717364df31484f04643d97a4d202cd7c9e9b",
+      "tag": "docs-ai-memory-sqlite-v0.0.4"
     },
     {
       "name": "ai-ollama",
       "path": "packages/alias-ollama/README.md",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "baselineVersion": "0.0.2",
       "keywords": [
         "stackline",
@@ -199,13 +197,13 @@
       "homepage": "https://alexandro.net/docs/ai/",
       "baselineTarball": "https://registry.npmjs.org/ai-ollama/-/ai-ollama-0.0.2.tgz",
       "baselineIntegrity": "sha512-KGP4SWWHp9jYZt36Zb/wvkywus6FsDiPAuVIn6HnchvrAvZfOau4Qhe+lBiWG3m8rSD9plEznR4+apjugo4IsQ==",
-      "expectedSha512": "a4c83c3df0ddcec19a51a1ac5c06a916c5499d25b9ae5485b3ffdcf5b37457cae5eda33439aa1594cac8ada93c25cae45ced9aebf26916a7c8a2513ca70d3125",
-      "tag": "docs-ai-ollama-v0.0.3"
+      "expectedSha512": "f5bbf9f87d31bc15c13a84ec56a219dfe7de0aec2b84cf14e965b31f2916dd88ec1102c8272a47eda0611cdb72d3cf5ef65f567c8fa9328e6469e36fb8878ba3",
+      "tag": "docs-ai-ollama-v0.0.4"
     },
     {
       "name": "ai-rag-postgres",
       "path": "packages/alias-rag-postgres/README.md",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "baselineVersion": "0.0.2",
       "keywords": [
         "stackline",
@@ -225,8 +223,8 @@
       "homepage": "https://alexandro.net/docs/ai/",
       "baselineTarball": "https://registry.npmjs.org/ai-rag-postgres/-/ai-rag-postgres-0.0.2.tgz",
       "baselineIntegrity": "sha512-uAHTcx34mqwFYcKN6eXmtHwHgqFbHFEJkxRW7MmmR37s2PwOg3nP3mRQn0azK6rrvN8TWeEgl6vgw2gWzhBM0Q==",
-      "expectedSha512": "9bd3e294f3c69629f8d74b1e7c2f87a3b5388d99d9d4ed502fd54dc5f449b710a2aedb1f83cf73be70d31d1e71e5ccab996630e531473a4eefb4dc76edf379da",
-      "tag": "docs-ai-rag-postgres-v0.0.3"
+      "expectedSha512": "9fe1f91a5136b8067fea84adaad3fedfa315f67d9d24381682c3b26f6e11795dd8023ce28ee6ccb22f50cadf207df5062fd84eed6a758637f97648ac113d8497",
+      "tag": "docs-ai-rag-postgres-v0.0.4"
     }
   ]
 }

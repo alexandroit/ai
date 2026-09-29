@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-rag-postgres",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "PostgreSQL read-only RAG retriever for Stackline AI.",
   "license": "MIT",
   "author": "Stackline",

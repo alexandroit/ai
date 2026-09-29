@@ -4,28 +4,28 @@
 
 [![npm version](https://img.shields.io/npm/v/@stackline/ai.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/ai)
 [![license](https://img.shields.io/npm/l/@stackline/ai.svg?style=flat-square)](https://github.com/alexandroit/ai)
-[![GitHub repository](https://img.shields.io/badge/GitHub-alexandroit%2Fai-181717?style=flat-square&logo=github)](https://github.com/alexandroit/ai)
+[![GitHub repository](https://img.shields.io/badge/GitHub-repository-181717?style=flat-square&logo=github)](https://github.com/alexandroit/ai)
 [![Docs](https://img.shields.io/badge/docs-alexandro.net-0f766e?style=flat-square)](https://alexandro.net/docs/ai/)
 [![Reddit community](https://img.shields.io/badge/community-r%2FStackline-ff4500?style=flat-square&logo=reddit&logoColor=white)](https://www.reddit.com/r/Stackline/)
 
 **[Documentation](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)**
 
-**Current package version:** `0.0.5`
+**Current package version:** `0.0.6`
 
 
 ## Published packages
 
 | Package | Version | Documentation |
 | --- | --- | --- |
-| [@stackline/ai](https://www.npmjs.com/package/@stackline/ai) | `0.0.5` | [Docs](https://alexandro.net/docs/ai/) |
-| [@stackline/ai-memory-sqlite](https://www.npmjs.com/package/@stackline/ai-memory-sqlite) | `0.0.5` | [Docs](https://alexandro.net/docs/ai/) |
-| [@stackline/ai-ollama](https://www.npmjs.com/package/@stackline/ai-ollama) | `0.0.5` | [Docs](https://alexandro.net/docs/ai/) |
-| [@stackline/ai-rag-postgres](https://www.npmjs.com/package/@stackline/ai-rag-postgres) | `0.0.6` | [Docs](https://alexandro.net/docs/ai/) |
-| [@stackline/ai-server](https://www.npmjs.com/package/@stackline/ai-server) | `0.0.5` | [Docs](https://alexandro.net/docs/ai/) |
-| [@stackline/ai-ui](https://www.npmjs.com/package/@stackline/ai-ui) | `0.0.7` | [Docs](https://alexandro.net/docs/ai/) |
-| [ai-memory-sqlite](https://www.npmjs.com/package/ai-memory-sqlite) | `0.0.3` | [Docs](https://alexandro.net/docs/ai/) |
-| [ai-ollama](https://www.npmjs.com/package/ai-ollama) | `0.0.3` | [Docs](https://alexandro.net/docs/ai/) |
-| [ai-rag-postgres](https://www.npmjs.com/package/ai-rag-postgres) | `0.0.3` | [Docs](https://alexandro.net/docs/ai/) |
+| [@stackline/ai](https://www.npmjs.com/package/@stackline/ai) | `0.0.6` | [Docs](https://alexandro.net/docs/ai/) |
+| [@stackline/ai-memory-sqlite](https://www.npmjs.com/package/@stackline/ai-memory-sqlite) | `0.0.6` | [Docs](https://alexandro.net/docs/ai/) |
+| [@stackline/ai-ollama](https://www.npmjs.com/package/@stackline/ai-ollama) | `0.0.6` | [Docs](https://alexandro.net/docs/ai/) |
+| [@stackline/ai-rag-postgres](https://www.npmjs.com/package/@stackline/ai-rag-postgres) | `0.0.7` | [Docs](https://alexandro.net/docs/ai/) |
+| [@stackline/ai-server](https://www.npmjs.com/package/@stackline/ai-server) | `0.0.6` | [Docs](https://alexandro.net/docs/ai/) |
+| [@stackline/ai-ui](https://www.npmjs.com/package/@stackline/ai-ui) | `0.0.8` | [Docs](https://alexandro.net/docs/ai/) |
+| [ai-memory-sqlite](https://www.npmjs.com/package/ai-memory-sqlite) | `0.0.4` | [Docs](https://alexandro.net/docs/ai/) |
+| [ai-ollama](https://www.npmjs.com/package/ai-ollama) | `0.0.4` | [Docs](https://alexandro.net/docs/ai/) |
+| [ai-rag-postgres](https://www.npmjs.com/package/ai-rag-postgres) | `0.0.4` | [Docs](https://alexandro.net/docs/ai/) |
 
 
 > Provider-neutral JavaScript/TypeScript SDK packages for AI applications, with a browser Studio web component, Fetch-compatible backend routes, Ollama provider support, optional SQLite memory, PostgreSQL RAG, and a backend-first security boundary.
@@ -39,7 +39,7 @@
 
 **[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
 
-**Package versions:** core `0.0.4`, PostgreSQL RAG `0.0.5`, UI `0.0.6`
+**Package versions:** core `0.0.6`, PostgreSQL RAG `0.0.7`, UI `0.0.8`
 
 ---
 
@@ -119,15 +119,15 @@ backend.
 
 | Package | Version | Responsibility | Runtime |
 |---|---|---|---|
-| [@stackline/ai](packages/ai/README.md) | `0.0.4` | Provider-neutral Stackline AI contracts, server core, RAG, memory, and adapter interfaces | backend/shared |
-| [@stackline/ai-server](packages/server/README.md) | `0.0.4` | Fetch-compatible HTTP backend handler for Stackline AI | backend |
-| [@stackline/ai-ollama](packages/provider-ollama/README.md) | `0.0.4` | Ollama provider adapter for Stackline AI | backend |
-| [@stackline/ai-memory-sqlite](packages/memory-sqlite/README.md) | `0.0.4` | SQLite conversation memory store for Stackline AI development and tests | backend |
-| [@stackline/ai-rag-postgres](packages/rag-postgres/README.md) | `0.0.5` | PostgreSQL read-only RAG retriever for Stackline AI | backend |
-| [@stackline/ai-ui](packages/ui/README.md) | `0.0.6` | Framework-neutral Stackline AI Studio web component | browser |
-| [ai-memory-sqlite](packages/alias-memory-sqlite/README.md) | `0.0.2` | Unscoped convenience entry point for Stackline AI SQLite conversation memory | backend |
-| [ai-ollama](packages/alias-ollama/README.md) | `0.0.2` | Unscoped convenience entry point for the Stackline AI Ollama provider | backend |
-| [ai-rag-postgres](packages/alias-rag-postgres/README.md) | `0.0.2` | Unscoped convenience entry point for the Stackline AI PostgreSQL RAG retriever | backend |
+| [@stackline/ai](packages/ai/README.md) | `0.0.6` | Provider-neutral Stackline AI contracts, server core, RAG, memory, and adapter interfaces | backend/shared |
+| [@stackline/ai-server](packages/server/README.md) | `0.0.6` | Fetch-compatible HTTP backend handler for Stackline AI | backend |
+| [@stackline/ai-ollama](packages/provider-ollama/README.md) | `0.0.6` | Ollama provider adapter for Stackline AI | backend |
+| [@stackline/ai-memory-sqlite](packages/memory-sqlite/README.md) | `0.0.6` | SQLite conversation memory store for Stackline AI development and tests | backend |
+| [@stackline/ai-rag-postgres](packages/rag-postgres/README.md) | `0.0.7` | PostgreSQL read-only RAG retriever for Stackline AI | backend |
+| [@stackline/ai-ui](packages/ui/README.md) | `0.0.8` | Framework-neutral Stackline AI Studio web component | browser |
+| [ai-memory-sqlite](packages/alias-memory-sqlite/README.md) | `0.0.4` | Unscoped convenience entry point for Stackline AI SQLite conversation memory | backend |
+| [ai-ollama](packages/alias-ollama/README.md) | `0.0.4` | Unscoped convenience entry point for the Stackline AI Ollama provider | backend |
+| [ai-rag-postgres](packages/alias-rag-postgres/README.md) | `0.0.4` | Unscoped convenience entry point for the Stackline AI PostgreSQL RAG retriever | backend |
 
 ## Install By Scenario
 

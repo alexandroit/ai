@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-ollama",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Ollama provider adapter for Stackline AI.",
   "license": "MIT",
   "author": "Stackline",
