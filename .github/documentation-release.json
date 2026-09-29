@@ -23,7 +23,9 @@
       "baselineTarball": "https://registry.npmjs.org/@stackline/ai/-/ai-0.0.4.tgz",
       "baselineIntegrity": "sha512-B2ErYQUtXUztEB1OGuxO2PlP1xXH6/F62Xs95avQYRqjiAwIqki2Q94YqChyN6YwZRERopqzdpsTzqvFZF7o+w==",
       "expectedSha512": "ab4843c34c389eb22c75c0eb5356d30d8020c0e437b9cdddd4df7d5ebc603e630967e488b65734c4d53e1ea21fc415c3a55286eab91fd5f4e62f79269dea467e",
-      "tag": "docs-stackline-ai-v0.0.5"
+      "tag": "docs-stackline-ai-v0.0.5",
+      "expectedSourceCommit": "0e94452f341864d3b86a7fa5054724b226f50cee",
+      "expectedPublicationRun": "https://github.com/alexandroit/ai/actions/runs/36513728620/attempts/1"
     },
     {
       "name": "@stackline/ai-memory-sqlite",
