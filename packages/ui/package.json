@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-ui",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Framework-neutral Stackline AI Studio web component.",
   "license": "MIT",
   "author": "Stackline",
@@ -47,6 +47,10 @@
   },
   "keywords": [
     "stackline",
+    "npm-package",
+    "ai-ui",
+    "typescript",
+    "nodejs",
     "ai",
     "chat-ui",
     "web-component",
@@ -54,7 +58,6 @@
     "model-picker",
     "markdown",
     "i18n",
-    "typescript",
     "javascript"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-memory-sqlite",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "SQLite conversation memory store for Stackline AI development and tests.",
   "license": "MIT",
   "author": "Stackline",
@@ -48,13 +48,16 @@
   },
   "keywords": [
     "stackline",
+    "npm-package",
+    "ai-memory-sqlite",
+    "typescript",
+    "nodejs",
     "ai",
     "sqlite",
     "sqljs",
     "memory",
     "conversation-memory",
     "persistence",
-    "typescript",
     "esm"
   ]
 }

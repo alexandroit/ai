@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-server",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Fetch-compatible HTTP backend handler for Stackline AI.",
   "license": "MIT",
   "author": "Stackline",
@@ -47,13 +47,16 @@
   },
   "keywords": [
     "stackline",
+    "npm-package",
+    "ai-server",
+    "typescript",
+    "nodejs",
     "ai",
     "http",
     "fetch",
     "backend",
     "cors",
     "chat-api",
-    "typescript",
     "esm"
   ]
 }

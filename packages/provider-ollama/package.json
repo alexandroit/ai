@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-ollama",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Ollama provider adapter for Stackline AI.",
   "license": "MIT",
   "author": "Stackline",
@@ -47,12 +47,15 @@
   },
   "keywords": [
     "stackline",
+    "npm-package",
+    "ai-ollama",
+    "typescript",
+    "nodejs",
     "ai",
     "ollama",
     "local-llm",
     "provider",
     "model-listing",
-    "typescript",
     "esm"
   ]
 }

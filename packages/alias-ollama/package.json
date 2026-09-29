@@ -1,6 +1,6 @@
 {
   "name": "ai-ollama",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Unscoped convenience entry point for the Stackline AI Ollama provider.",
   "license": "MIT",
   "type": "module",
@@ -31,12 +31,15 @@
   },
   "keywords": [
     "stackline",
+    "npm-package",
+    "ai-ollama",
+    "typescript",
+    "nodejs",
     "ai",
     "ollama",
     "local-llm",
     "provider",
     "model-listing",
-    "typescript",
     "esm"
   ],
   "homepage": "https://alexandro.net/docs/ai/",

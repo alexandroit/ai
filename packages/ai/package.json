@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Provider-neutral Stackline AI contracts, server core, RAG, memory, and adapter interfaces.",
   "license": "MIT",
   "author": "Stackline",
@@ -48,13 +48,15 @@
   },
   "keywords": [
     "stackline",
+    "npm-package",
     "ai",
+    "typescript",
+    "nodejs",
     "llm",
     "sdk",
     "provider",
     "rag",
     "memory",
-    "typescript",
     "esm"
   ]
 }

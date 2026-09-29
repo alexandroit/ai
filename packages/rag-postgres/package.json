@@ -1,6 +1,6 @@
 {
   "name": "@stackline/ai-rag-postgres",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "PostgreSQL read-only RAG retriever for Stackline AI.",
   "license": "MIT",
   "author": "Stackline",
@@ -50,6 +50,10 @@
   },
   "keywords": [
     "stackline",
+    "npm-package",
+    "ai-rag-postgres",
+    "typescript",
+    "nodejs",
     "ai",
     "postgresql",
     "postgres",
@@ -57,7 +61,6 @@
     "retrieval",
     "read-only",
     "sql",
-    "typescript",
     "esm"
   ]
 }

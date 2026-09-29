@@ -1,4 +1,32 @@
-# Stackline AI
+# @stackline/ai
+
+> Provider-neutral Stackline AI contracts, server core, RAG, memory, and adapter interfaces.
+
+[![npm version](https://img.shields.io/npm/v/@stackline/ai.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/ai)
+[![license](https://img.shields.io/npm/l/@stackline/ai.svg?style=flat-square)](https://github.com/alexandroit/ai)
+[![GitHub repository](https://img.shields.io/badge/GitHub-alexandroit%2Fai-181717?style=flat-square&logo=github)](https://github.com/alexandroit/ai)
+[![Docs](https://img.shields.io/badge/docs-alexandro.net-0f766e?style=flat-square)](https://alexandro.net/docs/ai/)
+[![Reddit community](https://img.shields.io/badge/community-r%2FStackline-ff4500?style=flat-square&logo=reddit&logoColor=white)](https://www.reddit.com/r/Stackline/)
+
+**[Documentation](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)**
+
+**Current package version:** `0.0.5`
+
+
+## Published packages
+
+| Package | Version | Documentation |
+| --- | --- | --- |
+| [@stackline/ai](https://www.npmjs.com/package/@stackline/ai) | `0.0.5` | [Docs](https://alexandro.net/docs/ai/) |
+| [@stackline/ai-memory-sqlite](https://www.npmjs.com/package/@stackline/ai-memory-sqlite) | `0.0.5` | [Docs](https://alexandro.net/docs/ai/) |
+| [@stackline/ai-ollama](https://www.npmjs.com/package/@stackline/ai-ollama) | `0.0.5` | [Docs](https://alexandro.net/docs/ai/) |
+| [@stackline/ai-rag-postgres](https://www.npmjs.com/package/@stackline/ai-rag-postgres) | `0.0.6` | [Docs](https://alexandro.net/docs/ai/) |
+| [@stackline/ai-server](https://www.npmjs.com/package/@stackline/ai-server) | `0.0.5` | [Docs](https://alexandro.net/docs/ai/) |
+| [@stackline/ai-ui](https://www.npmjs.com/package/@stackline/ai-ui) | `0.0.7` | [Docs](https://alexandro.net/docs/ai/) |
+| [ai-memory-sqlite](https://www.npmjs.com/package/ai-memory-sqlite) | `0.0.3` | [Docs](https://alexandro.net/docs/ai/) |
+| [ai-ollama](https://www.npmjs.com/package/ai-ollama) | `0.0.3` | [Docs](https://alexandro.net/docs/ai/) |
+| [ai-rag-postgres](https://www.npmjs.com/package/ai-rag-postgres) | `0.0.3` | [Docs](https://alexandro.net/docs/ai/) |
+
 
 > Provider-neutral JavaScript/TypeScript SDK packages for AI applications, with a browser Studio web component, Fetch-compatible backend routes, Ollama provider support, optional SQLite memory, PostgreSQL RAG, and a backend-first security boundary.
 
@@ -428,3 +456,22 @@ policy in production.
 ## License
 
 MIT
+
+
+## Credits and original authors
+
+- Stackline.
+- Copyright (c) 2026 Alexandro Marques.
+- Stackline maintenance: [Alexandro Paixao Marques](https://www.linkedin.com/in/aleinfo/) and [Stackline contributors](https://github.com/alexandroit).
+
+Original copyright, license notices and contributor acknowledgements remain part of this distribution. Stackline maintenance does not replace authorship of the original work.
+
+## Community and Links
+
+- [Stackline website](https://alexandro.net/)
+- [GitHub projects](https://github.com/alexandroit)
+- [npm packages](https://www.npmjs.com/~alex360qc)
+- [Reddit community — r/Stackline](https://www.reddit.com/r/Stackline/)
+- [Maintainer LinkedIn](https://www.linkedin.com/in/aleinfo/)
+
+Use this repository's issue tracker for reproducible bugs and feature requests. Join r/Stackline for examples, usage questions and release discussions.

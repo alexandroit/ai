@@ -1,21 +1,16 @@
 # @stackline/ai-memory-sqlite
 
-> SQLite/sql.js conversation memory store for Stackline AI development, tests, local assistants, private demos, and single-instance deployments that need persisted chat history.
+> SQLite conversation memory store for Stackline AI development and tests.
 
 [![npm version](https://img.shields.io/npm/v/@stackline/ai-memory-sqlite.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/ai-memory-sqlite)
-[![npm monthly](https://img.shields.io/npm/dm/@stackline/ai-memory-sqlite.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/ai-memory-sqlite)
-[![license](https://img.shields.io/npm/l/@stackline/ai-memory-sqlite.svg?style=flat-square)](https://github.com/alexandroit/ai/blob/main/LICENSE)
-[![SQLite](https://img.shields.io/badge/SQLite-memory-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
+[![license](https://img.shields.io/npm/l/@stackline/ai-memory-sqlite.svg?style=flat-square)](https://github.com/alexandroit/ai)
+[![GitHub repository](https://img.shields.io/badge/GitHub-alexandroit%2Fai-181717?style=flat-square&logo=github)](https://github.com/alexandroit/ai)
+[![Docs](https://img.shields.io/badge/docs-alexandro.net-0f766e?style=flat-square)](https://alexandro.net/docs/ai/)
 [![Reddit community](https://img.shields.io/badge/community-r%2FStackline-ff4500?style=flat-square&logo=reddit&logoColor=white)](https://www.reddit.com/r/Stackline/)
 
-**[Documentation & Live Demos](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai-memory-sqlite)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)** | **[Community Discussions](https://www.reddit.com/r/Stackline/)**
+**[Documentation](https://alexandro.net/docs/ai/)** | **[npm](https://www.npmjs.com/package/@stackline/ai-memory-sqlite)** | **[Issues](https://github.com/alexandroit/ai/issues)** | **[Repository](https://github.com/alexandroit/ai)**
 
-**Package version:** `0.0.4`
-
----
-
-> **Credits:** Stackline AI package architecture, publishing, and documentation by [Alexandro Paixao Marques](https://github.com/alexandroit).
+**Current package version:** `0.0.5`
 
 ---
 
@@ -49,7 +44,7 @@ single-instance deployments that need simple persisted conversation memory.
 
 | Item | Value |
 | --- | --- |
-| Package | `@stackline/ai-memory-sqlite@0.0.4` |
+| Package | `@stackline/ai-memory-sqlite@0.0.5` |
 | Supported Node.js | `>=18.17.0` |
 | Module entry | `dist/index.js` (ES modules) |
 | Types | `dist/index.d.ts` |
@@ -269,15 +264,24 @@ Use the same release line as `@stackline/ai`.
 3. Use [publish.yml](https://github.com/alexandroit/ai/actions/workflows/publish.yml) and confirm `expected_manifest_sha512` against the reviewed `SHA512SUMS` file.
 4. Verify each public package's exact bytes and GitHub Actions provenance.
 
-## Community and Support
-
-Report reproducible issues in the [issue tracker](https://github.com/alexandroit/ai/issues). Use the [security policy](https://github.com/alexandroit/ai/blob/main/packages/memory-sqlite/SECURITY.md) for security reports.
-
-- [Stackline / Alexandro.Net](https://alexandro.net/)
-- [GitHub](https://github.com/alexandroit)
-- [Maintainer LinkedIn](https://www.linkedin.com/in/aleinfo/)
-- [Reddit community: r/Stackline](https://www.reddit.com/r/Stackline/)
-
 ## License
 
 [MIT](https://github.com/alexandroit/ai/blob/main/packages/memory-sqlite/LICENSE). Copyright notices and the credits above are retained.
+
+## Credits and original authors
+
+- Stackline.
+- Copyright (c) 2026 Alexandro Marques.
+- Stackline maintenance: [Alexandro Paixao Marques](https://www.linkedin.com/in/aleinfo/) and [Stackline contributors](https://github.com/alexandroit).
+
+Original copyright, license notices and contributor acknowledgements remain part of this distribution. Stackline maintenance does not replace authorship of the original work.
+
+## Community and Links
+
+- [Stackline website](https://alexandro.net/)
+- [GitHub projects](https://github.com/alexandroit)
+- [npm packages](https://www.npmjs.com/~alex360qc)
+- [Reddit community — r/Stackline](https://www.reddit.com/r/Stackline/)
+- [Maintainer LinkedIn](https://www.linkedin.com/in/aleinfo/)
+
+Use this repository's issue tracker for reproducible bugs and feature requests. Join r/Stackline for examples, usage questions and release discussions.
