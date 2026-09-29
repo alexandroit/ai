@@ -9,6 +9,11 @@ concurrency:
   cancel-in-progress: false
 jobs:
   documentation:
+    strategy:
+      fail-fast: false
+      max-parallel: 9
+      matrix:
+        include: [{"package": "@stackline/ai", "slug": "stackline-ai"}, {"package": "@stackline/ai-memory-sqlite", "slug": "stackline-ai-memory-sqlite"}, {"package": "@stackline/ai-ollama", "slug": "stackline-ai-ollama"}, {"package": "@stackline/ai-rag-postgres", "slug": "stackline-ai-rag-postgres"}, {"package": "@stackline/ai-server", "slug": "stackline-ai-server"}, {"package": "@stackline/ai-ui", "slug": "stackline-ai-ui"}, {"package": "ai-memory-sqlite", "slug": "ai-memory-sqlite"}, {"package": "ai-ollama", "slug": "ai-ollama"}, {"package": "ai-rag-postgres", "slug": "ai-rag-postgres"}]
     runs-on: ubuntu-latest
     environment: Prod
     permissions:
@@ -24,6 +29,19 @@ jobs:
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
       - run: npm install --global npm@11.19.0
+      - name: Select one reviewed package
+        env:
+          RELEASE_PACKAGE: ${{ matrix.package }}
+        run: |
+          python3 - <<'PYCODE'
+          import json, os
+          from pathlib import Path
+          p=Path('.github/documentation-release.json')
+          data=json.loads(p.read_text())
+          data['packages']=[x for x in data['packages'] if x['name']==os.environ['RELEASE_PACKAGE']]
+          assert len(data['packages'])==1
+          p.write_text(json.dumps(data,indent=2)+'\n')
+          PYCODE
       - name: Reproduce reviewed tarball and prove unchanged runtime bytes
         run: python3 .github/documentation-artifact.py .github/documentation-release.json artifact
       - name: Publish, verify provenance and create immutable release
@@ -34,6 +52,6 @@ jobs:
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
-          name: documentation-publication-evidence
+          name: documentation-publication-${{ matrix.slug }}
           path: artifact/*
           retention-days: 90
