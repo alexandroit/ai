@@ -40,7 +40,7 @@
     "pack:dry-run": "pnpm pack --dry-run"
   },
   "dependencies": {
-    "@stackline/multiselect": "1.1.3"
+    "@stackline/multiselect": "1.1.6"
   },
   "publishConfig": {
     "access": "public"
