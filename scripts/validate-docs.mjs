@@ -32,7 +32,7 @@ let failed = false;
 
 for (const { directory, manifest } of releasePackages(root)) {
   const readme = readFileSync(join(root, directory, "README.md"), "utf8");
-  if (!readme.includes("**Package version:** `" + manifest.version + "`")) {
+  if (!readme.includes("**Current package version:** `" + manifest.version + "`")) {
     console.error(`${directory}/README.md does not match its package version.`);
     failed = true;
   }
@@ -66,8 +66,8 @@ if (existsSync(tutorialPath)) {
       failed = true;
     }
   }
-  if (!text.includes('"vite": "^8.2.1"')) {
-    console.error("full-stack tutorial does not use Vite 8.2.1.");
+  if (!text.includes('"vite": "^8.3.5"')) {
+    console.error("full-stack tutorial does not use Vite 8.3.5.");
     failed = true;
   }
 }
